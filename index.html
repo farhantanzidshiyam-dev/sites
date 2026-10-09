@@ -6,7 +6,11 @@
   <script>
   /* ===== Clean-URL support (GitHub Pages) ===== */
   (function (l) {
-    var APP_BASE_GH = '/hub/';            // <-- GitHub repo name. Change only if the repo is renamed.
+    // GitHub repo folder is detected automatically from the address (works for /hub/, /sites/, any repo name).
+    var APP_BASE_GH = (function () {
+      var seg = (l.pathname.split('/')[1] || '');
+      return (!seg || /\.html?$/i.test(seg)) ? '/' : '/' + seg + '/';
+    })();
     var http = /^https?:$/.test(l.protocol);
     var gh = /\.github\.io$/i.test(l.hostname);
     // 1) 404.html sends /hub/payment/ID here as /hub/?/payment/ID  -> restore the pretty URL
