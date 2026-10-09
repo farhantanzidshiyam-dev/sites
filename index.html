@@ -20,6 +20,8 @@
     }
     // 2) base path of the app, used for assets, QR links and the service worker
     window.__APP_BASE = !http ? '' : (gh ? APP_BASE_GH : '/');
+    window.__RGCE_BUILD = 'auto-base-2026-10-10';
+    try { console.info('[RGCE] build', window.__RGCE_BUILD, '| base =', window.__APP_BASE); } catch (e) {}
     var m = document.createElement('link');
     m.rel = 'manifest'; m.href = window.__APP_BASE + 'manifest.json';
     document.head.appendChild(m);
