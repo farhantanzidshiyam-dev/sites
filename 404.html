@@ -711,6 +711,11 @@
     .footer-social { display: flex; gap: 14px; justify-content: center; font-size: 16px; }
     .footer-social a { color: var(--footer-muted); transition: color 0.15s, transform 0.15s; }
     .footer-social a:hover { color: #fff; transform: translateY(-2px); }
+    .footer-share-btn { background: none; border: 0; padding: 0; margin: 0; font: inherit; line-height: inherit; color: var(--footer-muted); cursor: pointer; transition: color 0.15s, transform 0.15s; }
+    .footer-share-btn:hover { color: #fff; transform: translateY(-2px); }
+    .footer-share-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+    .share-app-preview { display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto 14px; border: 1px solid var(--border); box-shadow: var(--shadow-md); background: #fff; }
+    .share-app-url { display: flex; flex-direction: column; gap: 4px; }
     .footer-stats {
       display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
       font-weight: 600; color: var(--footer-text); font-size: 12px; padding: 10px 0;
@@ -1846,6 +1851,7 @@
       <a href="https://www.instagram.com/roza_gift_corner/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
       <a href="#" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
       <a href="https://www.youtube.com/@Rozagiftcornerandelectric" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+      <button type="button" class="footer-share-btn" id="footerShareBtn" title="Share App" aria-label="Share App"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true" style="display:block"><path d="M18 16.1c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 1 0-3-3c0 .24.04.47.09.7L8.04 9.81A2.99 2.99 0 0 0 6 9a3 3 0 1 0 0 6c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65a2.92 2.92 0 1 0 2.92-2.9z"/></svg></button>
     </div>
     <div class="footer-stats">
       <span>Total: <strong id="footerTotal">0</strong></span>
@@ -4261,7 +4267,7 @@
           <div class="form-group" style="margin-bottom:14px;">
             <label id="payAmountLabel">Amount Received</label>
             <div class="pay-amount-row">
-              <input type="number" id="paymentAmount" min="0" step="1" value="${currentDue}" inputmode="numeric">
+              <input type="number" id="paymentAmount" min="0" step="1" value="" placeholder="Enter amount" inputmode="numeric">
               <button type="button" class="pay-chip" id="payFullBtn">Full Due</button>
             </div>
           </div>
@@ -4306,8 +4312,7 @@
         btn.setAttribute('aria-pressed', 'true');
         btn.setAttribute('aria-selected', 'true');
         paymentType = btn.dataset.type;
-        if (paymentType === 'receive') amountInput.value = currentDue;
-        else amountInput.value = '';
+        amountInput.value = '';
         document.getElementById('adjustOptions').style.display = paymentType === 'adjust' ? 'flex' : 'none';
         document.getElementById('payAmountLabel').textContent = TAB_TEXT[paymentType][0];
         document.getElementById('payHint').textContent = TAB_TEXT[paymentType][1];
@@ -5004,6 +5009,125 @@
       const dd = document.getElementById('invCustomerDropdown');
       if (dd) dd.classList.remove('open');
     }
+
+    /* ===== Share App: shop letterpad page with QR code of the website address ===== */
+    function rgceDrawShareLetterpad(canvas, url) {
+      const W = 1240, H = 1754, NAVY = '#1f4e79', GOLD = '#d4a72c', MUTED = '#57606a';
+      canvas.width = W; canvas.height = H;
+      const g = canvas.getContext('2d');
+      const FONT = '"Segoe UI", "Noto Sans Bengali", Arial, sans-serif';
+      g.fillStyle = '#ffffff'; g.fillRect(0, 0, W, H);
+      g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+      const fitText = (txt, maxW, size, weight) => {         // shrink a single line until it fits
+        let sz = size; g.font = weight + ' ' + sz + 'px ' + FONT;
+        while (g.measureText(txt).width > maxW && sz > 16) { sz -= 2; g.font = weight + ' ' + sz + 'px ' + FONT; }
+      };
+      // letterhead
+      g.fillStyle = NAVY; fitText(SHOP_INFO.name, W - 180, 74, '800'); g.fillText(SHOP_INFO.name, W / 2, 170);
+      g.fillStyle = '#8a6a12'; g.font = 'italic 600 30px ' + FONT;
+      g.fillText('Gifts \u2022 Electrical \u2022 Cosmetics \u2014 Under One Roof', W / 2, 228);
+      g.fillStyle = MUTED; fitText(SHOP_INFO.address, W - 200, 26, '500'); g.fillText(SHOP_INFO.address, W / 2, 282);
+      g.fillStyle = MUTED; g.font = '500 26px ' + FONT; g.fillText('Phone: ' + SHOP_INFO.phone, W / 2, 322);
+      g.fillStyle = NAVY; g.fillRect(90, 356, W - 180, 7);
+      g.fillStyle = GOLD; g.fillRect(90, 370, W - 180, 3);
+      // headline
+      g.fillStyle = NAVY; g.font = '800 58px ' + FONT; g.fillText('Our Shop App', W / 2, 520);
+      g.fillStyle = MUTED; g.font = '500 30px ' + FONT; g.fillText('Scan the QR code with your phone camera to open it', W / 2, 580);
+      // QR
+      const QS = 640, qx = (W - QS) / 2, qy = 650;
+      g.fillStyle = '#ffffff'; g.fillRect(qx - 34, qy - 34, QS + 68, QS + 68);
+      g.strokeStyle = NAVY; g.lineWidth = 6; g.strokeRect(qx - 34, qy - 34, QS + 68, QS + 68);
+      let qrOk = false;
+      try {
+        if (typeof qrcode !== 'undefined' && url) {
+          const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+          const n = qr.getModuleCount(), cell = QS / n;
+          g.fillStyle = '#000000';
+          for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+            if (qr.isDark(r, c)) g.fillRect(Math.floor(qx + c * cell), Math.floor(qy + r * cell), Math.ceil(cell), Math.ceil(cell));
+          }
+          qrOk = true;
+        }
+      } catch (e) { console.warn('Share QR failed:', e); }
+      if (!qrOk) { g.fillStyle = MUTED; g.font = '600 28px ' + FONT; g.fillText(url ? 'QR code could not be created' : 'Enter the website address', W / 2, qy + QS / 2); }
+      // link
+      g.fillStyle = MUTED; g.font = '700 24px ' + FONT; g.fillText('OR OPEN THIS LINK', W / 2, 1448);
+      g.fillStyle = NAVY;
+      const shown = url || '';
+      if (shown) {
+        fitText(shown, W - 200, 38, '700');
+        if (g.measureText(shown).width > W - 200) {          // very long address: break into two lines
+          const mid = Math.ceil(shown.length / 2); g.font = '700 28px ' + FONT;
+          g.fillText(shown.slice(0, mid), W / 2, 1500); g.fillText(shown.slice(mid), W / 2, 1540);
+        } else g.fillText(shown, W / 2, 1506);
+      }
+      g.fillStyle = MUTED; g.font = '500 26px ' + FONT; g.fillText('Works on any phone, tablet or computer.', W / 2, 1600);
+      // footer
+      g.fillStyle = GOLD; g.fillRect(90, 1650, W - 180, 3);
+      g.fillStyle = NAVY; g.fillRect(90, 1658, W - 180, 6);
+      g.fillStyle = MUTED; g.font = '500 24px ' + FONT;
+      g.fillText(SHOP_INFO.name + '  \u2022  ' + SHOP_INFO.phone, W / 2, 1708);
+    }
+    function rgceCanvasBlob(canvas) { return new Promise(res => canvas.toBlob(b => res(b), 'image/png')); }
+    function openShareAppModal() {
+      let defUrl = ''; try { defUrl = /^https?:$/.test(location.protocol) ? getAppBaseUrl() : ''; } catch (e) {}
+      const body = `
+        <canvas id="shareAppCanvas" class="share-app-preview" aria-label="Letterpad preview"></canvas>
+        <div class="form-group share-app-url" style="margin-bottom:0;">
+          <label>Website address</label>
+          <input type="text" id="shareAppUrl" value="${defUrl}" placeholder="https://" inputmode="url" autocapitalize="off" spellcheck="false">
+        </div>`;
+      const footer = `
+        <button class="btn" id="shareAppClose">Close</button>
+        <button class="btn" id="shareAppCopy">Copy Link</button>
+        <button class="btn" id="shareAppPrint">Print</button>
+        <button class="btn" id="shareAppDownload">Download Image</button>
+        <button class="btn btn-primary" id="shareAppSend">Share</button>`;
+      openModal('Share App', body, footer);
+      const canvas = document.getElementById('shareAppCanvas'), input = document.getElementById('shareAppUrl');
+      const currentUrl = () => input.value.trim();
+      const redraw = () => rgceDrawShareLetterpad(canvas, currentUrl());
+      redraw();
+      let tmr = null; input.addEventListener('input', () => { clearTimeout(tmr); tmr = setTimeout(redraw, 200); });
+      document.getElementById('shareAppClose').addEventListener('click', closeModal);
+      document.getElementById('shareAppCopy').addEventListener('click', async () => {
+        const u = currentUrl(); if (!u) { showToast('Enter the website address first.', 'error'); return; }
+        try { await navigator.clipboard.writeText(u); showToast('Link copied.', 'success'); }
+        catch (e) { input.select(); try { document.execCommand('copy'); showToast('Link copied.', 'success'); } catch (e2) { showToast('Could not copy. Select and copy the link manually.', 'error'); } }
+      });
+      const needUrl = () => { if (!currentUrl()) { showToast('Enter the website address first.', 'error'); return false; } return true; };
+      document.getElementById('shareAppDownload').addEventListener('click', async () => {
+        if (!needUrl()) return; redraw();
+        const blob = await rgceCanvasBlob(canvas); if (!blob) { showToast('Could not create the image.', 'error'); return; }
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Roza-Gift-Corner-App-QR.png';
+        document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      });
+      document.getElementById('shareAppPrint').addEventListener('click', () => {
+        if (!needUrl()) return; redraw();
+        const img = canvas.toDataURL('image/png');
+        const f = document.createElement('iframe');
+        f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+        document.body.appendChild(f);
+        const d = f.contentWindow.document; d.open();
+        d.write('<!doctype html><html><head><title>Roza Gift Corner - App</title><style>@page{size:A4;margin:0}html,body{margin:0;padding:0}img{display:block;width:210mm;height:297mm}</style></head><body><img src="' + img + '"></body></html>');
+        d.close();
+        const go = () => { try { f.contentWindow.focus(); f.contentWindow.print(); } catch (e) {} setTimeout(() => f.remove(), 60000); };
+        const im = d.querySelector('img'); if (im.complete) setTimeout(go, 100); else im.onload = () => setTimeout(go, 100);
+      });
+      document.getElementById('shareAppSend').addEventListener('click', async () => {
+        if (!needUrl()) return; redraw();
+        const u = currentUrl(), text = SHOP_INFO.name + ' \u2013 open our shop app: ' + u;
+        try {
+          const blob = await rgceCanvasBlob(canvas);
+          const file = blob ? new File([blob], 'Roza-Gift-Corner-App-QR.png', { type: 'image/png' }) : null;
+          if (file && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: SHOP_INFO.name, text }); return; }
+          if (navigator.share) { await navigator.share({ title: SHOP_INFO.name, text, url: u }); return; }
+        } catch (e) { if (e && e.name === 'AbortError') return; }
+        document.getElementById('shareAppDownload').click();
+        showToast('Sharing is not supported here. The image was downloaded instead.', 'info');
+      });
+    }
+    (function () { const b = document.getElementById('footerShareBtn'); if (b) b.addEventListener('click', openShareAppModal); })();
 
     function getAppBaseUrl() {
       const origin = window.location.origin;
@@ -8407,6 +8531,7 @@
 /* ===== EN <-> বাংলা converter (UI text only; printed pages & your data stay unchanged) ===== */
 (function () {
   var BN = {
+    'Share App':'অ্যাপ শেয়ার','Website address':'ওয়েবসাইটের ঠিকানা','Share':'শেয়ার','Download Image':'ইমেজ ডাউনলোড','Copy Link':'লিংক কপি','Enter amount':'টাকার পরিমাণ লিখুন',
     'After this entry':'এই এন্ট্রির পরে','Full Due':'সম্পূর্ণ বাকি','Amount Received':'গৃহীত টাকা','Due Amount to Add':'যোগ করার বাকি টাকা','Adjustment Amount':'সমন্বয়ের টাকা','Customer paid money now. It reduces the current due.':'কাস্টমার এখন টাকা দিয়েছে। এতে বর্তমান বাকি কমবে।','Add extra due to this customer (for example new goods taken on credit).':'এই কাস্টমারের বাকি বাড়ান (যেমন বাকিতে নতুন মাল নিলে)।','Correct the due amount. Choose Increase or Decrease.':'বাকির হিসাব ঠিক করুন। বৃদ্ধি বা হ্রাস বেছে নিন।',
     'Dashboard':'ড্যাশবোর্ড','Refresh from Cloud':'ক্লাউড থেকে রিফ্রেশ','Transaction Tracking':'লেনদেন ট্র্যাকিং','Advanced Filter':'অ্যাডভান্সড ফিল্টার','Live Stats':'লাইভ পরিসংখ্যান',
     'Reports & Data':'রিপোর্ট ও ডেটা','Summary Report':'সারসংক্ষেপ রিপোর্ট','Live Charts':'লাইভ চার্ট','Print Report':'রিপোর্ট প্রিন্ট','Backup / Restore':'ব্যাকআপ / রিস্টোর','Telegram Backup':'টেলিগ্রাম ব্যাকআপ','Google Sheets Sync':'গুগল শিট সিংক',
