@@ -20,7 +20,7 @@
     }
     // 2) base path of the app, used for assets, QR links and the service worker
     window.__APP_BASE = !http ? '' : (gh ? APP_BASE_GH : '/');
-    window.__RGCE_BUILD = 'auto-base-2026-10-10';
+    window.__RGCE_BUILD = 'auto-base-2026-10-10-fastboot';
     try { console.info('[RGCE] build', window.__RGCE_BUILD, '| base =', window.__APP_BASE); } catch (e) {}
     var m = document.createElement('link');
     m.rel = 'manifest'; m.href = window.__APP_BASE + 'manifest.json';
@@ -39,8 +39,12 @@
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js" crossorigin>
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js" crossorigin>
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js" defer></script>
 
   <script>
     (function() {
@@ -56,7 +60,9 @@
          (space reserved) until login state is known, so nothing jumps. ---- */
       var root = document.documentElement;
       root.classList.add('rgce-booting', 'rgce-auth-pending');
+      try { if (localStorage.getItem('rgce_auth_hint') === '1') root.classList.add('rgce-hint-authed'); } catch (e) {}
       var done = false, domReady = false, fontsReady = false;
+      function clearAuthPending() { root.classList.remove('rgce-auth-pending', 'rgce-hint-authed'); }
       function reveal() {
         if (done) return; done = true;
         root.classList.remove('rgce-booting');
@@ -64,19 +70,22 @@
       function tryReveal() {
         if (domReady && fontsReady) requestAnimationFrame(function () { requestAnimationFrame(reveal); });
       }
-      window.__rgceMark = function (k) { if (k === 'auth') root.classList.remove('rgce-auth-pending'); };
+      window.__rgceMark = function (k) { if (k === 'auth') clearAuthPending(); };
       window.__rgceReveal = reveal;
-      document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(function () {                 // after every other DOMContentLoaded handler
-          domReady = true;
-          var f = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-          f.then(function () { fontsReady = true; tryReveal(); }, function () { fontsReady = true; tryReveal(); });
-          setTimeout(function () { fontsReady = true; tryReveal(); }, 500);   // icons never hold the page back
-          tryReveal();
-        }, 0);
-      });
-      setTimeout(function () { reveal(); root.classList.remove('rgce-auth-pending'); }, 1500);  // failsafe
-      window.addEventListener('error', function () { reveal(); root.classList.remove('rgce-auth-pending'); });
+      function onParsed() {
+        if (domReady) return;
+        domReady = true;
+        var f = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+        f.then(function () { fontsReady = true; tryReveal(); }, function () { fontsReady = true; tryReveal(); });
+        setTimeout(function () { fontsReady = true; tryReveal(); }, 250);   // icons never hold the page back
+        tryReveal();
+      }
+      /* HTML parsed (does NOT wait for the Firebase module download, unlike DOMContentLoaded) */
+      if (document.readyState !== 'loading') setTimeout(onParsed, 0);
+      else document.addEventListener('readystatechange', function () { if (document.readyState !== 'loading') onParsed(); });
+      setTimeout(reveal, 700);                                   // failsafe: page visible fast
+      setTimeout(clearAuthPending, 4000);                        // failsafe: auth never answered
+      window.addEventListener('error', function () { reveal(); });
     })();
   </script>
 
@@ -88,7 +97,7 @@
     }
     td.cust-blink { animation: rgceCustBlink 0.9s ease-in-out infinite; font-weight: 700; }
     html.rgce-booting body { visibility: hidden; }
-    html.rgce-auth-pending .gov-strip .top-actions { visibility: hidden; }
+    html.rgce-hint-authed .top-login { display: none !important; }
     html.rgce-booting *, html.rgce-booting *::before, html.rgce-booting *::after { transition: none !important; animation: none !important; }
     html.dark-preload,
     html.dark-preload body { background: #14181f !important; color: #e6edf3 !important; }
@@ -2939,6 +2948,7 @@
         window.__currentUser = user;
         document.body.classList.toggle('is-authed', !!user);
         if (window.__rgceMark) window.__rgceMark('auth');
+        try { localStorage.setItem('rgce_auth_hint', user ? '1' : '0'); } catch (e) {}
         try { rgceAuthRoute(user); } catch (e) { console.warn('login route failed', e); }
         if (user) {
           cloudLoadSucceeded = false;
@@ -3260,6 +3270,7 @@
       if (cloudPullTimer) clearInterval(cloudPullTimer);
       cloudPullTimer = setInterval(async () => {
         if (!currentUser) return;
+        if (document.hidden) return;
         try {
           if (!navigator.onLine || !cloudLoadSucceeded) return;
           const ref = window.FB.doc(window.FB.db, 'shops', currentUser.uid);
@@ -3988,6 +3999,8 @@
       rgceSigs = next; rgceSigReady = true;
     }
     function rgceBlinkSweep() {
+      if (document.hidden) return;
+      if (!Object.keys(rgceBlinkUntil).length && !document.querySelector('#customerTableBody td.cust-blink')) return;
       var now = Date.now();
       document.querySelectorAll('#customerTableBody tr[data-cid]').forEach(function (tr) {
         var td = tr.querySelector('td.cust-blink');
