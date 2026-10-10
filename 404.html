@@ -120,8 +120,6 @@
     /* Returning (signed-in) user, auth not confirmed yet: keep the signed-in layout (Add Customer on the right,
        Logout slot reserved) and keep those two invisible, so nothing jumps when the login state arrives. */
     html.rgce-hint-authed .top-login { display: none !important; }
-    html.rgce-hint-authed body:not(.is-authed) .gov-strip .gov-row-tabs .top-actions .top-add { margin-left: auto; visibility: hidden; }
-    html.rgce-hint-authed body:not(.is-authed) .gov-strip .gov-row-tabs .top-actions .top-logout { display: inline-flex !important; visibility: hidden; }
     html.rgce-booting *, html.rgce-booting *::before, html.rgce-booting *::after { transition: none !important; animation: none !important; }
     html.dark-preload,
     html.dark-preload body { background: #14181f !important; color: #e6edf3 !important; }
@@ -288,20 +286,7 @@
     #refreshFromCloudBtn.spinning i, .refresh-spinning i { animation: refreshSpin 0.8s linear infinite; display: inline-block; }
     @keyframes refreshSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    .gov-strip {
-      background-color: #0b1220;
-      background-image:
-        radial-gradient(780px circle at 10% -35%, rgba(59,130,246,.24), transparent 58%),
-        radial-gradient(620px circle at 92% 130%, rgba(124,58,237,.18), transparent 58%),
-        repeating-linear-gradient(135deg, rgba(255,255,255,.018) 0 1px, transparent 1px 7px),
-        linear-gradient(125deg, #0b1220 0%, #111b2d 52%, #090f1b 100%);
-      color: #e8edf7;
-      border-bottom: 3px solid var(--gold); padding: 12px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap; font-size: 13px;
-    }
-    .gov-strip-left, .gov-strip-center, .gov-strip-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .gov-strip-left i { color: var(--gold); }
+    
     .sync-link { cursor: pointer; color: #c9d1d9; font-size: 12px; text-decoration: underline; text-underline-offset: 2px; }
     .sync-link:hover { color: #fff; }
     .telegram-status-box {
@@ -324,36 +309,22 @@
     .telegram-backup-btn:active { transform: translateY(0); }
     .telegram-backup-btn:focus-visible { outline: 2px solid #8bd8ff; outline-offset: 2px; }
     .telegram-backup-btn i { color: inherit; font-size: 12px; }
-    .top-actions {
-      display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
-      padding: 6px; border: 1px solid rgba(160,180,210,.18); border-radius: 13px;
-      background: rgba(4,10,20,.58); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 8px 22px rgba(0,0,0,.22);
-    }
-    .top-action {
-      --action-color: #60a5fa;
-      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      min-height: 38px; padding: 8px 12px;
-      color: #edf4ff; background: color-mix(in srgb, var(--action-color) 13%, #101827);
-      border: 1px solid color-mix(in srgb, var(--action-color) 44%, transparent);
-      border-radius: 9px; cursor: pointer; white-space: nowrap;
-      font-size: 12px; font-weight: 700; line-height: 1.1; font-family: inherit;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
-      transition: transform .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease;
-    }
-    .top-action i { color: var(--action-color); font-size: 14px; transition: color .16s ease; }
-    .top-action:hover { color: #08111f; background: var(--action-color); border-color: var(--action-color); transform: translateY(-1px); box-shadow: 0 5px 14px color-mix(in srgb, var(--action-color) 28%, transparent); }
-    .top-action:hover i { color: currentColor; }
-    .top-action:active { transform: translateY(0); }
-    .top-action:focus-visible { outline: 2px solid var(--action-color); outline-offset: 2px; }
+    
+    
+    
+    
+    
+    
+    
     .top-refresh { --action-color: #60a5fa; }
     .top-sync { --action-color: #34d399; }
     .top-backup { --action-color: #fbbf24; }
     .top-add { --action-color: #a78bfa; }
     .top-add.is-open { --action-color: #fb7185; }
     .top-logout { --action-color: #fb7185; }
-    .top-action.backup-due { --action-color: #ff7b7b; animation: topBackupPulse 1.6s ease-in-out infinite; }
+    
     @keyframes topBackupPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,123,123,.04); } 50% { box-shadow: 0 0 12px 2px rgba(255,123,123,.35); } }
-    .top-action.backup-due i { color: var(--action-color); }
+    
     .dark-toggle-label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #c9d1d9; cursor: pointer; padding: 4px 8px; background: rgba(255,255,255,0.05); border-radius: 4px; }
     .dark-toggle-label input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--gold); cursor: pointer; }
 
@@ -1192,8 +1163,7 @@
       .form-actions { grid-column: span 1; }
       .preview-grid { grid-template-columns: 1fr; }
       .amount-blocks { grid-template-columns: 1fr; }
-      .gov-strip { padding: 10px 14px; flex-direction: column; align-items: stretch; gap: 10px; }
-      .gov-strip-left, .gov-strip-center, .gov-strip-right { justify-content: center; flex-wrap: wrap; }
+      
       .official-header { flex-direction: column; text-align: center; margin: 12px 12px 0; }
       .search-wrapper { margin: 12px auto 0; width: calc(100% - 24px); max-width: none; }
       .search-go-btn { padding: 0 14px; }
@@ -1255,119 +1225,77 @@
 
   <style id="rgce-header-tabs">
     /* ---- Double-decker header: row 1 = status, row 2 = tab bar ---- */
-    .gov-strip { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 20px 0; }
-    .gov-strip .gov-row { display: flex; align-items: center; justify-content: space-between; gap: 12px 16px; flex-wrap: wrap; width: 100%; }
-    .gov-strip .gov-row-tabs { border-top: 1px solid #2b3446; padding-top: 0; }
-    .gov-strip .top-actions {
-      width: 100%; gap: 2px; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
-      justify-content: flex-start; flex-wrap: wrap;
-    }
-    .gov-strip .top-actions .top-action {
-      position: relative; min-height: 42px; padding: 11px 18px 13px; border: 0; border-radius: 0;
-      background: transparent; box-shadow: none; color: #9aa6bd; font-size: 12.5px; font-weight: 700; transform: none;
-    }
-    .gov-strip .top-actions .top-action::after {
-      content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 2px; border-radius: 2px;
-      background: var(--action-color); transform: scaleX(0); transform-origin: center; transition: transform .26s ease;
-    }
-    .gov-strip .top-actions .top-action:hover { background: transparent; color: #fff; transform: none; box-shadow: none; }
-    .gov-strip .top-actions .top-action:hover::after,
-    .gov-strip .top-actions .top-action:focus-visible::after,
-    .gov-strip .top-actions .top-action.is-open::after { transform: scaleX(1); }
-    .gov-strip .top-actions .top-action.is-open { color: #fff; }
-    .gov-strip .top-actions .top-action:hover i { color: var(--action-color); }
-    .gov-strip .top-actions .top-logout { margin-left: auto; }
-    @media (max-width: 640px) {
-      .gov-strip { padding: 10px 12px 0; }
-      .gov-strip .top-actions { flex-wrap: nowrap; }
-      .gov-strip .top-actions .top-action { flex: 1 1 0; min-width: 0; width: auto; padding: 10px 0 12px; }
-      .gov-strip .top-actions .top-logout { margin-left: 0; }
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   </style>
 
   <style id="rgce-portal-header">
     /* ---- University-style header: maroon top bar + soft main nav + status line, with borders between rows ---- */
-    .gov-strip {
-      --h-top: #7a1a1a; --h-top-text: #ffffff; --h-nav: #f6ecec; --h-status: #eddede; --h-border: #d4b6b6;
-      --h-text: #2d2d2d; --h-muted: #4a3b3b; --h-accent: #7a1a1a; --h-accent-hover: #5e1212; --h-hover: #ead6d6;
-      --h-pill-border: #c9a6a6; --h-pill-text: #3d3d3d; --h-icon: #7a1a1a; --h-box: #f6ecec; --h-box-border: #d4b6b6;
-      --h-active-bg: #f6ecec; --h-active-text: #7a1a1a;
-    }
-    body.dark-mode .gov-strip {
-      --h-top: #4d1414; --h-top-text: #f5dede; --h-nav: #1d1618; --h-status: #161114; --h-border: #43303a;
-      --h-text: #e6edf3; --h-muted: #b9a9ad; --h-accent: #9b2c2c; --h-accent-hover: #b43a3a; --h-hover: #2c1f24;
-      --h-pill-border: #5e464c; --h-pill-text: #e6edf3; --h-icon: #e59a9a; --h-box: #1d1618; --h-box-border: #43303a;
-      --h-active-bg: #f0cfcf; --h-active-text: #4d1414;
-    }
-    .gov-strip { padding: 0 !important; gap: 0 !important; background: var(--h-nav) !important; background-image: none !important; color: var(--h-text) !important;
-      border-bottom: 1px solid var(--h-border) !important; box-shadow: 0 1px 0 rgba(0,0,0,.06); }
-    .gov-strip .gov-row-lang { order: 0; }
-    .gov-strip .gov-row-tabs { order: 1; }
-    .gov-strip .gov-row-status { order: 2; }
-    .gov-strip .gov-row-lang[hidden] { display: none !important; }
+    
+    
+    
+    
+    
+    
+    
 
     /* ROW 1 – top bar (language, hidden by default) */
-    .gov-strip .gov-row-lang { background: var(--h-top); color: var(--h-top-text); height: 44px; padding: 0 40px; justify-content: space-between; border: 0; border-bottom: 1px solid var(--h-border); }
-    .gov-strip .lang-title { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 500; }
-    .gov-strip .lang-title i { font-size: 15px; opacity: .95; }
+    
+    
+    
     .lang-switch { display: inline-flex; gap: 8px; border: 0; background: transparent; border-radius: 0; overflow: visible; }
     .lang-btn { border: 0; background: transparent; color: var(--h-top-text); font: 500 13.5px/1 inherit; font-family: inherit; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: background .15s, color .15s; }
     .lang-btn:hover { background: rgba(255,255,255,.14); }
     .lang-btn.active { background: var(--h-active-bg); color: var(--h-active-text); font-weight: 600; }
 
     /* ROW 2 – main nav */
-    .gov-strip .gov-row-tabs { background: var(--h-nav); border: 0 !important; border-bottom: 1px solid var(--h-border) !important; box-shadow: none; padding: 0 40px !important; min-height: 70px; margin: 0; }
-    .gov-strip .gov-row-tabs .top-actions { gap: 4px !important; align-items: center; padding: 0 !important; width: 100%; }
-    .gov-strip .gov-row-tabs .top-actions .top-action {
-      min-height: 0; padding: 10px 16px !important; margin: 0; border: 0 !important; border-radius: 6px !important;
-      background: transparent !important; box-shadow: none !important; transform: none !important;
-      color: var(--h-text) !important; font-size: 15px; font-weight: 500; letter-spacing: 0; transition: color .15s, background .15s;
-    }
-    .gov-strip .gov-row-tabs .top-actions .top-action::after { display: none !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-action i { color: var(--h-icon) !important; font-size: 14px; }
-    .gov-strip .gov-row-tabs .top-actions .top-action:hover { color: var(--h-accent) !important; background: var(--h-hover) !important; }
-    body.dark-mode .gov-strip .gov-row-tabs .top-actions .top-action:hover { color: #f3c4c4 !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-action:hover i { color: currentColor !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-action.tab-active { color: var(--h-accent) !important; background: var(--h-hover) !important; box-shadow: inset 0 -2px 0 var(--h-accent) !important; border-radius: 6px 6px 0 0 !important; }
-    body.dark-mode .gov-strip .gov-row-tabs .top-actions .top-action.tab-active { color: #f3c4c4 !important; box-shadow: inset 0 -2px 0 #e59a9a !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-action.backup-due { color: #b42318 !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-action.backup-due i { color: #b42318 !important; }
-    body.dark-mode .gov-strip .gov-row-tabs .top-actions .top-action.backup-due,
-    body.dark-mode .gov-strip .gov-row-tabs .top-actions .top-action.backup-due i { color: #ff8e8e !important; }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /* right side: CTA pill + outlined pill */
-    .gov-strip .gov-row-tabs .top-actions .top-add { order: 5; margin-left: auto; background: var(--h-accent) !important; color: #fff !important; border-radius: 40px !important; padding: 11px 24px !important; font-weight: 700; box-shadow: 0 2px 6px rgba(122,26,26,.25) !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-add i { color: #fff !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-add:hover { background: var(--h-accent-hover) !important; color: #fff !important; transform: translateY(-1px) !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-add.is-open { background: var(--h-accent-hover) !important; color: #fff !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-logout { order: 6; margin-left: 10px; border: 1.5px solid var(--h-pill-border) !important; border-radius: 40px !important; padding: 10px 22px !important; font-weight: 600; background: transparent !important; color: var(--h-pill-text) !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-logout:hover { border-color: var(--h-accent) !important; color: var(--h-accent) !important; background: var(--h-hover) !important; }
-    body.dark-mode .gov-strip .gov-row-tabs .top-actions .top-logout:hover { color: #f3c4c4 !important; border-color: #e59a9a !important; }
+    
+    
+    
+    
+    
+    
+    
 
     /* ROW 3 – thin status line */
-    .gov-strip .gov-row-status { background: var(--h-status); color: var(--h-muted); padding: 7px 40px; font-size: 12px; border: 0; }
-    .gov-strip .gov-row-status .gov-strip-left i { color: var(--h-icon); }
-    .gov-strip .gov-row-status .sync-link { color: var(--h-accent); }
-    body.dark-mode .gov-strip .gov-row-status .sync-link { color: #e59a9a; }
-    .gov-strip .gov-row-status .telegram-status-box { background: var(--h-box); border: 1px solid var(--h-box-border); color: var(--h-muted); box-shadow: none; }
-    .gov-strip .gov-row-status .telegram-status-box #telegramStatusText { color: var(--h-muted); }
-    .gov-strip .gov-row-status .dark-toggle-label { color: var(--h-muted); }
-    body:not(.dark-mode) .gov-strip .gov-row-status .cloud-badge { background: var(--h-box); border-color: var(--h-box-border); color: #57606a; }
-    body:not(.dark-mode) .gov-strip .gov-row-status .cloud-badge.online { color: #1a7f37; border-color: #2ea043; background: #e8f6ec; }
-    body:not(.dark-mode) .gov-strip .gov-row-status .cloud-badge.syncing { color: #9a6700; border-color: #bf8700; background: #fbf1d9; }
-    body:not(.dark-mode) .gov-strip .gov-row-status .cloud-badge.offline { color: #cf222e; border-color: #cf222e; background: #fbe6e6; }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    @media (max-width: 950px) {
-      .gov-strip .gov-row-lang, .gov-strip .gov-row-status { padding-left: 20px; padding-right: 20px; }
-      .gov-strip .gov-row-tabs { padding: 10px 20px !important; }
-      .gov-strip .gov-row-tabs .top-actions { flex-wrap: wrap; }
-    }
-    @media (max-width: 640px) {
-      .gov-strip .gov-row-tabs .top-actions .top-action { flex: 0 1 auto; width: auto; height: auto; font-size: 13.5px; padding: 8px 10px !important; }
-      .gov-strip .gov-row-tabs .top-actions .top-action span { display: inline; }
-      .gov-strip .gov-row-tabs .top-actions .top-add { padding: 9px 16px !important; }
-      .gov-strip .gov-row-tabs .top-actions .top-logout { padding: 8px 14px !important; }
-      .gov-strip .gov-row-lang { padding: 0 12px; }
-    }
+    
+    
     /* Bangla-friendly fonts (system fonts only: nothing is downloaded) */
     html[lang="bn"] body, html[lang="bn"] button, html[lang="bn"] input, html[lang="bn"] select, html[lang="bn"] textarea {
       font-family: 'NotoBnWeb', 'Noto Sans Bengali', 'Nirmala UI', 'Kalpurush', 'SolaimanLipi', 'Vrinda', 'Segoe UI', Arial, sans-serif;
@@ -1379,13 +1307,13 @@
     .auth-close:hover { background: rgba(122,26,26,.12); color: #7a1a1a; }
     /* signed out: only Login (+ language) in the header; signed in: normal tabs */
     body:not(.is-authed) .top-logout, body:not(.is-authed) #fbmOpenBtn { display: none !important; }
-    body:not(.is-authed) .gov-strip .gov-row-tabs .top-actions .top-login { order: 4; }
-    body:not(.is-authed) .gov-strip .gov-row-tabs .top-actions .top-add { margin-left: 10px; }
+    
+    
     body.is-authed .top-login { display: none !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-login { order: 5; margin-left: auto; background: var(--h-accent) !important; color: #fff !important; border-radius: 40px !important; padding: 11px 24px !important; font-weight: 700; box-shadow: 0 2px 6px rgba(122,26,26,.25) !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-login i { color: #fff !important; }
-    .gov-strip .gov-row-tabs .top-actions .top-login:hover { background: var(--h-accent-hover) !important; color: #fff !important; transform: translateY(-1px) !important; }
-    @media (max-width: 640px) { .gov-strip .gov-row-tabs .top-actions .top-login { padding: 9px 16px !important; } }
+    
+    
+    
+    
   </style>
 </head>
 <body>
@@ -1442,46 +1370,53 @@
     </div>
   </div>
 
-  <div class="gov-strip no-print">
-    <div class="gov-row gov-row-lang" id="langRow" hidden>
-      <div class="lang-title"><i class="fas fa-language"></i><span>Language / ভাষা</span></div>
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button type="button" class="lang-btn active" data-lang="en">English</button>
-        <button type="button" class="lang-btn" data-lang="bn">বাংলা</button>
+  <header class="hdr2 no-print">
+    <!-- Hidden top bar (opened from the language tab): contact, sync/backup tools, language -->
+    <div class="hdr-topbar" id="langRow" hidden>
+      <div class="tb-group">
+        <span class="tb-phone"><i class="fas fa-phone" aria-hidden="true"></i><span>+8801340561000</span></span>
+        <button type="button" class="tb-btn" id="forceCloudSyncBtn" title="Sync to cloud" aria-label="Sync to cloud"><i class="fas fa-cloud-arrow-up ic-blue" aria-hidden="true"></i><span>Sync</span></button>
+        <button type="button" class="tb-btn" id="downloadBackupTop" title="Download backup" aria-label="Download backup"><i class="fas fa-download ic-green" aria-hidden="true"></i><span>Backup</span></button>
+        <div class="telegram-status-box" id="telegramStatusBox">
+          <i class="fab fa-telegram-plane"></i>
+          <div class="tg-text"><div class="tg-name">Telegram Backup</div><span id="telegramStatusText">Not configured</span></div>
+          <button type="button" class="telegram-backup-btn" id="telegramBackupNow" title="Send Telegram backup now" aria-label="Send Telegram backup now"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="tb-group tb-lang">
+        <button type="button" class="tb-btn tb-lang-icon" id="langSingleBtn" title="Language / ভাষা" aria-label="Change language"><i class="fas fa-language" aria-hidden="true"></i></button>
       </div>
     </div>
-    <div class="gov-row gov-row-top gov-row-status">
-    <div class="gov-strip-left">
-      <i class="fas fa-phone"></i>
-      <span>+8801340561000</span>
-      <span class="sync-link" id="lastSyncTop" title="Click to sync now">Last Sync: Never</span>
-    </div>
-    <div class="gov-strip-center">
-      <div class="telegram-status-box" id="telegramStatusBox">
-        <i class="fab fa-telegram-plane"></i>
-        <span id="telegramStatusText">Not configured</span>
-        <button type="button" class="telegram-backup-btn" id="telegramBackupNow" title="Send Telegram backup now" aria-label="Send Telegram backup now"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
+    <!-- LINE 1 -->
+    <div class="hdr2-row hdr2-top">
+      <div class="hdr2-group">
+        <button type="button" class="hdr-link hdr-strong" id="hdrSyncTab" title="System Tools" aria-label="System Tools" aria-expanded="false"><i class="fas fa-cloud-arrow-up hdr-ic" aria-hidden="true"></i><span>System Tools</span><i class="fas fa-chevron-down hdr-chev" aria-hidden="true"></i></button>
+        <span class="hdr-sep" aria-hidden="true">|</span>
+        <span id="hdrMonitorSlot"></span>
+      </div>
+      <div class="hdr2-group hdr2-right">
+        <button type="button" class="hdr-link top-lang" id="langToggleTab" style="display:none !important" tabindex="-1" title="Language, contact &amp; backup" aria-label="Language" aria-expanded="false"><i class="fas fa-language hdr-ic" aria-hidden="true"></i><span>EN / বাংলা</span><i class="fas fa-chevron-down hdr-chev" aria-hidden="true"></i></button>
+        <button type="button" class="hdr-pill hdr-pill-solid top-add" id="addCustomerTopBtn" title="Add customer" aria-label="Add customer" aria-expanded="false"><i class="fas fa-user-plus" aria-hidden="true"></i><span>Add Customer</span></button>
+        <button type="button" class="hdr-pill hdr-pill-solid top-login" id="headerLoginBtn" data-open-login title="Login" aria-label="Login"><i class="fas fa-right-to-bracket" aria-hidden="true"></i><span>Login</span></button>
+        <button type="button" class="hdr-pill hdr-pill-outline top-logout" id="logoutBtn" title="Logout" aria-label="Logout"><i class="fas fa-right-from-bracket" aria-hidden="true"></i><span>Logout</span></button>
       </div>
     </div>
-    <div class="gov-strip-right">
-      <span class="cloud-badge" id="cloudStatusBadge"><span class="dot"></span>Cloud: …</span>
-      <label class="dark-toggle-label">
-        <input type="checkbox" id="darkModeToggle"> Dark
-      </label>
-    </div>
-    </div>
-    <div class="gov-row gov-row-tabs">
-      <div class="top-actions" role="toolbar" aria-label="Quick actions">
-        <button type="button" class="top-action top-refresh" id="refreshFromCloudBtn" title="Refresh from cloud" aria-label="Refresh from cloud"><i class="fas fa-rotate" aria-hidden="true"></i><span>Refresh</span></button>
-        <button type="button" class="top-action top-sync" id="forceCloudSyncBtn" title="Sync to cloud" aria-label="Sync to cloud"><i class="fas fa-cloud-arrow-up" aria-hidden="true"></i><span>Sync</span></button>
-        <button type="button" class="top-action top-backup" id="downloadBackupTop" title="Download backup" aria-label="Download backup"><i class="fas fa-download" aria-hidden="true"></i><span>Backup</span></button>
-        <button type="button" class="top-action top-add" id="addCustomerTopBtn" title="Add customer" aria-label="Add customer" aria-expanded="false"><i class="fas fa-user-plus" aria-hidden="true"></i><span>Add Customer</span></button>
-        <button type="button" class="top-action top-lang" id="langToggleTab" title="Language" aria-label="Language" aria-expanded="false"><i class="fas fa-language" aria-hidden="true"></i><span>EN / বাংলা</span></button>
-        <button type="button" class="top-action top-login" id="headerLoginBtn" data-open-login title="Login" aria-label="Login"><i class="fas fa-right-to-bracket" aria-hidden="true"></i><span>Login</span></button>
-        <button type="button" class="top-action top-logout" id="logoutBtn" title="Logout" aria-label="Logout"><i class="fas fa-right-from-bracket" aria-hidden="true"></i><span>Logout</span></button>
+    <!-- LINE 2 -->
+    <div class="hdr2-row hdr2-sub">
+      <div class="hdr2-group">
+        <button type="button" class="hdr-chip" id="refreshFromCloudBtn" title="Refresh from cloud" aria-label="Refresh from cloud"><i class="fas fa-rotate" aria-hidden="true"></i><span>Refresh Data</span></button>
+      </div>
+      <div class="hdr2-group hdr2-right">
+        <div class="hdr-status">
+          <span class="cloud-badge" id="cloudStatusBadge"><span class="dot"></span>Cloud: …</span>
+          <span class="sync-link" id="lastSyncTop" title="Click to sync now">Last Sync: Never</span>
+        </div>
+        <label class="dark-toggle-label">
+          <input type="checkbox" id="darkModeToggle"> Dark
+        </label>
       </div>
     </div>
-  </div>
+  </header>
 
   <div class="official-header no-print">
     <div class="header-center">
@@ -2133,7 +2068,7 @@
     }
     const RGCE_PW_ROLES = { master: 'Master Admin', admin: 'Admin (delete, reports, notes, amounts, backup)', danger: 'Clear ALL Data' };
     function rgcePasswordSetup(done) {
-      const f = (id, label) => `<div class="form-group" style="margin-bottom:10px;"><label>${label}</label><input type="password" id="${id}" autocomplete="new-password"></div>`;
+      const f = (id, label) => `<div class="form-group" style="margin-bottom:10px;"><label>${label}</label><input type="text" class="rgce-secret" id="${id}" name="rgce_f_${id}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"></div>`;
       const body = `
         <div class="info-box" style="margin-bottom:12px;">First-time setup. Passwords are saved as one-way hashes in your private cloud record. They are never stored in the app code and are never shown again.</div>
         ${f('pwsMaster', 'Master Admin password')}${f('pwsMaster2', 'Repeat Master password')}
@@ -4097,7 +4032,6 @@
           <td>${formatMoney(currentDue)}</td>
           <td class="actions-cell">
             <div class="seg-control" role="group" aria-label="Customer actions">
-              <button type="button" class="seg-btn sg-green"  data-act="print" title="Print"  aria-label="Print"><svg><use href="#i-print"/></svg>Print</button>
               <button type="button" class="seg-btn sg-amber"  data-act="pay"   title="Pay"    aria-label="Pay"><svg><use href="#i-card"/></svg>Pay</button>
               <button type="button" class="seg-btn sg-violet" data-act="edit"  title="Edit"   aria-label="Edit"><svg><use href="#i-edit"/></svg>Edit</button>
               <button type="button" class="seg-btn sg-red"    data-act="del"   title="Delete" aria-label="Delete"><svg><use href="#i-trash"/></svg>Delete</button>
@@ -4108,7 +4042,6 @@
           if (e.target.closest('.actions-cell')) return;
           openPreviewModal(c.id);
         });
-        tr.querySelector('[data-act="print"]').addEventListener('click', (e) => { e.stopPropagation(); openPrintPreview(c.id); });
         tr.querySelector('[data-act="pay"]').addEventListener('click',   (e) => { e.stopPropagation(); openPaymentModal(c.id); });
         tr.querySelector('[data-act="edit"]').addEventListener('click',  (e) => { e.stopPropagation(); openEditModal(c.id); });
         tr.querySelector('[data-act="del"]').addEventListener('click',   (e) => { e.stopPropagation(); openDeleteModal(c.id); });
@@ -4446,7 +4379,7 @@
         <div class="warning-box">Are you sure you want to delete <strong>${c.name}</strong>? This cannot be undone.</div>
         <div class="form-group">
           <label>Admin Password <span class="required">*</span></label>
-          <input type="password" class="modal-password-input" id="deletePasswordInput">
+          <input type="text" class="modal-password-input rgce-secret" id="deletePasswordInput" name="rgce_f_del" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
           <div class="password-error" id="deletePasswordError">Incorrect password.</div>
         </div>
       `;
@@ -5046,8 +4979,7 @@
       g.fillStyle = NAVY; g.fillRect(90, 356, W - 180, 7);
       g.fillStyle = GOLD; g.fillRect(90, 370, W - 180, 3);
       // headline
-      g.fillStyle = NAVY; g.font = '800 58px ' + FONT; g.fillText('Our Shop App', W / 2, 520);
-      g.fillStyle = MUTED; g.font = '500 30px ' + FONT; g.fillText('Scan the QR code with your phone camera to open it', W / 2, 580);
+      g.fillStyle = MUTED; g.font = '500 30px ' + FONT; g.fillText('Scan the QR code with your phone camera to open it', W / 2, 560);
       // QR
       const QS = 640, qx = (W - QS) / 2, qy = 650;
       g.fillStyle = '#ffffff'; g.fillRect(qx - 34, qy - 34, QS + 68, QS + 68);
@@ -5691,7 +5623,7 @@
         <div class="warning-box">Delete invoice <strong>${escapeHtml(inv.invoiceNumber)}</strong> (${escapeHtml(inv.customer.name)})? This cannot be undone.</div>
         <div class="form-group">
           <label>Admin Password <span class="required">*</span></label>
-          <input type="password" class="modal-password-input" id="invDeletePass">
+          <input type="text" class="modal-password-input rgce-secret" id="invDeletePass" name="rgce_f_invdel" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
           <div class="password-error" id="invDeletePassErr">Incorrect password.</div>
         </div>
       `;
@@ -5771,7 +5703,7 @@
       window.__publicInvoiceMode = true;
       const overlay = document.getElementById('authOverlay');
       if (overlay) overlay.style.display = 'none';
-      document.querySelectorAll('.gov-strip, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
+      document.querySelectorAll('.gov-strip, .hdr2, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
         if (el) el.style.display = 'none';
       });
       let container = document.getElementById('publicInvoiceView');
@@ -5932,7 +5864,7 @@
       window.__publicInvoiceMode = true;
       const overlay = document.getElementById('authOverlay');
       if (overlay) overlay.style.display = 'none';
-      document.querySelectorAll('.gov-strip, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
+      document.querySelectorAll('.gov-strip, .hdr2, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
         if (el) el.style.display = 'none';
       });
       let container = document.getElementById('publicReportView');
@@ -6157,7 +6089,7 @@
       window.__publicInvoiceMode = true;
       const overlay = document.getElementById('authOverlay');
       if (overlay) overlay.style.display = 'none';
-      document.querySelectorAll('.gov-strip, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
+      document.querySelectorAll('.gov-strip, .hdr2, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
         if (el) el.style.display = 'none';
       });
       let container = document.getElementById('publicReportView');
@@ -6551,7 +6483,7 @@
       const body = `
         <div class="form-group">
           <label>Password <span class="required">*</span></label>
-          <input type="password" class="modal-password-input" id="promptPasswordInput">
+          <input type="text" class="modal-password-input rgce-secret" id="promptPasswordInput" name="rgce_f_prompt" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
           <div class="password-error" id="promptPasswordError">Incorrect password.</div>
         </div>
       `;
@@ -6775,8 +6707,8 @@
             <option value="admin">Admin (delete, reports, notes, amounts, backup)</option>
             <option value="danger">Clear ALL Data</option>
           </select></div>
-        <div class="form-group" style="margin-bottom:10px;"><label>New password (min 6 characters)</label><input type="password" id="chgPw" autocomplete="new-password"></div>
-        <div class="form-group" style="margin-bottom:10px;"><label>Repeat new password</label><input type="password" id="chgPw2" autocomplete="new-password"></div>
+        <div class="form-group" style="margin-bottom:10px;"><label>New password (min 6 characters)</label><input type="text" class="rgce-secret" id="chgPw" name="rgce_f_chg1" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"></div>
+        <div class="form-group" style="margin-bottom:10px;"><label>Repeat new password</label><input type="text" class="rgce-secret" id="chgPw2" name="rgce_f_chg2" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other"></div>
         <div class="password-error" id="chgErr"></div>
         <button class="btn btn-primary" id="chgSaveBtn" style="margin-top:6px;">Save New Password</button>
       `;
@@ -7258,7 +7190,8 @@
           refreshAddressFilter();
           renderTable();
           resetForm();
-          hideAddForm();
+          { const _p = document.getElementById('addCustomerPanel'); if (_p) { _p.classList.add('visible'); formVisible = true; syncAddCustomerTopButton(); } }
+          const _cn = document.getElementById('custName'); if (_cn) _cn.focus();
           showToast('Customer added successfully.', 'success');
         });
       }
@@ -7506,6 +7439,9 @@
 
   <!-- GHOST OUTLINE THEME for every button (standard sizes, new look) -->
   <style id="ghostThemeLate">
+    /* masked text fields (not type=password) so the browser never offers to save/update passwords */
+    .rgce-secret { -webkit-text-security: disc; text-security: disc; }
+
     :root { --gc-blue:#3b6fe0; --gc-green:#059669; --gc-amber:#b45309; --gc-red:#e11d48; --gc-on:#ffffff; }
     body.dark-mode { --gc-blue:#5b8cff; --gc-green:#34d399; --gc-amber:#fbbf24; --gc-red:#fb7185; --gc-on:#08111f; }
 
@@ -7562,7 +7498,7 @@
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       max-width: 100%;
     }
-    .gov-strip .seg-control { border-bottom-color: #2b3446; }
+    
     .seg-btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 7px;
       padding: 10px 12px 12px; border-radius: 0; margin: 0;
@@ -7586,8 +7522,8 @@
     .seg-btn i { font-size: 14px; line-height: 1; flex: none; margin: 0; }
     .seg-btn i { color: currentColor; }
     .seg-btn:not(.active):hover { color: var(--text); }
-    .gov-strip .seg-btn { color: #8b96ad; }
-    .gov-strip .seg-btn:not(.active):hover { color: #e8edf7; }
+    
+    
     .seg-btn:not(.active):hover::after,
     .seg-btn:focus-visible::after { transform: scaleX(.4); opacity: .55; }
     .seg-btn.active { color: var(--c1); }
@@ -7601,9 +7537,9 @@
     .seg-btn:disabled { opacity: .5; cursor: not-allowed; }
 
     /* header action bar */
-    .gov-strip .gov-strip-right { gap: 10px; }
-    .top-actions .top-action.backup-due { --action-color: #ff7b7b; }
-    .top-actions .top-action.backup-due i { color: var(--action-color); }
+    
+    
+    
     /* ---- payment modal: simple tab layout ---- */
     .pay-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
     .pay-sum-item { background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px; padding: 9px 10px; min-width: 0; }
@@ -7649,15 +7585,14 @@
     .invoice-table td.center .seg-control { margin: 0 auto; }
 
     @media (max-width: 640px) { /* phones: top actions become icon-only so they fit */
-      .top-actions { justify-content: center; gap: 6px; }
-      .top-actions .top-action { width: 40px; height: 38px; min-height: 38px; padding: 0; gap: 0; font-size: 0; }
-      .top-actions .top-action span { display: none; }
-      .top-actions .top-action i { font-size: 16px; }
+      
+      
+      
+      
     }
     @media (prefers-reduced-motion: reduce) {
-      .seg-btn, .seg-btn::after, .seg-btn svg, .seg-btn i,
-      .top-action, .telegram-backup-btn, .payment-type-btn, .payment-type-btn.pay-tab { transition: none; }
-      .top-action.backup-due { animation: none; }
+      .seg-btn, .seg-btn::after, .seg-btn svg, .seg-btn i, .telegram-backup-btn, .payment-type-btn, .payment-type-btn.pay-tab { transition: none; }
+      
     }
   </style>
 
@@ -8189,8 +8124,9 @@
       btn.type = 'button'; btn.id = 'fbmOpenBtn'; btn.className = 'seg-btn sg-teal'; btn.title = 'Firebase Monitor: activity log, storage, risks';
       btn.innerHTML = '<i class="fas fa-satellite-dish"></i>Monitor<span class="fbm-badge"></span>'; btn.setAttribute('aria-label', 'Firebase Monitor');
       btn.style.display = 'none';
-      var logout = $('#logoutBtn');
-      if (logout && logout.parentNode) logout.parentNode.insertBefore(btn, logout);
+      var logout = $('#logoutBtn'), slot = $('#hdrMonitorSlot');
+      if (slot) slot.appendChild(btn);
+      else if (logout && logout.parentNode) logout.parentNode.insertBefore(btn, logout);
       else { btn.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:9000;display:none;padding:9px 13px;border-radius:8px;border:1px solid var(--primary);background:var(--primary);color:#fff;cursor:pointer;'; document.body.appendChild(btn); }
       btn.addEventListener('click', openPanel);
     }
@@ -8546,7 +8482,7 @@
 /* ===== EN <-> বাংলা converter (UI text only; printed pages & your data stay unchanged) ===== */
 (function () {
   var BN = {
-    'Share App':'অ্যাপ শেয়ার','Website address':'ওয়েবসাইটের ঠিকানা','Share':'শেয়ার','Download Image':'ইমেজ ডাউনলোড','Copy Link':'লিংক কপি','Enter amount':'টাকার পরিমাণ লিখুন',
+    'Sync & Backup':'সিংক ও ব্যাকআপ','System Tools':'সিস্টেম টুলস','Refresh Data':'ডেটা রিফ্রেশ','Data Management':'ডেটা ব্যবস্থাপনা','Integrations':'ইন্টিগ্রেশন','Share App':'অ্যাপ শেয়ার','Website address':'ওয়েবসাইটের ঠিকানা','Share':'শেয়ার','Download Image':'ইমেজ ডাউনলোড','Copy Link':'লিংক কপি','Enter amount':'টাকার পরিমাণ লিখুন',
     'After this entry':'এই এন্ট্রির পরে','Full Due':'সম্পূর্ণ বাকি','Amount Received':'গৃহীত টাকা','Due Amount to Add':'যোগ করার বাকি টাকা','Adjustment Amount':'সমন্বয়ের টাকা','Customer paid money now. It reduces the current due.':'কাস্টমার এখন টাকা দিয়েছে। এতে বর্তমান বাকি কমবে।','Add extra due to this customer (for example new goods taken on credit).':'এই কাস্টমারের বাকি বাড়ান (যেমন বাকিতে নতুন মাল নিলে)।','Correct the due amount. Choose Increase or Decrease.':'বাকির হিসাব ঠিক করুন। বৃদ্ধি বা হ্রাস বেছে নিন।',
     'Dashboard':'ড্যাশবোর্ড','Refresh from Cloud':'ক্লাউড থেকে রিফ্রেশ','Transaction Tracking':'লেনদেন ট্র্যাকিং','Advanced Filter':'অ্যাডভান্সড ফিল্টার','Live Stats':'লাইভ পরিসংখ্যান',
     'Reports & Data':'রিপোর্ট ও ডেটা','Summary Report':'সারসংক্ষেপ রিপোর্ট','Live Charts':'লাইভ চার্ট','Print Report':'রিপোর্ট প্রিন্ট','Backup / Restore':'ব্যাকআপ / রিস্টোর','Telegram Backup':'টেলিগ্রাম ব্যাকআপ','Google Sheets Sync':'গুগল শিট সিংক',
@@ -8641,6 +8577,8 @@
   function init() {
     obs.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['placeholder', 'title', 'aria-label'] });
     document.querySelectorAll('.lang-btn').forEach(function (b) { b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); }); });
+    var one = document.getElementById('langSingleBtn');
+    if (one) one.addEventListener('click', function () { setLang(lang === 'bn' ? 'en' : 'bn'); });
     var row = document.getElementById('langRow'), tab = document.getElementById('langToggleTab');
     if (tab && row) tab.addEventListener('click', function () {
       var show = row.hasAttribute('hidden');
@@ -8655,5 +8593,117 @@
 })();
 </script>
 
+
+<style id="rgce-modern-header">
+  /* ===== Modern 2-line header (neutral, theme-aware). Dark toggle keeps its original look. ===== */
+  .hdr2 { background: var(--panel); color: var(--text); border-bottom: 1px solid var(--border); font-size: 13px; position: relative; z-index: 600; box-shadow: var(--shadow-sm); }
+  @media (min-width: 901px) { .hdr2 { position: sticky; top: 0; } }
+  .hdr2-row { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; padding: 6px 20px; }
+  .hdr2-top { min-height: 56px; border-bottom: 1px solid var(--border); }
+  .hdr2-sub { min-height: 44px; background: var(--panel-alt); font-size: 12px; }
+  .hdr2-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .hdr-sep { color: var(--border-strong); opacity: .6; }
+  .hdr-ic { color: var(--muted); font-size: 14px; }
+  .hdr-chev { color: var(--muted); font-size: 10px; margin-left: 2px; }
+
+  .hdr2 .hdr-link, .hdr2 #fbmOpenBtn {
+    display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border: 0; border-radius: 8px;
+    background: transparent; color: var(--text); font: 600 13px/1.2 inherit; font-family: inherit; cursor: pointer;
+    transition: background .15s, color .15s; white-space: nowrap; position: relative;
+  }
+  .hdr2 #fbmOpenBtn { font-weight: 500; }
+  .hdr2 #fbmOpenBtn::after { display: none; }
+  .hdr2 .hdr-link:hover, .hdr2 #fbmOpenBtn:hover { background: var(--panel-alt); color: var(--text); }
+  .hdr2 #fbmOpenBtn i { color: var(--muted); }
+  .hdr2 #fbmOpenBtn .fbm-badge { position: static; display: none; margin-left: 2px; border: 0; }
+  .hdr2 .hdr-link.tab-active { background: var(--panel-alt); }
+  .hdr2 .hdr-link:focus-visible, .hdr2 #fbmOpenBtn:focus-visible { outline: 2px solid var(--input-focus); outline-offset: 1px; }
+
+  /* Hidden top bar (toggled by the Sync & Backup / language tabs) */
+  .hdr-topbar { --bar: #5a2d1f; display: flex; align-items: center; justify-content: space-between; gap: 10px 20px; flex-wrap: wrap; padding: 8px 20px; background: var(--bar); color: #fff; border-bottom: 1px solid rgba(0,0,0,.35); }
+  body.dark-mode .hdr-topbar { --bar: #3b1d14; }
+  .hdr-topbar[hidden] { display: none !important; }
+  .hdr-topbar .tb-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .hdr-topbar .tb-phone { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; color: #fff; }
+  .hdr-topbar .tb-phone i { color: #f5d9c8; }
+  /* simple black/white buttons, same feel as the sidebar items */
+  .hdr-topbar .tb-btn { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font: 600 12.5px/1.2 inherit; font-family: inherit; cursor: pointer; transition: background .15s, border-color .15s, transform .1s; }
+  .hdr-topbar .tb-btn i { color: var(--muted); font-size: 13px; }
+  .hdr-topbar .tb-btn:hover { background: var(--panel-alt); border-color: var(--border-strong); }
+  .hdr-topbar .tb-btn:active { transform: scale(.96); }
+  .hdr-topbar .tb-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .hdr-topbar .tb-btn.backup-due { color: var(--danger); border-color: var(--danger); }
+  .hdr-topbar .tb-btn.backup-due i { color: var(--danger); }
+  .hdr2:has(.backup-due) #hdrSyncTab::before, .hdr2:has(.backup-due) #langToggleTab::before { content: ''; position: absolute; top: 5px; right: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--danger); }
+  .hdr2 .telegram-status-box { padding: 4px 6px 4px 10px; background: var(--panel); border: 1px solid var(--border); color: var(--text); box-shadow: none; border-radius: 6px; gap: 8px; }
+  .hdr2 .telegram-status-box > i { color: var(--muted); }
+  .hdr2 .telegram-status-box .tg-text { min-width: 0; }
+  .hdr2 .telegram-status-box .tg-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.15; }
+  .hdr2 .telegram-status-box #telegramStatusText { color: var(--muted); font-size: 10.5px; font-weight: 500; }
+  .hdr2 .telegram-status-box .telegram-backup-btn { background: var(--panel-alt); border: 1px solid var(--border); color: var(--text); box-shadow: none; border-radius: 6px; }
+  .hdr2 .telegram-status-box .telegram-backup-btn:hover { background: var(--bg); border-color: var(--border-strong); transform: none; box-shadow: none; }
+  .hdr-topbar .tb-lang-title { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; }
+  .hdr-topbar .lang-switch { display: inline-flex; gap: 6px; background: transparent; border: 0; border-radius: 0; overflow: visible; }
+  .hdr2 .lang-btn { color: #fff; background: transparent; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 500; border: 0; cursor: pointer; font-family: inherit; transition: background .15s, color .15s; }
+  .hdr2 .lang-btn:hover { background: rgba(255,255,255,.18); }
+  .hdr2 .lang-btn.active { background: #fff; color: #3b1d14; font-weight: 700; }
+  .hdr2 #hdrSyncTab { position: relative; }
+
+  /* Pills */
+  .hdr2 .hdr-pill { display: inline-flex; align-items: center; gap: 7px; padding: 7px 16px; border-radius: 999px; font: 600 13px/1.2 inherit; font-family: inherit; cursor: pointer; border: 1px solid transparent; transition: opacity .15s, background .15s, border-color .15s, transform .1s; white-space: nowrap; }
+  .hdr2 .hdr-pill:active { transform: scale(.96); }
+  .hdr2 .hdr-pill i { font-size: 12px; }
+  .hdr2 .hdr-pill-solid { background: var(--text); color: var(--panel); border-color: var(--text); }
+  .hdr2 .hdr-pill-solid:hover { opacity: .85; }
+  .hdr2 .hdr-pill-solid.is-open { opacity: .75; }
+  .hdr2 .hdr-pill-outline { background: transparent; color: var(--text); border-color: var(--border-strong); }
+  .hdr2 .hdr-pill-outline i { color: var(--muted); }
+  .hdr2 .hdr-pill-outline:hover { background: var(--panel-alt); }
+  .hdr2 .hdr-pill:focus-visible { outline: 2px solid var(--input-focus); outline-offset: 2px; }
+
+  /* Line 2 */
+  .hdr2 .hdr-chip { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font: 600 12px/1.2 inherit; font-family: inherit; cursor: pointer; box-shadow: var(--shadow-sm); transition: background .15s, transform .1s; }
+  .hdr2 .hdr-chip:hover { background: var(--bg); }
+  .hdr2 .hdr-chip:active { transform: scale(.96); }
+  .hdr2 .hdr-chip i { color: var(--muted); font-size: 12px; }
+  .hdr-status { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .hdr2 .cloud-badge { margin-left: 0; background: var(--panel); border: 1px solid var(--border); color: var(--muted); }
+  .hdr2 .cloud-badge.online { color: var(--success); border-color: var(--success); background: var(--success-bg); }
+  .hdr2 .cloud-badge.syncing { color: var(--warning); border-color: var(--warning); background: var(--warning-bg); }
+  .hdr2 .cloud-badge.offline { color: var(--danger); border-color: var(--danger); background: var(--danger-bg); }
+  .hdr2 .sync-link { color: var(--muted); text-decoration: none; font-size: 11px; }
+  .hdr2 .sync-link:hover { color: var(--text); text-decoration: underline; }
+  /* Dark toggle: original design (checkbox + "Dark"), only made readable on the light bar */
+  .hdr2 .dark-toggle-label { color: var(--muted); background: var(--panel); border: 1px solid var(--border); }
+  .hdr2 .dark-toggle-label:hover { color: var(--text); }
+
+  /* login / logout / auth-pending states (same behaviour as before) */
+  /* returning user: show signed-in buttons instantly, don't wait for Firebase */
+  html.rgce-hint-authed body:not(.is-authed) .hdr2 .top-logout, html.rgce-hint-authed body:not(.is-authed) #fbmOpenBtn { display: inline-flex !important; }
+
+  @media (max-width: 640px) {
+    .hdr2-row { padding: 6px 12px; }
+    .hdr2 .hdr-pill { padding: 7px 12px; }
+  }
+  /* Clean segmented language switch */
+  .hdr-topbar .tb-lang-title { opacity: .85; font-size: 12.5px; letter-spacing: .02em; }
+  .hdr-topbar .lang-switch { gap: 0; padding: 3px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); border-radius: 999px; }
+  .hdr2 .lang-btn { padding: 5px 16px; font-size: 12.5px; letter-spacing: .02em; }
+  .hdr2 .lang-btn.active { box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  .hdr-topbar .tb-lang-icon { width: 38px; height: 34px; padding: 0; justify-content: center; font-size: 18px; }
+</style>
+<script id="rgce-header-ui">
+(function () {
+  var bar = document.getElementById('langRow'), a = document.getElementById('hdrSyncTab'), b = document.getElementById('langToggleTab');
+  if (!bar || !a || !b) return;
+  function reflect() {
+    var open = !bar.hasAttribute('hidden');
+    [a, b].forEach(function (t) { t.setAttribute('aria-expanded', open ? 'true' : 'false'); t.classList.toggle('tab-active', open); });
+  }
+  a.addEventListener('click', function () { b.click(); });   // same bar, same toggle as the language tab
+  new MutationObserver(reflect).observe(bar, { attributes: true, attributeFilter: ['hidden'] });
+  reflect();
+})();
+</script>
 </body>
 </html>
