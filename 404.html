@@ -25,16 +25,23 @@
     var m = document.createElement('link');
     m.rel = 'manifest'; m.href = window.__APP_BASE + 'manifest.json';
     document.head.appendChild(m);
-    /* ---- Bangla font (Kalpurush) from the repo: fonts/kalpurush-webfont.woff2 ---- */
+    /* ---- Bangla font: Noto Sans Bengali (variable weight), self-hosted in fonts/ ---- */
     try {
-      var fontUrl = window.__APP_BASE + 'fonts/kalpurush-webfont.woff2';
+      var fb = window.__APP_BASE + 'fonts/';
+      var face = function (file, range) {
+        return "@font-face{font-family:'NotoBnWeb';src:url('" + fb + file + "') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;unicode-range:" + range + ";}";
+      };
       var fs = document.createElement('style');
       fs.id = 'rgce-bn-font';
-      fs.textContent = "@font-face{font-family:'KalpurushWeb';src:url('" + fontUrl + "') format('woff2');font-weight:400;font-style:normal;font-display:swap;}";
+      fs.textContent =
+        face('noto-sans-bengali-latin-wght-normal.woff2', 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD') +
+        face('noto-sans-bengali-latin-ext-wght-normal.woff2', 'U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF') +
+        face('noto-sans-bengali-bengali-wght-normal.woff2', 'U+0951-0952,U+0964-0965,U+0980-09FE,U+200C-200D,U+20B9,U+25CC');
       document.head.appendChild(fs);
       if (localStorage.getItem('rgce_lang') === 'bn') {      // Bangla was used last time: start downloading early
         var pl = document.createElement('link');
-        pl.rel = 'preload'; pl.as = 'font'; pl.type = 'font/woff2'; pl.href = fontUrl; pl.crossOrigin = 'anonymous';
+        pl.rel = 'preload'; pl.as = 'font'; pl.type = 'font/woff2'; pl.crossOrigin = 'anonymous';
+        pl.href = fb + 'noto-sans-bengali-bengali-wght-normal.woff2';
         document.head.appendChild(pl);
       }
     } catch (e) {}
@@ -1350,7 +1357,7 @@
     }
     /* Bangla-friendly fonts (system fonts only: nothing is downloaded) */
     html[lang="bn"] body, html[lang="bn"] button, html[lang="bn"] input, html[lang="bn"] select, html[lang="bn"] textarea {
-      font-family: 'KalpurushWeb', 'Noto Sans Bengali', 'Nirmala UI', 'Kalpurush', 'SolaimanLipi', 'Vrinda', 'Segoe UI', Arial, sans-serif;
+      font-family: 'NotoBnWeb', 'Noto Sans Bengali', 'Nirmala UI', 'Kalpurush', 'SolaimanLipi', 'Vrinda', 'Segoe UI', Arial, sans-serif;
     }
   </style>
   <style id="rgce-login-first">
@@ -4143,7 +4150,7 @@
       document.getElementById('modalBody').innerHTML = bodyHTML;
       document.getElementById('modalFooter').innerHTML = footerHTML || '';
       const box = document.getElementById('modalBox');
-      box.classList.remove('wide', 'narrow');
+      box.classList.remove('wide', 'narrow', 'pay-modal');
       if (wide) box.classList.add('wide');
       document.getElementById('modalOverlay').classList.add('open');
       try { rgceHydrateStamps(document.getElementById('modalBody')); } catch (e) {}
@@ -4156,8 +4163,15 @@
       if (txnRefreshTimer) { clearInterval(txnRefreshTimer); txnRefreshTimer = null; }
     }
     document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    let rgceOverlayDown = null;
+    document.getElementById('modalOverlay').addEventListener('mousedown', (e) => { rgceOverlayDown = e.target; });
+    document.getElementById('modalOverlay').addEventListener('touchstart', (e) => { rgceOverlayDown = e.target; }, { passive: true });
     document.getElementById('modalOverlay').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('modalOverlay')) closeModal();
+      const ov = document.getElementById('modalOverlay');
+      if (e.target !== ov) return;
+      /* payment modal: dragging a text selection out of a field must NOT close it -> press must also start on the dark area */
+      if (document.getElementById('modalBox').classList.contains('pay-modal') && rgceOverlayDown !== ov) return;
+      closeModal();
     });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
     window.closeModal = closeModal;
@@ -4228,41 +4242,84 @@
       rgceSetModal('payment/' + rgceEnc(id));
       const currentDue = getCurrentDue(c);
       const body = `
-        <div style="display:flex;gap:24px;margin-bottom:16px;flex-wrap:wrap;">
-          <div><strong class="text-muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.4px;">Current Due</strong><div class="text-danger" style="font-size:22px;font-weight:700;">${formatMoneyOrZero(currentDue)}</div></div>
-          <div><strong class="text-muted" style="font-size:11px;text-transform:uppercase;letter-spacing:0.4px;">Total Paid</strong><div class="text-success" style="font-size:22px;font-weight:700;">${formatMoneyOrZero(c.paid || 0)}</div></div>
+        <div class="pay-summary">
+          <div class="pay-sum-item"><span class="pay-sum-label">Current Due</span><strong class="pay-sum-val text-danger">${formatMoneyOrZero(currentDue)}</strong></div>
+          <div class="pay-sum-item"><span class="pay-sum-label">Total Paid</span><strong class="pay-sum-val text-success">${formatMoneyOrZero(c.paid || 0)}</strong></div>
+          <div class="pay-sum-item"><span class="pay-sum-label">After this entry</span><strong class="pay-sum-val" id="payAfter">—</strong></div>
         </div>
-        <div class="payment-type-switcher" id="paymentTypeButtons" role="group" aria-label="Payment action">
-          <button type="button" class="payment-type-btn active" data-type="receive" aria-pressed="true"><i class="fas fa-money-bill-wave" aria-hidden="true"></i><span>Receive Payment</span></button>
-          <button type="button" class="payment-type-btn" data-type="due" aria-pressed="false"><i class="fas fa-circle-plus" aria-hidden="true"></i><span>Due Added</span></button>
-          <button type="button" class="payment-type-btn" data-type="adjust" aria-pressed="false"><i class="fas fa-scale-balanced" aria-hidden="true"></i><span>Adjustment</span></button>
+        <div class="pay-tabs payment-type-switcher" id="paymentTypeButtons" role="tablist" aria-label="Payment action">
+          <button type="button" class="payment-type-btn pay-tab active" data-type="receive" role="tab" aria-selected="true" aria-pressed="true">Receive Payment</button>
+          <button type="button" class="payment-type-btn pay-tab" data-type="due" role="tab" aria-selected="false" aria-pressed="false">Due Added</button>
+          <button type="button" class="payment-type-btn pay-tab" data-type="adjust" role="tab" aria-selected="false" aria-pressed="false">Adjustment</button>
         </div>
-        <div id="adjustOptions" style="display:none;margin-bottom:14px;">
-          <label style="margin-right:16px;"><input type="radio" name="adjustDir" value="increase" checked> Increase</label>
-          <label><input type="radio" name="adjustDir" value="decrease"> Decrease</label>
+        <div class="pay-panel">
+          <div class="pay-hint" id="payHint">Customer paid money now. It reduces the current due.</div>
+          <div id="adjustOptions" class="pay-seg" style="display:none;">
+            <label><input type="radio" name="adjustDir" value="increase" checked><span>Increase</span></label>
+            <label><input type="radio" name="adjustDir" value="decrease"><span>Decrease</span></label>
+          </div>
+          <div class="form-group" style="margin-bottom:14px;">
+            <label id="payAmountLabel">Amount Received</label>
+            <div class="pay-amount-row">
+              <input type="number" id="paymentAmount" min="0" step="1" value="${currentDue}" inputmode="numeric">
+              <button type="button" class="pay-chip" id="payFullBtn">Full Due</button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0;"><label>Payment Note</label><textarea id="paymentNote" rows="2"></textarea></div>
         </div>
-        <div class="form-group" style="margin-bottom:14px;"><label>Amount</label><input type="number" id="paymentAmount" min="0" step="1" value="${currentDue}"></div>
-        <div class="form-group" style="margin-bottom:14px;"><label>Payment Note</label><textarea id="paymentNote" rows="2"></textarea></div>
       `;
       const footer = `<button class="btn" id="cancelPaymentBtn">Cancel</button><button class="btn btn-primary" id="savePaymentBtn">Save Payment</button>`;
       openModal('Payment – ' + c.name, body, footer);
+      document.getElementById('modalBox').classList.add('pay-modal');
       document.getElementById('cancelPaymentBtn').addEventListener('click', closeModal);
       let paymentType = 'receive';
-      document.querySelectorAll('.payment-type-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.payment-type-btn').forEach(b => {
-            b.classList.remove('active');
-            b.setAttribute('aria-pressed', 'false');
-          });
-          btn.classList.add('active');
-          btn.setAttribute('aria-pressed', 'true');
-          paymentType = btn.dataset.type;
-          const amountInput = document.getElementById('paymentAmount');
-          if (paymentType === 'receive') amountInput.value = currentDue;
-          else amountInput.value = '';
-          document.getElementById('adjustOptions').style.display = paymentType === 'adjust' ? 'block' : 'none';
+      const amountInput = document.getElementById('paymentAmount');
+      const TAB_TEXT = {
+        receive: ['Amount Received', 'Customer paid money now. It reduces the current due.'],
+        due: ['Due Amount to Add', 'Add extra due to this customer (for example new goods taken on credit).'],
+        adjust: ['Adjustment Amount', 'Correct the due amount. Choose Increase or Decrease.']
+      };
+      /* live preview of the due after this entry (same rules as Save) */
+      function updateAfter() {
+        const el = document.getElementById('payAfter');
+        const amt = parseInt(amountInput.value, 10);
+        if (isNaN(amt) || amt <= 0) { el.textContent = '—'; el.className = 'pay-sum-val'; return; }
+        let after = currentDue;
+        if (paymentType === 'receive') after = currentDue - Math.min(amt, currentDue);
+        else if (paymentType === 'due') after = currentDue + amt;
+        else {
+          const dir = document.querySelector('input[name="adjustDir"]:checked').value;
+          let due = c.due || 0, paid = c.paid || 0;
+          if (dir === 'increase') due += amt; else { due = Math.max(0, due - amt); if (due < paid) paid = due; }
+          after = Math.max(0, due - paid);
+        }
+        el.textContent = formatMoneyOrZero(after);
+        el.className = 'pay-sum-val ' + (after > 0 ? 'text-danger' : 'text-success');
+      }
+      function setTab(btn) {
+        document.querySelectorAll('.payment-type-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+          b.setAttribute('aria-selected', 'false');
         });
-      });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-selected', 'true');
+        paymentType = btn.dataset.type;
+        if (paymentType === 'receive') amountInput.value = currentDue;
+        else amountInput.value = '';
+        document.getElementById('adjustOptions').style.display = paymentType === 'adjust' ? 'flex' : 'none';
+        document.getElementById('payAmountLabel').textContent = TAB_TEXT[paymentType][0];
+        document.getElementById('payHint').textContent = TAB_TEXT[paymentType][1];
+        document.getElementById('payFullBtn').style.display = paymentType === 'receive' ? '' : 'none';
+        updateAfter();
+        amountInput.focus();
+      }
+      document.querySelectorAll('.payment-type-btn').forEach(btn => btn.addEventListener('click', () => setTab(btn)));
+      amountInput.addEventListener('input', updateAfter);
+      document.querySelectorAll('input[name="adjustDir"]').forEach(r => r.addEventListener('change', updateAfter));
+      document.getElementById('payFullBtn').addEventListener('click', () => { amountInput.value = currentDue; updateAfter(); amountInput.focus(); });
+      updateAfter();
       document.getElementById('savePaymentBtn').addEventListener('click', () => {
         const amount = parseInt(document.getElementById('paymentAmount').value, 10);
         const note = document.getElementById('paymentNote').value.trim();
@@ -7408,42 +7465,43 @@
     .gov-strip .gov-strip-right { gap: 10px; }
     .top-actions .top-action.backup-due { --action-color: #ff7b7b; }
     .top-actions .top-action.backup-due i { color: var(--action-color); }
-    .payment-type-switcher {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px; margin-bottom: 14px;
+    /* ---- payment modal: simple tab layout ---- */
+    .pay-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+    .pay-sum-item { background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px; padding: 9px 10px; min-width: 0; }
+    .pay-sum-label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+    .pay-sum-val { display: block; font-size: 18px; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+    .pay-tabs { display: flex; gap: 0; margin: 0; border-bottom: 2px solid var(--border); }
+    .payment-type-btn.pay-tab {
+      flex: 1 1 0; min-width: 0; background: transparent; color: var(--muted);
+      border: 0; border-bottom: 3px solid transparent; margin-bottom: -2px; border-radius: 0;
+      padding: 11px 6px; font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1.2;
+      text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: color .15s ease, border-color .15s ease, background .15s ease;
     }
-    .payment-type-btn {
-      --payment-accent: #3b6fe0; --payment-soft: #eef3ff; --payment-on: #fff;
-      display: flex; align-items: center; justify-content: center; gap: 7px;
-      width: 100%; min-height: 50px; padding: 9px 8px;
-      color: var(--payment-accent); background: var(--payment-soft);
-      border: 1.5px solid var(--payment-accent); border-radius: 10px;
-      font-family: inherit; font-size: 12px; font-weight: 700; line-height: 1.2;
-      text-align: center; white-space: normal; cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
-      transition: transform .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
-      -webkit-tap-highlight-color: transparent;
+    .payment-type-btn.pay-tab:hover { color: var(--text); background: var(--panel-alt); }
+    .payment-type-btn.pay-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; background: transparent; }
+    .payment-type-btn.pay-tab:focus-visible { outline: 2px solid var(--input-focus); outline-offset: -2px; }
+    .pay-panel { border: 1px solid var(--border); border-top: 0; border-radius: 0 0 8px 8px; padding: 16px; background: var(--panel); }
+    .pay-hint { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; }
+    .pay-seg { display: flex; gap: 0; margin-bottom: 14px; border: 1px solid var(--border-strong); border-radius: 8px; overflow: hidden; }
+    .pay-seg label { flex: 1 1 0; margin: 0; cursor: pointer; }
+    .pay-seg input { position: absolute; opacity: 0; pointer-events: none; }
+    .pay-seg span { display: block; text-align: center; padding: 9px 8px; font-size: 13px; font-weight: 600; color: var(--muted); background: var(--panel); }
+    .pay-seg label + label span { border-left: 1px solid var(--border-strong); }
+    .pay-seg input:checked + span { background: var(--primary); color: #fff; }
+    .pay-seg input:focus-visible + span { outline: 2px solid var(--input-focus); outline-offset: -2px; }
+    .pay-amount-row { display: flex; gap: 8px; align-items: stretch; }
+    .pay-amount-row input { flex: 1 1 auto; min-width: 0; font-size: 20px; font-weight: 700; padding: 10px 12px; }
+    .pay-chip {
+      flex: 0 0 auto; padding: 0 14px; border: 1px solid var(--border-strong); border-radius: 8px;
+      background: var(--panel-alt); color: var(--text); font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
     }
-    .payment-type-btn[data-type="receive"] { --payment-accent: #087f5b; --payment-soft: #e8f7f0; }
-    .payment-type-btn[data-type="due"] { --payment-accent: #a15c00; --payment-soft: #fff5df; }
-    .payment-type-btn[data-type="adjust"] { --payment-accent: #3b6fe0; --payment-soft: #eef3ff; }
-    body.dark-mode .payment-type-btn { --payment-on: #07111f; }
-    body.dark-mode .payment-type-btn[data-type="receive"] { --payment-accent: #34d399; --payment-soft: rgba(52,211,153,.12); }
-    body.dark-mode .payment-type-btn[data-type="due"] { --payment-accent: #fbbf24; --payment-soft: rgba(251,191,36,.12); }
-    body.dark-mode .payment-type-btn[data-type="adjust"] { --payment-accent: #8db2ff; --payment-soft: rgba(141,178,255,.12); }
-    .payment-type-btn i { color: currentColor; font-size: 15px; flex: 0 0 auto; }
-    .payment-type-btn:hover:not(.active) { background: color-mix(in srgb, var(--payment-accent) 12%, var(--payment-soft)); transform: translateY(-1px); }
-    .payment-type-btn.active {
-      color: var(--payment-on); background: var(--payment-accent);
-      border-color: var(--payment-accent);
-      box-shadow: 0 5px 14px color-mix(in srgb, var(--payment-accent) 30%, transparent), inset 0 1px 0 rgba(255,255,255,.18);
-    }
-    .payment-type-btn:active { transform: translateY(0); }
-    .payment-type-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--payment-accent) 48%, transparent); outline-offset: 2px; }
-    .payment-type-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
-    @media (max-width: 380px) {
-      .payment-type-switcher { grid-template-columns: 1fr; }
-      .payment-type-btn { justify-content: flex-start; min-height: 44px; padding: 10px 12px; }
+    .pay-chip:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+    .modal-box.pay-modal { max-width: 520px; }
+    @media (max-width: 480px) {
+      .pay-summary { grid-template-columns: 1fr 1fr; }
+      .pay-summary .pay-sum-item:last-child { grid-column: 1 / -1; }
+      .payment-type-btn.pay-tab { font-size: 12px; padding: 10px 2px; }
     }
     #fbmOpenBtn .fbm-badge { top: -7px; right: -5px; border: 2px solid #1b2130; box-sizing: content-box; }
 
@@ -7459,7 +7517,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .seg-btn, .seg-btn::after, .seg-btn svg, .seg-btn i,
-      .top-action, .telegram-backup-btn, .payment-type-btn { transition: none; }
+      .top-action, .telegram-backup-btn, .payment-type-btn, .payment-type-btn.pay-tab { transition: none; }
       .top-action.backup-due { animation: none; }
     }
   </style>
@@ -8349,6 +8407,7 @@
 /* ===== EN <-> বাংলা converter (UI text only; printed pages & your data stay unchanged) ===== */
 (function () {
   var BN = {
+    'After this entry':'এই এন্ট্রির পরে','Full Due':'সম্পূর্ণ বাকি','Amount Received':'গৃহীত টাকা','Due Amount to Add':'যোগ করার বাকি টাকা','Adjustment Amount':'সমন্বয়ের টাকা','Customer paid money now. It reduces the current due.':'কাস্টমার এখন টাকা দিয়েছে। এতে বর্তমান বাকি কমবে।','Add extra due to this customer (for example new goods taken on credit).':'এই কাস্টমারের বাকি বাড়ান (যেমন বাকিতে নতুন মাল নিলে)।','Correct the due amount. Choose Increase or Decrease.':'বাকির হিসাব ঠিক করুন। বৃদ্ধি বা হ্রাস বেছে নিন।',
     'Dashboard':'ড্যাশবোর্ড','Refresh from Cloud':'ক্লাউড থেকে রিফ্রেশ','Transaction Tracking':'লেনদেন ট্র্যাকিং','Advanced Filter':'অ্যাডভান্সড ফিল্টার','Live Stats':'লাইভ পরিসংখ্যান',
     'Reports & Data':'রিপোর্ট ও ডেটা','Summary Report':'সারসংক্ষেপ রিপোর্ট','Live Charts':'লাইভ চার্ট','Print Report':'রিপোর্ট প্রিন্ট','Backup / Restore':'ব্যাকআপ / রিস্টোর','Telegram Backup':'টেলিগ্রাম ব্যাকআপ','Google Sheets Sync':'গুগল শিট সিংক',
     'Invoice System':'ইনভয়েস সিস্টেম','Create Invoice':'ইনভয়েস তৈরি','All Invoices':'সব ইনভয়েস','Tools & Settings':'টুলস ও সেটিংস','Clear Notes':'নোট মুছুন','Clear Amounts by Source':'সোর্স অনুযায়ী টাকা মুছুন','Clear All Amounts':'সব টাকা মুছুন','Clear ALL Data':'সব ডেটা মুছুন',
