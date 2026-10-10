@@ -25,6 +25,19 @@
     var m = document.createElement('link');
     m.rel = 'manifest'; m.href = window.__APP_BASE + 'manifest.json';
     document.head.appendChild(m);
+    /* ---- Bangla font (Kalpurush) from the repo: fonts/kalpurush-webfont.woff2 ---- */
+    try {
+      var fontUrl = window.__APP_BASE + 'fonts/kalpurush-webfont.woff2';
+      var fs = document.createElement('style');
+      fs.id = 'rgce-bn-font';
+      fs.textContent = "@font-face{font-family:'KalpurushWeb';src:url('" + fontUrl + "') format('woff2');font-weight:400;font-style:normal;font-display:swap;}";
+      document.head.appendChild(fs);
+      if (localStorage.getItem('rgce_lang') === 'bn') {      // Bangla was used last time: start downloading early
+        var pl = document.createElement('link');
+        pl.rel = 'preload'; pl.as = 'font'; pl.type = 'font/woff2'; pl.href = fontUrl; pl.crossOrigin = 'anonymous';
+        document.head.appendChild(pl);
+      }
+    } catch (e) {}
   })(window.location);
 </script>
   <meta name="theme-color" content="#1f4e79">
@@ -97,7 +110,11 @@
     }
     td.cust-blink { animation: rgceCustBlink 0.9s ease-in-out infinite; font-weight: 700; }
     html.rgce-booting body { visibility: hidden; }
+    /* Returning (signed-in) user, auth not confirmed yet: keep the signed-in layout (Add Customer on the right,
+       Logout slot reserved) and keep those two invisible, so nothing jumps when the login state arrives. */
     html.rgce-hint-authed .top-login { display: none !important; }
+    html.rgce-hint-authed body:not(.is-authed) .gov-strip .gov-row-tabs .top-actions .top-add { margin-left: auto; visibility: hidden; }
+    html.rgce-hint-authed body:not(.is-authed) .gov-strip .gov-row-tabs .top-actions .top-logout { display: inline-flex !important; visibility: hidden; }
     html.rgce-booting *, html.rgce-booting *::before, html.rgce-booting *::after { transition: none !important; animation: none !important; }
     html.dark-preload,
     html.dark-preload body { background: #14181f !important; color: #e6edf3 !important; }
@@ -1333,7 +1350,7 @@
     }
     /* Bangla-friendly fonts (system fonts only: nothing is downloaded) */
     html[lang="bn"] body, html[lang="bn"] button, html[lang="bn"] input, html[lang="bn"] select, html[lang="bn"] textarea {
-      font-family: 'Noto Sans Bengali', 'Nirmala UI', 'Kalpurush', 'SolaimanLipi', 'Vrinda', 'Segoe UI', Arial, sans-serif;
+      font-family: 'KalpurushWeb', 'Noto Sans Bengali', 'Nirmala UI', 'Kalpurush', 'SolaimanLipi', 'Vrinda', 'Segoe UI', Arial, sans-serif;
     }
   </style>
   <style id="rgce-login-first">
