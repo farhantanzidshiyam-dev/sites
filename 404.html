@@ -3410,14 +3410,14 @@
           localStorage.setItem(TELEGRAM_CHAT_KEY, telegramChatId);
           updateTelegramStatus();
         }
-      } catch (e) { console.warn('Telegram cloud load skipped', e && e.code); }
+      } catch (e) { console.warn('Telegram cloud load skipped', e && e.code); window.__tgCloudErr = (e && (e.code || e.message)) || 'error'; }
     }
     async function rgceTgCloudSave(token, chatId) {
       try {
         if (!currentUser || !window.FB) return false;
         await window.FB.setDoc(rgcePwRef(), { telegram: { token: token, chatId: chatId, updatedAt: Date.now() } }, { merge: true });
         return true;
-      } catch (e) { console.warn('Telegram cloud save failed', e); return false; }
+      } catch (e) { console.warn('Telegram cloud save failed', e); window.__tgCloudErr = (e && (e.code || e.message)) || 'error'; return false; }
     }
 
     function updateTelegramStatus() {
@@ -6642,12 +6642,21 @@
         <p style="margin-bottom:14px;">2. Paste token below and click "Auto-detect Chat ID".</p>
         <div class="form-group" style="margin-bottom:12px;"><label>Bot Token</label><input type="text" id="telegramTokenInput" value="${telegramToken}"></div>
         <div class="form-group" style="margin-bottom:12px;"><label>Chat ID</label><input type="text" id="telegramChatInput" value="${telegramChatId}"></div>
-        <button class="btn btn-primary" id="autoDetectChatBtn">Auto-detect Chat ID</button>
+        <button class="btn btn-primary" id="autoDetectChatBtn">Auto-detect Chat ID</button> <button class="btn" id="tgLoadCloudBtn">Load from Cloud</button>
         <div id="telegramSetupMsg" style="margin-top:10px;"></div>
       `;
       const footer = `<button class="btn" id="cancelTgBtn">Cancel</button><button class="btn btn-primary" id="saveTelegramBtn">Save &amp; Reload</button>`;
       openModal('Telegram Backup Setup', body, footer);
       document.getElementById('cancelTgBtn').addEventListener('click', closeModal);
+      document.getElementById('tgLoadCloudBtn').addEventListener('click', async () => {
+        window.__tgCloudErr = '';
+        await rgceTgCloudLoad();
+        document.getElementById('telegramTokenInput').value = telegramToken || '';
+        document.getElementById('telegramChatInput').value = telegramChatId || '';
+        document.getElementById('telegramSetupMsg').innerHTML = (telegramToken && telegramChatId)
+          ? '<div class="info-box">Loaded from cloud.</div>'
+          : '<div class="warning-box">' + (window.__tgCloudErr ? 'Cloud read failed: ' + window.__tgCloudErr : 'Nothing saved in cloud yet. Enter token and chat ID, then Save.') + '</div>';
+      });
       document.getElementById('autoDetectChatBtn').addEventListener('click', async () => {
         const token = document.getElementById('telegramTokenInput').value.trim();
         if (!token) { showToast('Enter bot token first.', 'error'); return; }
@@ -6673,7 +6682,7 @@
         closeModal();
         updateTelegramStatus();
         rgceTgCloudSave(telegramToken, telegramChatId).then(function (ok) {
-          showToast(ok ? 'Telegram settings saved to cloud.' : 'Saved on this device only (cloud save failed).', ok ? 'success' : 'warning');
+          showToast(ok ? 'Telegram settings saved to cloud.' : 'Cloud save failed (' + (window.__tgCloudErr || 'unknown') + '). Saved on this device only.' + (window.__tgCloudErr === 'permission-denied' ? ' Add the private_config rule in Firestore Rules.' : ''), ok ? 'success' : 'error');
         });
       });
     }
@@ -8623,7 +8632,7 @@
 
 <style id="rgce-modern-header">
   /* ===== Modern 2-line header (neutral, theme-aware). Dark toggle keeps its original look. ===== */
-  .hdr2 { background: var(--panel); color: var(--text); border-bottom: 1px solid var(--border); font-size: 13px; position: -webkit-sticky; position: sticky; top: 0; z-index: 600; box-shadow: var(--shadow-sm); }
+  .hdr2 { background: var(--panel); color: var(--text); border-bottom: 1px solid var(--border); font-size: 13px; position: relative; z-index: 600; box-shadow: var(--shadow-sm); }
   .hdr2-row { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; padding: 6px 20px; }
   .hdr2-top { min-height: 56px; border-bottom: 1px solid var(--border); }
   .hdr2-sub { min-height: 44px; background: var(--panel-alt); font-size: 12px; }
