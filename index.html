@@ -2039,7 +2039,9 @@
       let snap;
       try { snap = await window.FB.getDocFromServer(ref); }
       catch (e) { if (e && e.code === 'permission-denied') throw e; snap = await window.FB.getDoc(ref); }
-      return snap.exists() ? snap.data() : null;
+      if (!snap.exists()) return null;
+      const d = snap.data() || {};
+      return Object.keys(d).some(function (k) { return d[k] && typeof d[k] === 'object' && d[k].salt; }) ? d : null;   // telegram-only record = no password set yet
     }
     // returns 'ok' | 'bad' | 'nosetup' | 'locked' | 'error'
     async function rgceVerifyPassword(role, input) {
@@ -2090,11 +2092,11 @@
         const btn = document.getElementById('pwsSave'); btn.disabled = true;
         try {
           let exists = false;
-          try { exists = (await window.FB.getDocFromServer(rgcePwRef())).exists(); } catch (e) { if (e && e.code === 'permission-denied') throw e; throw new Error('Internet required for first-time setup.'); }
+          try { const _s = await window.FB.getDocFromServer(rgcePwRef()); const _d = _s.exists() ? (_s.data() || {}) : {}; exists = Object.keys(_d).some(function (k) { return _d[k] && typeof _d[k] === 'object' && _d[k].salt; }); } catch (e) { if (e && e.code === 'permission-denied') throw e; throw new Error('Internet required for first-time setup.'); }
           if (exists) { show('Passwords are already set up. Use the Admin Panel to change them.'); btn.disabled = false; return; }
           const data = { updatedAt: window.FB.serverTimestamp() };
           for (const [role, a] of pairs) data[role] = await rgceMakeEntry(v(a));
-          await window.FB.setDoc(rgcePwRef(), data);
+          await window.FB.setDoc(rgcePwRef(), data, { merge: true });
           closeModal();
           showToast('Passwords saved.', 'success');
           if (typeof done === 'function') setTimeout(done, 150);
@@ -2936,6 +2938,7 @@
           passInput.value = '';
           updateCloudBadge('syncing', 'Syncing…');
           showCloudLoader();
+          rgceTgCloudLoad();
           await cloudLoad(true);
           try { rgceApplyInitial(); } catch (e) { console.warn('route init failed', e); }
           retryPendingSheetFromCloud();
@@ -3393,6 +3396,28 @@
       } finally {
         if (pullBtn) { pullBtn.disabled = false; pullBtn.textContent = originalText; }
       }
+    }
+
+    /* Telegram bot settings live in the user's private cloud record (private_config/{uid}.telegram) */
+    async function rgceTgCloudLoad() {
+      try {
+        if (!currentUser || !window.FB) return;
+        const snap = await window.FB.getDoc(rgcePwRef());
+        const t = snap.exists() ? (snap.data() || {}).telegram : null;
+        if (t && t.token && t.chatId) {
+          telegramToken = String(t.token); telegramChatId = String(t.chatId);
+          localStorage.setItem(TELEGRAM_TOKEN_KEY, telegramToken);
+          localStorage.setItem(TELEGRAM_CHAT_KEY, telegramChatId);
+          updateTelegramStatus();
+        }
+      } catch (e) { console.warn('Telegram cloud load skipped', e && e.code); }
+    }
+    async function rgceTgCloudSave(token, chatId) {
+      try {
+        if (!currentUser || !window.FB) return false;
+        await window.FB.setDoc(rgcePwRef(), { telegram: { token: token, chatId: chatId, updatedAt: Date.now() } }, { merge: true });
+        return true;
+      } catch (e) { console.warn('Telegram cloud save failed', e); return false; }
     }
 
     function updateTelegramStatus() {
@@ -6647,7 +6672,9 @@
         telegramChatId = localStorage.getItem(TELEGRAM_CHAT_KEY);
         closeModal();
         updateTelegramStatus();
-        showToast('Telegram settings saved.', 'success');
+        rgceTgCloudSave(telegramToken, telegramChatId).then(function (ok) {
+          showToast(ok ? 'Telegram settings saved to cloud.' : 'Saved on this device only (cloud save failed).', ok ? 'success' : 'warning');
+        });
       });
     }
 
@@ -8596,8 +8623,7 @@
 
 <style id="rgce-modern-header">
   /* ===== Modern 2-line header (neutral, theme-aware). Dark toggle keeps its original look. ===== */
-  .hdr2 { background: var(--panel); color: var(--text); border-bottom: 1px solid var(--border); font-size: 13px; position: relative; z-index: 600; box-shadow: var(--shadow-sm); }
-  @media (min-width: 901px) { .hdr2 { position: sticky; top: 0; } }
+  .hdr2 { background: var(--panel); color: var(--text); border-bottom: 1px solid var(--border); font-size: 13px; position: -webkit-sticky; position: sticky; top: 0; z-index: 600; box-shadow: var(--shadow-sm); }
   .hdr2-row { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; padding: 6px 20px; }
   .hdr2-top { min-height: 56px; border-bottom: 1px solid var(--border); }
   .hdr2-sub { min-height: 44px; background: var(--panel-alt); font-size: 12px; }
