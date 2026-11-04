@@ -8925,6 +8925,7 @@
 /* ===== DCU STRUCTURE LAYER v3 — original app colours, no accent. Layout only. ===== */
 @media screen {
 /* ---------- running notices ---------- */
+.dcu-ticker[hidden]{display:none!important}
 .dcu-ticker{display:flex;align-items:center;gap:14px;height:36px;padding:0 0 0 20px;background:var(--primary);color:#fff;font-size:13.5px;overflow:hidden}
 body.dark-mode .dcu-ticker{background:var(--footer-bg);border-bottom:1px solid var(--border)}
 .dcu-tk-label{flex:none;font-weight:700;padding-right:14px;border-right:1px solid rgba(255,255,255,.3)}
@@ -9218,7 +9219,7 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
         catGifts:'Gifts',catElec:'Electrical',catCosm:'Cosmetics',
         board:'Notice board',noNotice:'No notices have been published yet.',needLogin:'Please log in to see published notices.',
         dlPdf:'Download letterpad PDF',dlImg:'Download letterpad image',close:'Close',preparing:'Preparing letterpad…',dlFail:'Could not create the letterpad file.',
-        admH:'Publish notices',admTitle:'Notice title',admBody:'Message',admDate:'Date',admPub:'Publish notice',admUpd:'Update notice',admCancel:'Cancel edit',
+        admH:'Publish notices',tkOn:'Show running notice bar at the top (appears only while at least one notice is published)',admTitle:'Notice title',admBody:'Message',admDate:'Date',admPub:'Publish notice',admUpd:'Update notice',admCancel:'Cancel edit',
         hide:'Hide',show:'Show',edit:'Edit',del:'Delete',stPub:'Published',stHid:'Hidden',saved:'Notice saved and published.',needTitle:'Enter a notice title.',
         saveFail:'Could not save to the cloud. It is kept on this device only.',admLogin:'Log in first to publish notices.',confirmDel:'Delete this notice?',admNone:'No notices yet.',
         pNotice:'NOTICE',pDate:'Date',pSign:'Authorized Signature',pPage:'Page',pvTitle:'Latest notices',pvAll:'All notices',dueTitle:'Check your due balance',dueHelp:'Enter the mobile number you gave to the shop.',dueBtn:'Check',duePh:'01XXXXXXXXX',dueBad:'Enter a valid mobile number (01XXXXXXXXX).',dueNone:'No due record found for this number. Please contact the shop.',dueClear:'No due. Thank you!',dueAmt:'Current due',dueName:'Name',dueAddr:'Address',dueUpd:'Updated',dueWait:'Too many tries. Please wait a minute.',dueErr:'Could not check right now. Please try again later.',dueCall:'Shop phone',fabAdd:'New customer',fabInv:'New invoice',fabPay:'Receive payment',payTitle:'Receive payment: choose a customer',paySearch:'Search by name or phone',payNone:'No customers found.',dueAdmH:'Public due lookup',dueAdmNote:'Customers can check their due by phone number on the home page. They see the customer\'s full name, address and the due amount. Anyone who knows a phone number can look it up.',dueAuto:'Auto-update while I am logged in (this device)',duePub:'Publish / update now',dueRem:'Remove all public due data',dueDone:'Done. Published records:',dueRemoved:'All public due records removed.',dueRules:'Firestore rules to add (once)',dueRulesFail:'Permission denied. Add the Firestore rules shown below, then try again.',dueNoData:'No customer data is loaded yet.',pubNoRule:'Saved. The public copy needs the Firestore rules shown in the due section below.'},
@@ -9229,7 +9230,7 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
         catGifts:'উপহার',catElec:'ইলেকট্রিক্যাল',catCosm:'প্রসাধনী',
         board:'নোটিশ বোর্ড',noNotice:'এখনো কোনো নোটিশ প্রকাশ করা হয়নি।',needLogin:'প্রকাশিত নোটিশ দেখতে লগইন করুন।',
         dlPdf:'লেটারপ্যাড PDF ডাউনলোড',dlImg:'লেটারপ্যাড ছবি ডাউনলোড',close:'বন্ধ করুন',preparing:'লেটারপ্যাড তৈরি হচ্ছে…',dlFail:'লেটারপ্যাড ফাইল তৈরি করা যায়নি।',
-        admH:'নোটিশ প্রকাশ করুন',admTitle:'নোটিশের শিরোনাম',admBody:'বিস্তারিত',admDate:'তারিখ',admPub:'নোটিশ প্রকাশ করুন',admUpd:'নোটিশ হালনাগাদ করুন',admCancel:'সম্পাদনা বাতিল',
+        admH:'নোটিশ প্রকাশ করুন',tkOn:'উপরে চলমান নোটিশ বার দেখান (অন্তত একটি নোটিশ প্রকাশিত থাকলেই দেখা যাবে)',admTitle:'নোটিশের শিরোনাম',admBody:'বিস্তারিত',admDate:'তারিখ',admPub:'নোটিশ প্রকাশ করুন',admUpd:'নোটিশ হালনাগাদ করুন',admCancel:'সম্পাদনা বাতিল',
         hide:'লুকান',show:'দেখান',edit:'সম্পাদনা',del:'মুছুন',stPub:'প্রকাশিত',stHid:'লুকানো',saved:'নোটিশ সংরক্ষণ ও প্রকাশ হয়েছে।',needTitle:'নোটিশের শিরোনাম লিখুন।',
         saveFail:'ক্লাউডে সংরক্ষণ করা যায়নি। শুধু এই ডিভাইসে রাখা হয়েছে।',admLogin:'নোটিশ প্রকাশ করতে আগে লগইন করুন।',confirmDel:'এই নোটিশ মুছে ফেলবেন?',admNone:'এখনো কোনো নোটিশ নেই।',
         pNotice:'বিজ্ঞপ্তি',pDate:'তারিখ',pSign:'অনুমোদিত স্বাক্ষর',pPage:'পৃষ্ঠা',pvTitle:'সর্বশেষ নোটিশ',pvAll:'সব নোটিশ',dueTitle:'আপনার বাকির হিসাব দেখুন',dueHelp:'দোকানে দেওয়া মোবাইল নম্বরটি লিখুন।',dueBtn:'দেখুন',duePh:'01XXXXXXXXX',dueBad:'সঠিক মোবাইল নম্বর লিখুন (01XXXXXXXXX)।',dueNone:'এই নম্বরে কোনো বাকির তথ্য পাওয়া যায়নি। দোকানে যোগাযোগ করুন।',dueClear:'কোনো বাকি নেই। ধন্যবাদ!',dueAmt:'বর্তমান বাকি',dueName:'নাম',dueAddr:'ঠিকানা',dueUpd:'হালনাগাদ',dueWait:'অনেকবার চেষ্টা হয়েছে। এক মিনিট পরে চেষ্টা করুন।',dueErr:'এখন দেখা যাচ্ছে না। পরে আবার চেষ্টা করুন।',dueCall:'দোকানের ফোন',fabAdd:'নতুন কাস্টমার',fabInv:'নতুন ইনভয়েস',fabPay:'পেমেন্ট নেওয়া',payTitle:'পেমেন্ট নেওয়া: কাস্টমার বাছুন',paySearch:'নাম বা ফোন দিয়ে খুঁজুন',payNone:'কোনো কাস্টমার পাওয়া যায়নি।',dueAdmH:'সবার জন্য বাকি দেখার সুবিধা',dueAdmNote:'কাস্টমাররা হোমপেজে ফোন নম্বর দিয়ে নিজের বাকি দেখতে পারবে। পুরো নাম, ঠিকানা ও বাকির পরিমাণ দেখা যায়। কারো ফোন নম্বর জানা থাকলে সে সেটা দেখতে পারবে।',dueAuto:'লগইন থাকা অবস্থায় নিজে নিজে হালনাগাদ (এই ডিভাইসে)',duePub:'এখনই প্রকাশ / হালনাগাদ',dueRem:'সব পাবলিক তথ্য মুছুন',dueDone:'সম্পন্ন। প্রকাশিত রেকর্ড:',dueRemoved:'সব পাবলিক বাকির রেকর্ড মোছা হয়েছে।',dueRules:'যে Firestore নিয়ম যোগ করতে হবে (একবার)',dueRulesFail:'অনুমতি নেই। নিচের Firestore নিয়ম যোগ করে আবার চেষ্টা করুন।',dueNoData:'এখনো কোনো কাস্টমার ডেটা লোড হয়নি।',pubNoRule:'সংরক্ষিত। পাবলিক কপির জন্য নিচের বাকি-অংশে দেখানো Firestore নিয়ম যোগ করতে হবে।'}
@@ -9300,7 +9301,8 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
   }
 
   /* ================= notices: store (cloud doc private_config/<uid>.dcuNotices, cached on device) ================= */
-  var N={list:[],uid:'',pub:[]};
+  var N={list:[],uid:'',pub:[],on:false,pubOn:false};
+  function tickerOn(){ return uid()?N.on:N.pubOn; }
   function uid(){ var u=window.__currentUser; return u&&u.uid?u.uid:''; }
   function ckey(){ return 'dcu_notices_'+N.uid; }
   function norm(a){ return (Array.isArray(a)?a:[]).filter(function(x){return x&&x.id&&x.title;}).map(function(x){return {id:String(x.id),title:String(x.title),body:String(x.body||''),date:String(x.date||''),active:x.active!==false};}); }
@@ -9314,24 +9316,26 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
     renderAdminList(); renderTicker(true);
   }
   function sortN(){ N.list.sort(function(a,b){ return (b.date||'').localeCompare(a.date||'') || (a.id<b.id?1:-1); }); }
-  function cacheSave(){ try{ localStorage.setItem(ckey(),JSON.stringify(N.list)); }catch(e){} }
+  function cacheSave(){ try{ localStorage.setItem(ckey(),JSON.stringify(N.list)); localStorage.setItem(ckey()+'_on',N.on?'1':'0'); }catch(e){} }
   function actives(){ return (uid()?N.list:N.pub).filter(function(n){return n.active;}); }
   function findNotice(id){ return N.list.concat(N.pub).filter(function(x){return x.id===id;})[0]; }
   async function loadNotices(){
     var u=uid(); if(!u) return; N.uid=u;
-    try{ var c=localStorage.getItem(ckey()); if(c){ N.list=norm(JSON.parse(c)); sortN(); renderTicker(true); } }catch(e){}
+    try{ var c=localStorage.getItem(ckey()); if(c){ N.list=norm(JSON.parse(c)); sortN(); } N.on=localStorage.getItem(ckey()+'_on')==='1'; renderTicker(true); }catch(e){}
     if(!window.FB) return;
     try{
       var snap=await window.FB.getDoc(window.FB.doc(window.FB.db,'private_config',u));
       var d=(snap&&snap.exists&&snap.exists())?snap.data():{};
-      if(Array.isArray(d.dcuNotices)){ N.list=norm(d.dcuNotices); sortN(); cacheSave(); }
+      if(Array.isArray(d.dcuNotices)){ N.list=norm(d.dcuNotices); sortN(); }
+      N.on=d.dcuTickerOn===true; cacheSave();
+      var tb=$('#dcuTkOn'); if(tb) tb.checked=N.on;
       renderTicker(true);
     }catch(e){ console.warn('notices load',e); }
   }
   async function saveNotices(){
     var u=uid(); if(!u) throw new Error('login');
     cacheSave(); renderTicker(true);
-    await window.FB.setDoc(window.FB.doc(window.FB.db,'private_config',u),{dcuNotices:N.list},{merge:true});
+    await window.FB.setDoc(window.FB.doc(window.FB.db,'private_config',u),{dcuNotices:N.list,dcuTickerOn:!!N.on},{merge:true});
     try{ await publishPublicNotices(); N.pubErr=false; }catch(e){ console.warn('public copy',e); N.pubErr=true; }
   }
 
@@ -9345,12 +9349,13 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
 
   /* ---- public notices: readable by everyone (also before login) ---- */
   async function loadPublicNotices(){
-    try{ var c=localStorage.getItem('dcu_pub_notices'); if(c&&!N.pub.length){ N.pub=norm(JSON.parse(c)); renderTicker(true); } }catch(e){}
+    try{ var c=localStorage.getItem('dcu_pub_notices'); if(c&&!N.pub.length){ N.pub=norm(JSON.parse(c)); N.pubOn=localStorage.getItem('dcu_pub_tk_on')==='1'; renderTicker(true); } }catch(e){}
     if(!window.FB) return;
     try{
       var snap=await getFresh(window.FB.doc(window.FB.db,'site_public',PUB_ID));
       var d=(snap&&snap.exists&&snap.exists())?snap.data():{};
-      N.pub=norm(d.notices); sortArr(N.pub);
+      N.pub=norm(d.notices); sortArr(N.pub); N.pubOn=d.tickerOn===true;
+      try{ localStorage.setItem('dcu_pub_tk_on',N.pubOn?'1':'0'); }catch(e){}
       try{ localStorage.setItem('dcu_pub_notices',JSON.stringify(N.pub)); }catch(e){}
       renderTicker(true);
     }catch(e){ console.warn('public notices',e); }
@@ -9359,12 +9364,15 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
   async function publishPublicNotices(){
     var u=uid(); if(!u||!window.FB) return;
     await window.FB.setDoc(window.FB.doc(window.FB.db,'site_public',PUB_ID),
-      {ownerUid:u,shopName:SHOP.name,notices:N.list.filter(function(n){return n.active;}),updatedAt:window.FB.serverTimestamp()});
+      {ownerUid:u,shopName:SHOP.name,notices:N.list.filter(function(n){return n.active;}),tickerOn:!!N.on,updatedAt:window.FB.serverTimestamp()});
   }
 
   /* ================= running notice bar ================= */
   function renderTicker(force){
     var move=$('#dcuTkMove'); if(!move) return;
+    var bar=move.closest('.dcu-ticker'), show=tickerOn()&&actives().length>0;
+    if(bar) bar.hidden=!show;
+    if(!show){ move.__k=''; move.innerHTML=''; renderPreview(); return; }
     var l=lang(), items=[{w:1}].concat(actives());
     var key=l+'|'+items.map(function(i){return i.w?'w':i.id+'/'+i.title+'/'+i.date;}).join('~');
     if(!force && move.__k===key) return; move.__k=key;
@@ -9655,6 +9663,7 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
     var body=$('#modalBody'); if(!body||!$('#chgSaveBtn',body)||$('#dcuAdmNotices',body)) return;
     var sec=D.createElement('div'); sec.id='dcuAdmNotices'; sec.setAttribute('data-no-bn','');
     sec.innerHTML='<h3>'+esc(tt('admH'))+'</h3>'
+      +'<label style="display:flex;gap:8px;align-items:flex-start;margin:0 0 12px;font-size:13.5px"><input type="checkbox" id="dcuTkOn" style="margin-top:3px"> <span>'+esc(tt('tkOn'))+'</span></label>'
       +'<div class="form-group"><label for="dcuNTitle">'+esc(tt('admTitle'))+'</label><input type="text" id="dcuNTitle" maxlength="140" autocomplete="off"></div>'
       +'<div class="form-group"><label for="dcuNBody">'+esc(tt('admBody'))+'</label><textarea id="dcuNBody" rows="4"></textarea></div>'
       +'<div class="form-group"><label for="dcuNDate">'+esc(tt('admDate'))+'</label><input type="date" id="dcuNDate"></div>'
@@ -9684,6 +9693,14 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
       catch(e){ console.warn(e); dm(e&&e.code==='permission-denied'?tt('dueRulesFail'):tt('dueErr')); }
     });
     if(!uid()) admMsg(tt('admLogin'));
+    var tkb=$('#dcuTkOn'); tkb.checked=!!N.on;
+    tkb.addEventListener('change',async function(){
+      if(!uid()){ tkb.checked=!!N.on; admMsg(tt('admLogin')); return; }
+      N.on=tkb.checked; N.uid=uid();
+      try{ await saveNotices(); if(N.pubErr) admMsg(tt('pubNoRule')); else admMsg(tt('saved'),true); }
+      catch(e){ console.warn(e); admMsg(tt('saveFail')); }
+      renderTicker(true);
+    });
     $('#dcuNSave').addEventListener('click',async function(){
       var title=$('#dcuNTitle').value.trim(), text=$('#dcuNBody').value.trim(), date=$('#dcuNDate').value||today();
       if(!uid()){ admMsg(tt('admLogin')); return; }
