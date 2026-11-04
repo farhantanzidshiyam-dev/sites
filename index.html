@@ -2171,6 +2171,7 @@
        One password opens every protected feature. It is stored as a salted hash in the cloud record
        private_config/<uid> (field "unlock"), so Clear ALL Data never touches it. Clear ALL Data keeps its own separate password. */
     let rgceUnlocked = false, rgceUnlockMode = 'off', rgcePendingGate = null, rgcePendingAt = 0;
+    window.__rgceIsUnlocked = function () { return !!rgceUnlocked; };
     async function rgceUnlockInit() {
       rgceUnlocked = false; rgcePendingGate = null;
       if (!currentUser) { rgceUnlockMode = 'off'; rgceRenderUnlock(); return; }
@@ -9303,6 +9304,15 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
   function uid(){ var u=window.__currentUser; return u&&u.uid?u.uid:''; }
   function ckey(){ return 'dcu_notices_'+N.uid; }
   function norm(a){ return (Array.isArray(a)?a:[]).filter(function(x){return x&&x.id&&x.title;}).map(function(x){return {id:String(x.id),title:String(x.title),body:String(x.body||''),date:String(x.date||''),active:x.active!==false};}); }
+  function isAdm(){ try{ return !!(uid() && window.__rgceIsUnlocked && window.__rgceIsUnlocked()); }catch(e){ return false; } }
+  async function delNoticeQuick(id){
+    var n=N.list.filter(function(x){return x.id===id;})[0]; if(!n) return;
+    if(!confirm(tt('confirmDel'))) return;
+    N.list=N.list.filter(function(x){return x.id!==id;}); N.uid=uid();
+    try{ await saveNotices(); }catch(e){ console.warn(e); alert(tt('saveFail')); }
+    var b=$('#dcuBoard'); if(b) b.innerHTML=boardHtml();
+    renderAdminList(); renderTicker(true);
+  }
   function sortN(){ N.list.sort(function(a,b){ return (b.date||'').localeCompare(a.date||'') || (a.id<b.id?1:-1); }); }
   function cacheSave(){ try{ localStorage.setItem(ckey(),JSON.stringify(N.list)); }catch(e){} }
   function actives(){ return (uid()?N.list:N.pub).filter(function(n){return n.active;}); }
@@ -9380,7 +9390,9 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
       return '<article class="dcu-pv-card"><div class="dcu-n-meta">'+esc(fmtDate(n.date))+'</div><h3>'+esc(n.title)+'</h3>'+(ex?'<p>'+esc(ex)+'</p>':'')
         +'<div class="dcu-n-acts"><button type="button" class="btn btn-primary btn-sm" data-dl="pdf" data-nid="'+esc(n.id)+'"><i class="fas fa-file-pdf" aria-hidden="true"></i> '+esc(tt('dlPdf'))+'</button>'
         +'<button type="button" class="btn btn-sm" data-dl="png" data-nid="'+esc(n.id)+'"><i class="fas fa-image" aria-hidden="true"></i> '+esc(tt('dlImg'))+'</button>'
-        +'<button type="button" class="btn btn-sm" data-open-board="'+esc(n.id)+'">'+esc(tt('pvAll'))+'</button></div></article>';
+        +'<button type="button" class="btn btn-sm" data-open-board="'+esc(n.id)+'">'+esc(tt('pvAll'))+'</button>'
+        +(isAdm()?'<button type="button" class="btn btn-sm btn-danger" data-bdel="'+esc(n.id)+'"><i class="fas fa-trash" aria-hidden="true"></i> '+esc(tt('del'))+'</button>':'')
+        +'</div></article>';
     }).join('');
   }
 
@@ -9505,12 +9517,14 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
 
   /* ================= notice board (modal) ================= */
   function boardHtml(){
-    var list=actives(); if(!list.length) return '<p>'+esc(tt('noNotice'))+'</p>';
+    var adm=isAdm(), list=adm?N.list.slice():actives(); if(!list.length) return '<p>'+esc(tt('noNotice'))+'</p>';
     return list.map(function(n){
       return '<article class="dcu-n-card" id="dcuN_'+esc(n.id)+'"><div class="dcu-n-meta">'+esc(fmtDate(n.date))+'</div><h3>'+esc(n.title)+'</h3>'
         +'<div class="dcu-n-body">'+esc(n.body).replace(/\n/g,'<br>')+'</div>'
         +'<div class="dcu-n-acts"><button type="button" class="btn btn-primary btn-sm" data-dl="pdf" data-nid="'+esc(n.id)+'"><i class="fas fa-file-pdf" aria-hidden="true"></i> '+esc(tt('dlPdf'))+'</button>'
-        +'<button type="button" class="btn btn-sm" data-dl="png" data-nid="'+esc(n.id)+'"><i class="fas fa-image" aria-hidden="true"></i> '+esc(tt('dlImg'))+'</button></div></article>';
+        +'<button type="button" class="btn btn-sm" data-dl="png" data-nid="'+esc(n.id)+'"><i class="fas fa-image" aria-hidden="true"></i> '+esc(tt('dlImg'))+'</button>'
+        +(adm?'<button type="button" class="btn btn-sm btn-danger" data-bdel="'+esc(n.id)+'"><i class="fas fa-trash" aria-hidden="true"></i> '+esc(tt('del'))+'</button>':'')
+        +'</div></article>';
     }).join('');
   }
   function openBoard(focusId){
@@ -9712,6 +9726,7 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
         else if(a.indexOf('sb:')===0) el=$('.sidebar-item[data-action="'+a.slice(3)+'"]');
         if(el) el.click(); return;
       }
+      var bd=t.closest('[data-bdel]'); if(bd){ delNoticeQuick(bd.getAttribute('data-bdel')); return; }
       var tk=t.closest('.tk-n'); if(tk){ openBoard(tk.getAttribute('data-nid')); return; }
       if(t.closest('#dcuTkLabel')){ openBoard(); return; }
       var dl=t.closest('[data-dl]'); if(dl){ downloadNotice(dl.getAttribute('data-nid'),dl.getAttribute('data-dl')); return; }
