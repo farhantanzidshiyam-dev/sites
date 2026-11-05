@@ -3080,6 +3080,7 @@
 
     function saveData() {
       if (typeof cloudSchedule === 'function') cloudSchedule();
+      try { if (window.__rgceDueSoon) window.__rgceDueSoon(); } catch (e) {}
     }
 
     function translateAuthError(code) {
@@ -9493,7 +9494,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         admH:'Publish notices',tkOn:'Show running notice bar at the top (appears only while at least one notice is published)',admTitle:'Notice title',admBody:'Message',admDate:'Date',admPub:'Publish notice',admUpd:'Update notice',admCancel:'Cancel edit',
         hide:'Hide',show:'Show',edit:'Edit',del:'Delete',stPub:'Published',stHid:'Hidden',saved:'Notice saved and published.',needTitle:'Enter a notice title.',
         saveFail:'Could not save to the cloud. It is kept on this device only.',admLogin:'Log in first to publish notices.',confirmDel:'Delete this notice?',admNone:'No notices yet.',
-        pNotice:'NOTICE',pDate:'Date',pSign:'Authorized Signature',pPage:'Page',pvTitle:'Latest notices',pvAll:'All notices',dueTitle:'Check your due balance',dueHelp:'Enter the mobile number you gave to the shop.',dueBtn:'Check',duePh:'01XXXXXXXXX',dueBad:'Enter a valid mobile number (01XXXXXXXXX).',dueNone:'No due record found for this number. Please contact the shop.',dueClear:'No due. Thank you!',dueAmt:'Current due',dueName:'Name',dueAddr:'Address',dueUpd:'Updated',dueWait:'Too many tries. Please wait a minute.',dueErr:'Could not check right now. Please try again later.',dueCall:'Shop phone',fabAdd:'New customer',fabInv:'New invoice',fabPay:'Receive payment',payTitle:'Receive payment: choose a customer',paySearch:'Search by name or phone',payNone:'No customers found.',dueAdmH:'Public due lookup',dueAdmNote:'Customers can check their due by phone number on the home page. They see the customer\'s full name, address and the due amount. Anyone who knows a phone number can look it up.',dueAuto:'Auto-update while I am logged in (this device)',duePub:'Publish / update now',dueRem:'Remove all public due data',dueDone:'Done. Published records:',dueRemoved:'All public due records removed.',dueRules:'Firestore rules to add (once)',dueRulesFail:'Permission denied. Add the Firestore rules shown below, then try again.',dueNoData:'No customer data is loaded yet.',pubNoRule:'Saved. The public copy needs the Firestore rules shown in the due section below.'},
+        pNotice:'NOTICE',pDate:'Date',pSign:'Authorized Signature',pPage:'Page',pvTitle:'Latest notices',pvAll:'All notices',dueTitle:'Check your due balance',dueHelp:'Enter the mobile number you gave to the shop.',dueBtn:'Check',duePh:'01XXXXXXXXX',dueBad:'Enter a valid mobile number (01XXXXXXXXX).',dueNone:'No due record found for this number. Please contact the shop.',dueClear:'No due. Thank you!',dueAmt:'Current due',dueName:'Name',dueAddr:'Address',dueUpd:'Updated',dueWait:'Too many tries. Please wait a minute.',dueErr:'Could not check right now. Please try again later.',dueCall:'Shop phone',fabAdd:'New customer',fabInv:'New invoice',fabPay:'Receive payment',payTitle:'Receive payment: choose a customer',paySearch:'Search by name or phone',payNone:'No customers found.',dueAdmH:'Public due lookup',dueAdmNote:'Fully automatic: every change to a customer (due, payment, source, address) is published within seconds while a staff device is open. Customers can check their due by phone number on the home page. They see the customer\'s full name, address and the due amount. Anyone who knows a phone number can look it up.',dueAuto:'Auto-update while I am logged in (this device)',duePub:'Publish / update now',dueRem:'Remove all public due data',dueDone:'Done. Published records:',dueRemoved:'All public due records removed.',dueRules:'Firestore rules to add (once)',dueRulesFail:'Permission denied. Add the Firestore rules shown below, then try again.',dueNoData:'No customer data is loaded yet.',pubNoRule:'Saved. The public copy needs the Firestore rules shown in the due section below.'},
     bn:{notices:'নোটিশ',welcome:'রোজা গিফট কর্নার অ্যান্ড ইলেকট্রিকে স্বাগতম',menu:'মেনু',custNav:'কাস্টমার',noticeNav:'নোটিশ',custBtn:'কাস্টমার রেজিস্টার',
         tAll:'সব',tDue:'বাকি',tPartial:'আংশিক পরিশোধ',tPaid:'পরিশোধিত',tHidden:'গোপন বাকি',
         ctaT:'দোকানের সব হিসাব, এক জায়গায়',ctaP:'এই পেজ থেকে কাস্টমার যোগ, ইনভয়েস তৈরি ও ব্যাকআপ করুন। কাস্টমার রেজিস্টারের আলাদা পেজ আছে।',
@@ -9750,7 +9751,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     var pr=await getFresh(window.FB.doc(db,'private_config',u)), prev=((pr&&pr.exists&&pr.exists()&&pr.data().dcuDueIds)||[]);
     var hashes=loadHashes(), nextHashes={}, ops=[], ids=[];
     for(var i=0;i<phones.length;i++){
-      var id='p'+await sha('rgce-due-v1:'+phones[i]), x=groups[phones[i]], h=Math.round(x.due)+'|'+x.names.join(',')+'|'+x.addrs.join(',')+'|'+x.n+'|'+JSON.stringify(x.list);
+      var id='p'+await sha('rgce-due-v1:'+phones[i]), x=groups[phones[i]], h='v2|'+Math.round(x.due)+'|'+x.names.join(',')+'|'+x.addrs.join(',')+'|'+x.n+'|'+JSON.stringify(x.list);
       ids.push(id); nextHashes[id]=h;
       if(force||hashes[id]!==h||prev.indexOf(id)<0) ops.push({id:id,data:{ownerUid:u,due:Math.round(x.due),nm:x.names.join(', '),ad:x.addrs.join(' | '),n:x.n,cs:JSON.stringify(x.list),upd:window.FB.serverTimestamp()}});
     }
@@ -9760,7 +9761,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var nm=String(c.name||'').trim()||'-', ad=String(c.address||'').trim(), cd=Math.max(0,(+c.due||0)-(+c.paid||0));
       var cid='c'+await sha('rgce-due-cust-v1:'+(c.id||(nm+'|'+ad)));
       if(ids.indexOf(cid)>=0) continue;
-      var sr=String(c.source==null?'':c.source).trim(), item=[{nm:nm,ad:ad,src:sr,due:Math.round(cd)}], ch='C|'+Math.round(cd)+'|'+nm+'|'+ad+'|'+sr;
+      var sr=String(c.source==null?'':c.source).trim(), item=[{nm:nm,ad:ad,src:sr,due:Math.round(cd)}], ch='v2C|'+Math.round(cd)+'|'+nm+'|'+ad+'|'+sr;
       ids.push(cid); nextHashes[cid]=ch;
       if(force||hashes[cid]!==ch||prev.indexOf(cid)<0) ops.push({id:cid,data:{ownerUid:u,due:Math.round(cd),nm:nm,ad:ad,n:1,cs:JSON.stringify(item),upd:window.FB.serverTimestamp()}});
     }
@@ -9785,11 +9786,17 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
   }
   var autoBusy=false;
   async function autoDue(){
-    var on=false; try{ on=localStorage.getItem('dcu_due_auto')!=='0'; }catch(e){ on=true; }
-    if(!on||autoBusy||!uid()) return;
+    if(!uid()) return;
+    if(autoBusy){ dueDirty=true; return; }
     var A=window.__app; if(!A||!A.getCustomers||!A.getCustomers().length) return;
-    autoBusy=true; try{ await publishDue(false); }catch(e){ console.warn('auto due',e); } autoBusy=false;
+    autoBusy=true;
+    try{ var n=await publishDue(false); window.__dueLast={t:Date.now(),n:n,err:''}; }
+    catch(e){ console.warn('auto due',e); window.__dueLast={t:Date.now(),n:0,err:(e&&e.code==='permission-denied')?'rules':'net'}; }
+    autoBusy=false;
+    if(dueDirty){ dueDirty=false; setTimeout(autoDue,500); }
   }
+  var dueDirty=false, dueTimer=0;
+  window.__rgceDueSoon=function(){ clearTimeout(dueTimer); dueTimer=setTimeout(autoDue,2500); };
 
   /* ================= floating "+" button ================= */
   function closeFab(){ var m=$('#dcuFabMenu'),b=$('#dcuFabBtn'); if(m&&!m.hidden){ m.hidden=true; if(b){ b.setAttribute('aria-expanded','false'); b.classList.remove('open'); } } }
@@ -9962,26 +9969,21 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
     body.appendChild(sec); resetForm(); renderAdminList();
     var sec2=D.createElement('div'); sec2.id='dcuAdmDue'; sec2.setAttribute('data-no-bn','');
     sec2.innerHTML='<h3>'+esc(tt('dueAdmH'))+'</h3><p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">'+esc(tt('dueAdmNote'))+'</p>'
-      +'<label style="display:flex;gap:8px;align-items:center;margin-bottom:10px;font-size:13.5px"><input type="checkbox" id="dcuDueAuto"> '+esc(tt('dueAuto'))+'</label>'
-      +'<button type="button" class="btn btn-primary" id="dcuDuePub">'+esc(tt('duePub'))+'</button> <button type="button" class="btn btn-danger" id="dcuDueRem">'+esc(tt('dueRem'))+'</button>'
       +'<div id="dcuDueMsg" role="status" style="min-height:20px;margin:8px 0;font-size:13px"></div>'
       +'<details><summary style="cursor:pointer;font-size:13px">'+esc(tt('dueRules'))+'</summary><textarea readonly id="dcuRules" rows="12" style="width:100%;font:12px/1.4 monospace;margin-top:6px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--input-bg);color:var(--text)"></textarea></details>';
     body.appendChild(sec2); $('#dcuRules').value=RULES_TEXT;
     var dm=function(m,ok){ var e=$('#dcuDueMsg'); if(e){ e.textContent=m||''; e.style.color=ok?'var(--success)':'var(--danger)'; } };
-    var ck=$('#dcuDueAuto'); try{ ck.checked=localStorage.getItem('dcu_due_auto')!=='0'; }catch(e){ ck.checked=true; }
-    ck.addEventListener('change',function(){ try{ localStorage.setItem('dcu_due_auto',ck.checked?'1':'0'); }catch(e){} });
-    $('#dcuDuePub').addEventListener('click',async function(){
+    var dueStat=function(){
+      if(!$('#dcuDueMsg')) return;
+      var L=window.__dueLast;
       if(!uid()){ dm(tt('admLogin')); return; }
-      dm('\u2026');
-      try{ var c=await publishDue(true,dm); if(c!==0||true){ if(window.__app.getCustomers().length) dm(tt('dueDone')+' '+c,true); } }
-      catch(e){ console.warn(e); dm(e&&e.code==='permission-denied'?tt('dueRulesFail'):tt('dueErr')); }
-    });
-    $('#dcuDueRem').addEventListener('click',async function(){
-      if(!uid()){ dm(tt('admLogin')); return; }
-      if(!confirm(tt('dueRem')+'?')) return;
-      try{ await removeAllDue(); dm(tt('dueRemoved'),true); }
-      catch(e){ console.warn(e); dm(e&&e.code==='permission-denied'?tt('dueRulesFail'):tt('dueErr')); }
-    });
+      if(!L){ dm('Auto-sync ON \u2014 starting\u2026',true); return; }
+      if(L.err==='rules'){ dm(tt('dueRulesFail')); return; }
+      if(L.err){ dm(tt('dueErr')); return; }
+      var d=new Date(L.t); dm('Auto-sync ON \u2014 last checked '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+' \u00b7 '+L.n+' records live',true);
+    };
+    dueStat(); var dueSt=setInterval(function(){ if(!$('#dcuDueMsg')){ clearInterval(dueSt); return; } dueStat(); },2000);
+    try{ autoDue(); }catch(e){}
     if(!uid()) admMsg(tt('admLogin'));
     var tkb=$('#dcuTkOn'); tkb.checked=!!N.on;
     tkb.addEventListener('change',async function(){
