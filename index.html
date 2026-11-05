@@ -9708,6 +9708,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
         var due=+x.due||0;
         return '<div class="dcu-due-card '+(due>0?'bad':'good')+'"><div>'+esc(tt('dueName'))+': <b>'+esc(x.nm||'-')+'</b></div>'
           +(x.ad?'<div>'+esc(tt('dueAddr'))+': '+esc(x.ad)+'</div>':'')
+          +(x.src?'<div>Source: '+esc(x.src)+'</div>':'')
           +(due>0?'<div>'+esc(tt('dueAmt'))+'</div><div class="big">'+esc(money(due))+'</div>':'<div class="big">'+esc(tt('dueClear'))+'</div>')
           +(upd?'<div class="sm">'+esc(tt('dueUpd'))+': '+esc(upd)+'</div>':'')+'</div>';
       }).join('')+'<div class="sm" style="margin-top:8px">'+esc(tt('dueCall'))+': '+esc(SHOP.phone)+'</div>';
@@ -10221,10 +10222,11 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       try{ if(f.upd&&f.upd.timestampValue) upd=new Date(f.upd.timestampValue).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }catch(e){}
       var arr=null; try{ if(f.cs&&f.cs.stringValue) arr=JSON.parse(f.cs.stringValue); }catch(e){}
       if(!arr||!arr.length) arr=[{nm:nm,ad:ad,due:due}];       // older records: single combined entry
-      slips=arr.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',due:Number(x.due)||0,upd:upd,ph:p}; });
+      slips=arr.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',src:String(x.src==null?'':x.src).trim(),due:Number(x.due)||0,upd:upd,ph:p}; });
       var eye='<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
       var cards=slips.map(function(x,i){
         return '<div class="rbox '+(x.due>0?'bad':'good')+'"><div class="rcard-nm">Name: <b>'+esc(x.nm)+'</b></div>'+(x.ad?'<div>Address: '+esc(x.ad)+'</div>':'')
+          +(x.src?'<div>Source: '+esc(x.src)+'</div>':'')
           +(x.due>0?'<div style="margin-top:8px">Current due</div><div class="big">'+esc(money(x.due))+'</div>':'<div class="big" style="font-size:20px;margin-top:8px">No due. Thank you!</div>')
           +'<button class="slipbtn" data-i="'+i+'" type="button">'+eye+'View slip</button></div>';
       }).join('');
