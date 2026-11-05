@@ -9737,7 +9737,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var cd=Math.max(0,due-paid);
       phs.forEach(function(ph){
         var x=g[ph]||(g[ph]={due:0,names:[],addrs:[],n:0,list:[]});
-        x.due+=cd; x.n++; if(x.list.length<25) x.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),due:Math.round(cd)}); var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
+        x.due+=cd; x.n++; if(x.list.length<25) x.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),src:String(c.source==null?'':c.source).trim(),due:Math.round(cd)}); var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
       });
     });
     return g;
@@ -9759,7 +9759,7 @@ html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
       var nm=String(c.name||'').trim()||'-', ad=String(c.address||'').trim(), cd=Math.max(0,(+c.due||0)-(+c.paid||0));
       var cid='c'+await sha('rgce-due-cust-v1:'+(c.id||(nm+'|'+ad)));
       if(ids.indexOf(cid)>=0) continue;
-      var item=[{nm:nm,ad:ad,due:Math.round(cd)}], ch='C|'+Math.round(cd)+'|'+nm+'|'+ad;
+      var sr=String(c.source==null?'':c.source).trim(), item=[{nm:nm,ad:ad,src:sr,due:Math.round(cd)}], ch='C|'+Math.round(cd)+'|'+nm+'|'+ad+'|'+sr;
       ids.push(cid); nextHashes[cid]=ch;
       if(force||hashes[cid]!==ch||prev.indexOf(cid)<0) ops.push({id:cid,data:{ownerUid:u,due:Math.round(cd),nm:nm,ad:ad,n:1,cs:JSON.stringify(item),upd:window.FB.serverTimestamp()}});
     }
