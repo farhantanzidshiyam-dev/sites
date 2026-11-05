@@ -48,6 +48,7 @@
   })(window.location);
 </script>
   <meta name="theme-color" content="#1f4e79">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23fff' stroke='%230f2d4a' stroke-opacity='.25' stroke-width='2'/%3E%3Ctext x='32' y='38.5' text-anchor='middle' font-family='Segoe UI,Arial,sans-serif' font-weight='800' font-size='18' fill='%230f2d4a'%3ERGCE%3C/text%3E%3C/svg%3E">
   <title>RGCE SparkDesk – Customer Management System</title>
 
   <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
@@ -1315,8 +1316,36 @@
     
     
   </style>
+<style id="rgce-logo-unified">
+/* ONE logo for the whole app: white round shape, navy "RGCE" text. Nothing else (no ring, gradient, gold, icon). Change --rgce-logo-ink to recolour everywhere. */
+:root{--rgce-logo-ink:#0f2d4a}
+.rgce-logo,.dcu-seal-sm.rgce-logo,.official-header .dcu-seal-sm.rgce-logo,.dcu-foot-brand .dcu-seal-sm.rgce-logo,html #authOverlay .auth-brand-mark.rgce-logo,html.dark-preload #authOverlay .auth-brand-mark.rgce-logo,body.dark-mode .dcu-seal-sm.rgce-logo,body.dark-mode #authOverlay .auth-brand-mark.rgce-logo{
+  display:grid!important;place-items:center;border-radius:50%!important;background:#fff!important;color:var(--rgce-logo-ink)!important;
+  font-family:"Segoe UI",Arial,sans-serif!important;font-weight:800!important;letter-spacing:.4px;line-height:1;text-align:center;
+  box-shadow:0 0 0 1px rgba(15,45,74,.16)!important;border:0!important;flex:none;-webkit-user-select:none;user-select:none}
+.dcu-seal-sm.rgce-logo{width:44px;height:44px;font-size:12px}
+.official-header .dcu-seal-sm.rgce-logo{width:68px;height:68px;font-size:16px}
+#authOverlay .auth-brand-mark.rgce-logo{width:48px;height:48px;font-size:13px}
+#rgceSplash .mark{width:120px;height:120px}
+#rgceSplash .mark .rgce-logo{position:absolute;inset:0;width:120px;height:120px;font-size:30px;letter-spacing:1px;opacity:0;transform:none;animation:rhlogo .6s ease .2s forwards;box-shadow:none!important}
+@keyframes rhlogo{to{opacity:1}}
+@media(max-width:700px){.official-header .dcu-seal-sm.rgce-logo{width:52px;height:52px;font-size:13px}}
+</style>
+<style id="rgce-outside-close">
+/* blank space around/below an open modal is "outside": give it room so a tap there is possible even on short modals */
+#modalOverlay.open,#fbmOverlay.open,#rgceSafePanel{min-height:calc(100vh - 150px);cursor:default}
+#rgceSafePanel{align-items:flex-start}
+</style>
 </head>
 <body>
+<div id="rgceSplash" aria-live="polite">
+  <div class="mark"><span class="rgce-logo">RGCE</span></div>
+  <div class="sname" id="rhSname" aria-label="Roza Gift Corner &amp; Electric"></div>
+  <div class="stag">Gifts • Electrical • Cosmetics — Under One Roof</div>
+  <div class="bar"><div id="rhBar"></div></div>
+  <div class="msg" id="rhMsg">Preparing your workspace…</div>
+</div>
+
 <script>
   (function () {
     try {
@@ -1337,7 +1366,7 @@
   <div id="authOverlay" style="display:none">
     <div class="auth-container">
       <div class="auth-brand">
-        <div class="auth-brand-mark"><i class="fas fa-shield-halved"></i></div>
+        <div class="auth-brand-mark rgce-logo" aria-hidden="true">RGCE</div>
         <div class="auth-brand-text">
           <div class="auth-brand-name">RGCE SparkDesk</div>
           <div class="auth-brand-tag">Customer Management System</div>
@@ -1390,7 +1419,7 @@
     </div>
     <!-- LINE 1 -->
     <div class="hdr2-row hdr2-top">
-      <button type="button" class="dcu-brand" data-dcu-act="view:home" data-no-bn title="Home"><span class="dcu-seal-sm" aria-hidden="true">RGC</span><span><b>Roza Gift Corner &amp; Electric</b><small>RGCE SparkDesk</small></span></button>
+      <button type="button" class="dcu-brand" data-dcu-act="view:home" data-no-bn title="Home"><span class="dcu-seal-sm rgce-logo" aria-hidden="true">RGCE</span><span><b>Roza Gift Corner &amp; Electric</b><small>RGCE SparkDesk</small></span></button>
       <button type="button" class="hdr-pill hdr-pill-outline dcu-menu-btn" id="dcuMenuBtn" aria-expanded="false" aria-controls="dcuNav" data-no-bn><i class="fas fa-bars" aria-hidden="true"></i><span data-dcu="menu">Menu</span></button>
       <nav class="dcu-nav" id="dcuNav" aria-label="Main" data-no-bn></nav>
       <div class="hdr2-group">
@@ -1421,9 +1450,67 @@
     </div>
   </header>
 
+<section id="rgceHub" aria-label="Home">
+<section class="hero"><div class="in">
+  <span class="eyebrow rv" style="--d:0">Welcome</span>
+  <h1 class="rv" style="--d:1">Welcome to Roza Gift Corner &amp; Electric.</h1>
+  <p class="rv" style="--d:2">Gifts, electrical and cosmetics under one roof.</p>
+  <div class="gl rv" style="--d:3"></div>
+  <div class="rh-acts rv" style="--d:3" data-no-bn>
+    <button type="button" class="rh-b solid" data-dcu-act="addCustomer"><i class="fas fa-user-plus" aria-hidden="true"></i><span data-dcu="addC">Add customer</span></button>
+    <button type="button" class="rh-b" data-dcu-act="sb:createInvoice"><i class="fas fa-file-invoice" aria-hidden="true"></i><span data-dcu="newInv">Create invoice</span></button>
+    <button type="button" class="rh-b" data-dcu-act="view:customers"><i class="fas fa-users" aria-hidden="true"></i><span data-dcu="custBtn">Customer register</span></button>
+  </div>
+</div></section>
+<div class="rh-grid">
+  <section class="dx rv" style="--d:4" id="rhDx">
+    <p class="sr">Enter your registered contact number to check your due details. No login needed.</p>
+    <div class="dx-head">
+      <span class="dx-chip"><i></i>New • Customer service</span>
+    </div>
+    <div class="dx-body">
+      <div class="bub">
+        <div class="dots" id="rhDots"><b></b><b></b><b></b></div>
+        <p class="typed" id="rhTyped"></p>
+        <p class="sub2" id="rhSub2">Enter your registered contact number, and see your due details instantly. No login needed.</p>
+      </div>
+      <div class="mock">
+        <label class="lab" for="rhDueIn">Contact number</label>
+        <div class="field ok"><span class="flag">BD</span>
+          <input id="rhDueIn" type="tel" inputmode="numeric" autocomplete="off" maxlength="20" enterkeyhint="search" placeholder="01XXXXXXXXX">
+          <button class="fgo" id="rhDueGo" type="button" aria-label="Check due"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="res" id="rhRes" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="dx-foot">
+      <span>Type your number and press Enter.</span>
+      <button type="button" class="dx-cta" id="rhDxGo" data-dcu-act="view:customers" style="border:0;cursor:pointer;font:inherit;font-weight:800">Customer register <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </section>
+  <div class="facts rv" style="--d:5">
+    <div class="fact"><small>Address</small><b>Moshjid Market, Naohata Mor, Mohadevpur, Naogaon</b></div>
+    <div class="fact"><small>Phone</small><b class="ok"><a href="tel:+8801715986646" style="text-decoration:none">+8801715986646</a></b></div>
+  </div>
+  <section class="sv" id="rgceSv" role="region" aria-label="Due slip">
+  <div class="sv-bar">
+    <b class="t" id="rhSvT">Due Slip</b>
+    <button class="svb" id="rhSvOut" type="button" aria-label="Zoom out">&minus;</button>
+    <span class="svz" id="rhSvZ">100%</span>
+    <button class="svb" id="rhSvIn" type="button" aria-label="Zoom in">+</button>
+    <button class="svb txt" id="rhSvFit" type="button">Fit</button>
+    <button class="svb txt" id="rhSvPr" type="button">Print</button>
+    <button class="svb txt gold" id="rhSvDl" type="button">Download PDF</button>
+    <button class="svb txt" id="rhSvClose" type="button" aria-label="Close slip">Close &times;</button>
+  </div>
+  <div class="sv-view" id="rhSvView"><div class="sv-in"><img id="rhSvImg" class="sv-page" alt="Due slip" draggable="false"></div></div>
+  </section>
+</div>
+</section>
+
   <div class="official-header no-print">
     <div class="dcu-hero-bg" aria-hidden="true"><i class="s on"></i><i class="s"></i><i class="s"></i></div>
-    <div class="dcu-seal-sm no-translate" aria-hidden="true">RGC</div>
+    <div class="dcu-seal-sm rgce-logo no-translate" aria-hidden="true">RGCE</div>
     <div class="header-center">
       <div class="shop-name">Roza Gift Corner &amp; Electric</div>
       <div class="tagline">Gifts • Electrical • Cosmetics — Under One Roof</div>
@@ -1813,7 +1900,7 @@
   </div>
 
   <footer class="app-footer no-print">
-    <div class="dcu-foot-brand" data-no-bn><span class="dcu-seal-sm" aria-hidden="true">RGC</span><div><b>Roza Gift Corner &amp; Electric</b><small>RGCE SparkDesk</small></div></div>
+    <div class="dcu-foot-brand" data-no-bn><span class="dcu-seal-sm rgce-logo" aria-hidden="true">RGCE</span><div><b>Roza Gift Corner &amp; Electric</b><small>RGCE SparkDesk</small></div></div>
     <div class="footer-links">
       <a href="#" data-action="dashboard">Dashboard</a>
       <a href="#" data-action="summaryReport">Report</a>
@@ -1882,7 +1969,7 @@
     function adopt(id) { var el = document.getElementById(id), h = host(); if (el && h && el.parentNode !== h) h.insertBefore(el, h.firstChild); return el; }
     function watch(el) {
       if (!el || el.__rgceW) return; el.__rgceW = 1;
-      new MutationObserver(function () { if (el.classList.contains('open')) { try { el.scrollIntoView({ block: 'start' }); window.scrollBy(0, -8); } catch (e) {} } }).observe(el, { attributes: true, attributeFilter: ['class'] });
+      new MutationObserver(function () { if (el.id !== 'modalOverlay' && el.classList.contains('open')) { try { el.scrollIntoView({ block: 'start' }); window.scrollBy(0, -8); } catch (e) {} } }).observe(el, { attributes: true, attributeFilter: ['class'] });
     }
     function init() { watch(adopt('modalOverlay')); watch(adopt('fbmOverlay')); }
     init();
@@ -5854,7 +5941,7 @@
       window.__publicInvoiceMode = true;
       const overlay = document.getElementById('authOverlay');
       if (overlay) overlay.style.display = 'none';
-      document.querySelectorAll('.gov-strip, .hdr2, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
+      document.querySelectorAll('.gov-strip, .hdr2, .official-header, #rgceHub, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
         if (el) el.style.display = 'none';
       });
       let container = document.getElementById('publicInvoiceView');
@@ -6015,7 +6102,7 @@
       window.__publicInvoiceMode = true;
       const overlay = document.getElementById('authOverlay');
       if (overlay) overlay.style.display = 'none';
-      document.querySelectorAll('.gov-strip, .hdr2, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
+      document.querySelectorAll('.gov-strip, .hdr2, .official-header, #rgceHub, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
         if (el) el.style.display = 'none';
       });
       let container = document.getElementById('publicReportView');
@@ -6240,7 +6327,7 @@
       window.__publicInvoiceMode = true;
       const overlay = document.getElementById('authOverlay');
       if (overlay) overlay.style.display = 'none';
-      document.querySelectorAll('.gov-strip, .hdr2, .official-header, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
+      document.querySelectorAll('.gov-strip, .hdr2, .official-header, #rgceHub, .search-wrapper, .app-body, .app-footer, .admin-link').forEach(el => {
         if (el) el.style.display = 'none';
       });
       let container = document.getElementById('publicReportView');
@@ -6892,7 +6979,50 @@
       });
     }
 
-    function handleSidebarAction(action) {
+    /* ===== Extra password for confidential Tools & Settings actions =====
+       Asked EVERY time (never remembered), even when logged in with the master password and unlocked.
+       Only a salted PBKDF2 hash is kept here, not the password itself. To protect more actions, add them to RGCE_TOOLS_LOCKED. */
+    const RGCE_TOOLS_LOCKED = { clearNotes: 'Clear Notes', clearAmountsSource: 'Clear Amounts by Source', clearAllAmounts: 'Clear All Amounts', clearAllData: 'Clear ALL Data' };
+    const RGCE_TOOLS_PW = { salt: 'k/9NkBpUKsZIgDBLyiR/Lg==', iter: 150000, hash: 'o7wrItUL8dih7h6NzcpnmMTh7KVdJR/zf4rOP9OGXEo=' };
+    let rgceToolsFails = 0, rgceToolsLockUntil = 0;
+    function rgceToolsGate(title, cb) {
+      const body = `
+        <div class="warning-box" style="margin-top:0;"><i class="fas fa-shield-halved"></i> Confidential action. Extra security password required.</div>
+        <div class="form-group">
+          <label>Extra password <span class="required">*</span></label>
+          <input type="text" class="modal-password-input rgce-secret" id="toolsPwInput" name="rgce_f_tools" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
+          <div class="password-error" id="toolsPwError">Incorrect password.</div>
+        </div>`;
+      const footer = '<button class="btn" id="toolsPwCancel">Cancel</button><button class="btn btn-primary" id="toolsPwSubmit">Continue</button>';
+      openModal(title, body, footer);
+      document.getElementById('toolsPwCancel').addEventListener('click', closeModal);
+      const submit = document.getElementById('toolsPwSubmit');
+      const errEl = document.getElementById('toolsPwError');
+      const fail = t => { errEl.textContent = t; errEl.classList.add('visible'); errEl.style.display = 'block'; };
+      submit.addEventListener('click', async () => {
+        if (Date.now() < rgceToolsLockUntil) { fail('Too many wrong attempts. Wait 1 minute.'); return; }
+        if (!(window.crypto && crypto.subtle)) { fail('Secure context (https) required.'); return; }
+        submit.disabled = true;
+        let ok = false;
+        try { ok = (await rgceDerive(document.getElementById('toolsPwInput').value, RGCE_TOOLS_PW.salt, RGCE_TOOLS_PW.iter)) === RGCE_TOOLS_PW.hash; } catch (e) { fail('Could not verify.'); submit.disabled = false; return; }
+        submit.disabled = false;
+        if (ok) { rgceToolsFails = 0; closeModal(); cb(); return; }
+        rgceToolsFails++;
+        if (rgceToolsFails >= 5) { rgceToolsLockUntil = Date.now() + 60000; rgceToolsFails = 0; fail('Too many wrong attempts. Wait 1 minute.'); }
+        else { fail('Incorrect password.'); const i = document.getElementById('toolsPwInput'); i.value = ''; i.focus(); }
+      });
+      setTimeout(() => {
+        const inp = document.getElementById('toolsPwInput');
+        if (inp) { inp.focus(); inp.addEventListener('keydown', e => { if (e.key === 'Enter') submit.click(); }); }
+      }, 100);
+    }
+
+    function handleSidebarAction(action, toolsPassed) {
+      if (RGCE_TOOLS_LOCKED[action] && !toolsPassed) {
+        if (!rgceRequireLogin()) return;
+        rgceToolsGate(RGCE_TOOLS_LOCKED[action], () => handleSidebarAction(action, true));
+        return;
+      }
       if (['refreshFromCloud', 'googleSheets'].indexOf(action) >= 0 && !rgceRequireLogin()) return;
       rgceOnAction(action);
       switch (action) {
@@ -9169,7 +9299,6 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
 .modal-overlay .modal-box{max-width:1100px;margin:0 auto;max-height:none;overflow:visible;width:100%}
 .modal-overlay .modal-box.narrow,.modal-overlay .modal-box.pay-modal{max-width:640px}
 .modal-overlay .modal-header{position:sticky;top:0;z-index:5}
-.app-body:has(> #modalOverlay.open) > :not(#modalOverlay):not(#fbmOverlay):not(#rgceSafePanel),
 .app-body:has(> #fbmOverlay.open) > :not(#modalOverlay):not(#fbmOverlay):not(#rgceSafePanel),
 .app-body:has(> #rgceSafePanel) > :not(#modalOverlay):not(#fbmOverlay):not(#rgceSafePanel){display:none !important}
 #fbmOverlay{position:static;inset:auto;z-index:auto;background:none;padding:0;display:none;width:100%}
@@ -9186,6 +9315,148 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
 .rgce-unlock .ub-err.visible{display:block}
 .rgce-unlock[data-state="open"] .ub-t{color:#9be7a9}
 @media print{.rgce-unlock{display:none !important}}
+
+/* ===== RGCE hub home (merged) ===== */
+#rgceHub .ok,#rgceHub .ok *{-webkit-user-select:text;user-select:text}
+#rgceHub svg{-webkit-user-drag:none}
+#rgceHub .hero{background:linear-gradient(135deg,var(--rh-navy) 0%,var(--rh-navy2) 100%);color:#fff;position:relative;overflow:hidden}
+#rgceHub .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,#000,transparent)}
+#rgceHub .eyebrow{display:inline-block;color:var(--rh-gold);font-weight:700;font-size:12.5px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+#rgceHub .hero h1{margin:0;font-size:clamp(28px,6vw,48px);line-height:1.15;font-weight:800;max-width:16ch}
+#rgceHub .hero p{margin:14px 0 0;max-width:46ch;opacity:.85;font-size:clamp(15px,2.6vw,17px)}
+#rgceHub .gl{margin-top:24px;height:3px;width:84px;background:var(--rh-gold);border-radius:3px}
+#rgceHub .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#rgceHub .dx{position:relative;overflow:hidden;border-radius:22px;padding:28px;color:#fff;background:radial-gradient(120% 140% at 0% 0%,#1f4e79 0%,#0f2d4a 55%,#0a2036 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 44px rgba(15,45,74,.28)}
+#rgceHub .dx::before{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(212,167,44,.35),transparent 68%);pointer-events:none}
+#rgceHub .dx-head{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative}
+#rgceHub .dx-chip{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--rh-gold);background:rgba(212,167,44,.12);border:1px solid rgba(212,167,44,.35);padding:6px 12px;border-radius:999px}
+#rgceHub .dx-chip i{width:7px;height:7px;border-radius:50%;background:var(--rh-gold);box-shadow:0 0 0 0 rgba(212,167,44,.6);animation:rhpulse 1.8s infinite}
+@keyframes rhpulse{70%{box-shadow:0 0 0 9px rgba(212,167,44,0)}100%{box-shadow:0 0 0 0 rgba(212,167,44,0)}}
+#rgceHub .dx-body{display:grid;grid-template-columns:1.25fr 1fr;gap:26px;align-items:center;margin-top:20px;position:relative}
+#rgceHub .bub{position:relative;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:6px 20px 20px 20px;padding:20px 22px;min-height:112px;backdrop-filter:blur(4px)}
+#rgceHub .dots{display:inline-flex;gap:6px;align-items:center;height:26px;transition:opacity .25s,height .3s,margin .3s}
+#rgceHub .dots b{width:9px;height:9px;border-radius:50%;background:var(--rh-gold);animation:rhbn 1.05s infinite ease-in-out}
+#rgceHub .dots b:nth-child(2){animation-delay:.16s}
+#rgceHub .dots b:nth-child(3){animation-delay:.32s}
+@keyframes rhbn{0%,70%,100%{transform:translateY(0);opacity:.45}35%{transform:translateY(-7px);opacity:1}}
+#rgceHub .dots.hide{opacity:0;height:0;margin:0}
+#rgceHub .typed{margin:0;font-size:clamp(17px,3.4vw,21px);font-weight:700;line-height:1.35}
+#rgceHub .typed em{font-style:normal;color:var(--rh-gold)}
+#rgceHub .typed::after{content:"";display:inline-block;width:2px;height:1.05em;background:var(--rh-gold);margin-left:3px;vertical-align:-3px;animation:rhbl .8s steps(1) infinite}
+#rgceHub .typed.done::after{display:none}
+@keyframes rhbl{50%{opacity:0}}
+#rgceHub .sub2{margin:10px 0 0;font-size:14px;color:rgba(255,255,255,.72);opacity:0;transform:translateY(6px);transition:opacity .6s,transform .6s}
+#rgceHub .sub2.on{opacity:1;transform:none}
+#rgceHub .mock{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:16px 18px}
+#rgceHub .mock .lab{display:block;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700}
+#rgceHub .field{margin-top:8px;display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.18);border-radius:11px;padding:12px 14px;font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:17px;letter-spacing:2px;min-height:48px}
+#rgceHub .field .flag{font-family:inherit;letter-spacing:0;font-size:13px;color:var(--rh-gold);font-weight:700;border-right:1px solid rgba(255,255,255,.2);padding-right:10px}
+#rgceHub .field{transition:border-color .2s,box-shadow .2s}
+#rgceHub .field:focus-within{border-color:var(--rh-gold);box-shadow:0 0 0 3px rgba(212,167,44,.22)}
+#rgceHub .field input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:inherit;letter-spacing:inherit;padding:0;-webkit-user-select:text;user-select:text}
+#rgceHub .field input::placeholder{color:rgba(255,255,255,.38)}
+#rgceHub .fgo{flex:none;appearance:none;border:0;width:34px;height:34px;border-radius:50%;background:var(--rh-gold);color:#16283a;display:grid;place-items:center;cursor:pointer;transition:transform .2s var(--rh-ease)}
+#rgceHub .fgo:hover{transform:translateX(2px)}
+#rgceHub .fgo svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+#rgceHub .rbox{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.82)}
+#rgceHub .rbox b{color:#fff}
+#rgceHub .rbox .big{font-size:28px;font-weight:800;line-height:1.2;margin:2px 0 4px}
+#rgceHub .rbox.bad .big{color:#ffb4a8}
+#rgceHub .rbox.good .big{color:#7ee0a3}
+#rgceHub .rbox.warn{color:#ffd88a;border-color:rgba(255,216,138,.4)}
+#rgceHub .slipbtn{appearance:none;margin-top:12px;display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);font:inherit;font-weight:600;font-size:13.5px;padding:9px 15px;border-radius:9px;cursor:pointer;transition:background .2s}
+#rgceHub .slipbtn:hover{background:rgba(255,255,255,.12)}
+#rgceHub .slipbtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+#rgceHub .pw{flex:0 0 100%;text-align:center;font-size:12.5px;color:#9db3c9;border-top:1px solid rgba(255,255,255,.12);padding-top:12px}
+#rgceHub .pw b{color:var(--rh-gold);font-weight:700}
+#rgceHub .rbox .sm{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px}
+#rgceHub .res{margin-top:12px;display:grid;gap:8px;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
+#rgceHub .res.on{opacity:1;transform:none}
+#rgceHub .res .row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,.75)}
+#rgceHub .res .sk{height:10px;border-radius:6px;background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.28),rgba(255,255,255,.1));background-size:200% 100%;animation:rhsh 1.4s linear infinite}
+@keyframes rhsh{to{background-position:-200% 0}}
+#rgceHub .res .ok2{display:inline-flex;align-items:center;gap:6px;color:#7ee0a3;font-weight:700}
+#rgceHub .res .ok2 svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+#rgceHub .dx-foot{margin-top:22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:relative}
+#rgceHub .dx-foot span{font-size:13px;color:rgba(255,255,255,.65)}
+#rgceHub .dx-cta{display:inline-flex;align-items:center;gap:10px;background:var(--rh-gold);color:#16283a;font-weight:800;text-decoration:none;padding:12px 22px;border-radius:11px;transition:transform .2s var(--rh-ease),box-shadow .2s var(--rh-ease)}
+#rgceHub .dx-cta:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(212,167,44,.35)}
+#rgceHub .dx-cta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:720px){#rgceHub .dx{padding:22px}#rgceHub .dx-body{grid-template-columns:1fr;gap:16px}}
+#rgceHub .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+#rgceHub .fact{background:var(--rh-card);border:1px solid var(--rh-line);border-radius:16px;box-shadow:var(--rh-sh);padding:20px 26px}
+#rgceHub .fact small{display:block;color:var(--rh-muted);font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+#rgceHub .fact b{font-weight:600;font-size:15px}
+@keyframes rhrv{to{opacity:1;transform:none}}
+#rgceSplash{position:fixed;inset:0;z-index:50;background:radial-gradient(circle at 50% 38%,#1f4e79 0%,#0f2d4a 62%,#0a2036 100%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;transition:opacity .6s var(--rh-ease),transform .6s var(--rh-ease),visibility .6s}
+#rgceSplash.out{opacity:0;transform:scale(1.04);visibility:hidden}
+#rgceSplash .mark{position:relative;width:120px;height:120px}
+#rgceSplash .mark svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+#rgceSplash .mark .ring{fill:none;stroke:rgba(255,255,255,.14);stroke-width:3}
+#rgceSplash .mark .arc{fill:none;stroke:var(--rh-gold);stroke-width:3;stroke-linecap:round;stroke-dasharray:327;stroke-dashoffset:327;animation:rharc 1.5s var(--rh-ease) .15s forwards}
+@keyframes rharc{to{stroke-dashoffset:0}}
+#rgceSplash .mark span{position:absolute;inset:14px;border-radius:50%;background:#fff;color:var(--rh-navy);display:grid;place-items:center;font-weight:800;font-size:26px;letter-spacing:1px;opacity:0;transform:scale(.7);animation:rhpop .7s var(--rh-ease) .5s forwards;box-shadow:0 0 0 0 rgba(212,167,44,.5)}
+@keyframes rhpop{60%{transform:scale(1.06)}to{opacity:1;transform:scale(1);box-shadow:0 0 0 14px rgba(212,167,44,0)}}
+#rgceSplash .sname{margin:26px 0 0;font-size:clamp(20px,5vw,28px);font-weight:700;letter-spacing:.3px;display:flex;flex-wrap:wrap;justify-content:center;padding:0 20px;text-align:center}
+#rgceSplash .sname i{font-style:normal;opacity:0;transform:translateY(8px);animation:rhch .5s var(--rh-ease) forwards;white-space:pre}
+@keyframes rhch{to{opacity:1;transform:none}}
+#rgceSplash .stag{margin:8px 0 0;color:var(--rh-gold);font-style:italic;font-size:14px;opacity:0;animation:rhch .6s var(--rh-ease) 1.5s forwards}
+#rgceSplash .bar{margin-top:34px;width:min(260px,70vw);height:3px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+#rgceSplash .bar div{height:100%;width:0;background:linear-gradient(90deg,var(--rh-gold),#f1d27a);border-radius:3px;transition:width .5s var(--rh-ease)}
+#rgceSplash .msg{margin-top:12px;font-size:12.5px;letter-spacing:.6px;opacity:.7;min-height:18px;transition:opacity .25s}
+#rgceSv.sv{position:fixed;inset:0;z-index:70;background:rgba(8,20,34,.94);display:none;flex-direction:column;padding-top:env(safe-area-inset-top)}
+#rgceSv.on{display:flex}
+#rgceSv .sv-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#0f2d4a;color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+#rgceSv .sv-bar .t{margin-right:auto;font-size:16px}
+#rgceSv .svb{appearance:none;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-weight:600;font-size:14px;min-width:38px;height:38px;padding:0 12px;border-radius:9px;cursor:pointer;line-height:1}
+#rgceSv .svb:hover{background:rgba(255,255,255,.18)}
+#rgceSv .svb.gold{background:var(--rh-gold);border-color:var(--rh-gold);color:#16283a}
+#rgceSv .svb.gold:hover{filter:brightness(1.06)}
+#rgceSv .svz{min-width:48px;text-align:center;font-size:13.5px;font-variant-numeric:tabular-nums}
+#rgceSv .sv-view{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:18px;touch-action:pan-x pan-y}
+#rgceSv .sv-in{width:max-content;min-width:100%;display:flex;justify-content:center}
+#rgceSv .sv-page{display:block;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.55);max-width:none;height:auto;-webkit-user-select:none;user-select:none}
+@keyframes rhsp{to{transform:rotate(360deg)}}
+#rgceHub,#rgceSplash,#rgceSv{--rh-navy:#0f2d4a;--rh-navy2:#1f4e79;--rh-gold:#d4a72c;--rh-ink:#142234;--rh-muted:#5b6776;--rh-line:#dde5ee;--rh-sh:0 10px 30px rgba(15,45,74,.10);--rh-ease:cubic-bezier(.22,.8,.26,1)}
+#rgceHub{display:block;margin:20px auto 0;max-width:1320px;width:calc(100% - 40px);font-family:"Segoe UI","Noto Sans Bengali",Arial,sans-serif;line-height:1.55;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html[data-dcu-view="customers"] #rgceHub{display:none}
+#rgceHub *{box-sizing:border-box}
+#rgceHub .in{position:relative;padding:44px 32px 40px}
+#rgceHub .hero{border-radius:22px;margin-bottom:20px}
+#rgceHub .hero h1{color:#fff}
+#rgceHub .rh-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;position:relative}
+#rgceHub .rh-b{appearance:none;display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:700;font-size:14px;padding:10px 16px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,.7);background:rgba(255,255,255,.08);color:#fff;transition:background .2s,transform .2s}
+#rgceHub .rh-b:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+#rgceHub .rh-b.solid{background:#fff;color:#1f4e79;border-color:#fff}
+#rgceHub .rh-grid{display:grid;gap:20px}
+#rgceHub .dx{scroll-margin-top:150px}
+#rgceHub .fact{background:var(--panel,#fff);color:var(--text,#142234);border:1px solid var(--border,#dde5ee);border-radius:16px;box-shadow:var(--rh-sh);padding:20px 26px}
+#rgceHub .fact small{color:var(--muted,#5b6776)}
+#rgceHub .fact a{color:inherit}
+#rgceHub .rv{opacity:0;transform:translateY(16px)}
+#rgceHub.ready .rv{animation:rhrv .7s var(--rh-ease) forwards;animation-delay:calc(var(--d,0)*120ms)}
+#rgceHub .dx input{margin:0}
+#rgceHub button{font-family:inherit}
+html:not([data-dcu-view="customers"]) .official-header,
+html:not([data-dcu-view="customers"]) #dcuDue{display:none!important}
+html:not([data-dcu-view="customers"]) .dcu-home-grid{grid-template-columns:1fr}
+#rgceSplash{display:none;position:fixed;inset:0;z-index:2147483000;background:radial-gradient(circle at 50% 38%,#1f4e79 0%,#0f2d4a 62%,#0a2036 100%);color:#fff;flex-direction:column;align-items:center;justify-content:center;font-family:"Segoe UI","Noto Sans Bengali",Arial,sans-serif}
+#rgceSplash.show{display:flex}
+#rgceSv.sv{position:relative;inset:auto;z-index:auto;padding-top:0;border-radius:22px;overflow:hidden;background:radial-gradient(120% 140% at 0% 0%,#1f4e79 0%,#0f2d4a 55%,#0a2036 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 44px rgba(15,45,74,.28);scroll-margin-top:90px}
+#rgceSv.on{display:flex}
+#rgceSv .sv-view{flex:none;height:min(88vh,1250px);min-height:420px;background:rgba(0,0,0,.18)}
+#rgceHub .rcards{display:grid;gap:10px}
+#rgceHub .rcount{font-size:12.5px;color:rgba(255,255,255,.75);font-weight:600}
+#rgceHub .rcard-nm{font-size:15px}
+.dcu-due-card{padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel)}
+.dcu-due-card+.dcu-due-card{margin-top:10px}
+.dcu-due-card.bad .big{color:var(--danger)}
+.dcu-due-card.good .big{color:var(--success)}
+.dcu-due-count{font-size:12.5px;color:var(--muted);margin-bottom:8px;font-weight:600}
+@media (prefers-reduced-motion:reduce){#rgceHub *,#rgceHub *::before,#rgceHub *::after,#rgceSplash *{animation-duration:.01ms!important;animation-delay:0ms!important;transition-duration:.01ms!important}#rgceHub .rv{opacity:1;transform:none}}
+@media (max-width:600px){#rgceHub{width:calc(100% - 24px);margin-top:12px}#rgceHub .in{padding:30px 20px 28px}}
+@media print{#rgceHub,#rgceSplash,#rgceSv{display:none!important}}
+
 </style>
 
 <script id="dcu-lang-chip">
@@ -9424,19 +9695,27 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
     var now=Date.now(); lookups=lookups.filter(function(t){return now-t<60000;});
     if(lookups.length>=5){ out.className='dcu-due-res warn'; out.textContent=tt('dueWait'); return; }
     lookups.push(now);
+    function listOf(d){
+      var arr=null; try{ if(typeof d.cs==='string') arr=JSON.parse(d.cs); else if(Array.isArray(d.cs)) arr=d.cs; }catch(e){}
+      if(!arr||!arr.length) arr=[{nm:d.nm,ad:d.ad,due:+d.due||0}];
+      return arr;
+    }
     function show(d,upd){
-      var due=+d.due||0;
-      out.className='dcu-due-res '+(due>0?'bad':'good');
-      out.innerHTML='<div>'+esc(tt('dueName'))+': <b>'+esc(d.nm||'-')+'</b></div>'
-        +(d.ad?'<div>'+esc(tt('dueAddr'))+': '+esc(d.ad)+'</div>':'')
-        +(due>0?'<div>'+esc(tt('dueAmt'))+'</div><div class="big">'+esc(money(due))+'</div>':'<div class="big">'+esc(tt('dueClear'))+'</div>')
-        +(upd?'<div class="sm">'+esc(tt('dueUpd'))+': '+esc(upd)+'</div>':'')
-        +'<div class="sm">'+esc(tt('dueCall'))+': '+esc(SHOP.phone)+'</div>';
+      var arr=listOf(d);
+      var head=arr.length>1?'<div class="dcu-due-count">'+arr.length+' customers use this number</div>':'';
+      out.className='dcu-due-res';
+      out.innerHTML=head+arr.map(function(x){
+        var due=+x.due||0;
+        return '<div class="dcu-due-card '+(due>0?'bad':'good')+'"><div>'+esc(tt('dueName'))+': <b>'+esc(x.nm||'-')+'</b></div>'
+          +(x.ad?'<div>'+esc(tt('dueAddr'))+': '+esc(x.ad)+'</div>':'')
+          +(due>0?'<div>'+esc(tt('dueAmt'))+'</div><div class="big">'+esc(money(due))+'</div>':'<div class="big">'+esc(tt('dueClear'))+'</div>')
+          +(upd?'<div class="sm">'+esc(tt('dueUpd'))+': '+esc(upd)+'</div>':'')+'</div>';
+      }).join('')+'<div class="sm" style="margin-top:8px">'+esc(tt('dueCall'))+': '+esc(SHOP.phone)+'</div>';
     }
     out.className='dcu-due-res'; out.textContent='\u2026';
     try{
       /* signed-in staff already hold the data: answer from it directly (works even before anything is published) */
-      if(uid()){ var lg=buildDueGroups()[p]; if(lg){ show({due:lg.due,nm:lg.names.join(', '),ad:lg.addrs.join(' | ')},''); return; } }
+      if(uid()){ var lg=buildDueGroups()[p]; if(lg){ show({due:lg.due,nm:lg.names.join(', '),ad:lg.addrs.join(' | '),cs:JSON.stringify(lg.list)},''); return; } }
       if(!window.FB||!(window.crypto&&crypto.subtle)) throw new Error('n/a');
       var id='p'+await sha('rgce-due-v1:'+p);
       var snap=await getFresh(window.FB.doc(window.FB.db,'public_dues',id));
@@ -9457,8 +9736,8 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
       var due=+c.due||0, paid=+c.paid||0; if(due===0&&paid===0) return;     // "Hidden Due" status = nothing to show
       var cd=Math.max(0,due-paid);
       phs.forEach(function(ph){
-        var x=g[ph]||(g[ph]={due:0,names:[],addrs:[],n:0});
-        x.due+=cd; x.n++; var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
+        var x=g[ph]||(g[ph]={due:0,names:[],addrs:[],n:0,list:[]});
+        x.due+=cd; x.n++; if(x.list.length<25) x.list.push({nm:String(c.name||'').trim()||'-',ad:String(c.address||'').trim(),due:Math.round(cd)}); var m=String(c.name||'').trim()||'-'; if(x.names.indexOf(m)<0&&x.names.length<3) x.names.push(m); var ad=String(c.address||'').trim(); if(ad&&x.addrs.indexOf(ad)<0&&x.addrs.length<3) x.addrs.push(ad);
       });
     });
     return g;
@@ -9470,9 +9749,9 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
     var pr=await getFresh(window.FB.doc(db,'private_config',u)), prev=((pr&&pr.exists&&pr.exists()&&pr.data().dcuDueIds)||[]);
     var hashes=loadHashes(), nextHashes={}, ops=[], ids=[];
     for(var i=0;i<phones.length;i++){
-      var id='p'+await sha('rgce-due-v1:'+phones[i]), x=groups[phones[i]], h=Math.round(x.due)+'|'+x.names.join(',')+'|'+x.addrs.join(',')+'|'+x.n;
+      var id='p'+await sha('rgce-due-v1:'+phones[i]), x=groups[phones[i]], h=Math.round(x.due)+'|'+x.names.join(',')+'|'+x.addrs.join(',')+'|'+x.n+'|'+JSON.stringify(x.list);
       ids.push(id); nextHashes[id]=h;
-      if(force||hashes[id]!==h||prev.indexOf(id)<0) ops.push({id:id,data:{ownerUid:u,due:Math.round(x.due),nm:x.names.join(', '),ad:x.addrs.join(' | '),n:x.n,upd:window.FB.serverTimestamp()}});
+      if(force||hashes[id]!==h||prev.indexOf(id)<0) ops.push({id:id,data:{ownerUid:u,due:Math.round(x.due),nm:x.names.join(', '),ad:x.addrs.join(' | '),n:x.n,cs:JSON.stringify(x.list),upd:window.FB.serverTimestamp()}});
     }
     var del=prev.filter(function(id){return ids.indexOf(id)<0;});
     var all=ops.map(function(o){return {t:'set',o:o};}).concat(del.map(function(id){return {t:'del',id:id};}));
@@ -9786,5 +10065,501 @@ body.dark-mode .dcu-fab>button{color:#0e1218}
   if(D.readyState==='loading') D.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
+<script>
+/* RGCE hub home: splash intro, due-check showcase, due slip viewer */
+(function(){
+  var SEEN='rgc_hub_seen';
+  var $=function(i){return document.getElementById(i)}; var HUB=document.getElementById('rgceHub'); if(!HUB) return;
+  var splash=$('rgceSplash'), bar=$('rhBar'), msg=$('rhMsg');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+
+
+  // shop name types in letter by letter
+  var name='Roza Gift Corner & Electric', box=$('rhSname');
+  name.split('').forEach(function(c,i){
+    var s=document.createElement('i'); s.textContent=c; s.style.animationDelay=(0.4+i*0.035)+'s'; box.appendChild(s);
+  });
+
+  function reveal(){
+    splash.classList.add('out');
+    HUB.classList.add('ready');
+    try{ sessionStorage.setItem(SEEN,'1'); }catch(e){}
+    setTimeout(function(){ splash.style.display='none'; },700);
+  }
+
+  // skip the intro when returning within the same visit
+  var qs=location.search||'', pub=/[?&](inv|rpt|report)=/.test(qs);
+  var showIntro=!pub&&document.documentElement.getAttribute('data-dcu-view')!=='customers';
+  var seen=false; try{ seen=sessionStorage.getItem(SEEN)==='1'; }catch(e){}
+  if(seen||reduce||!showIntro){ splash.style.display='none'; HUB.classList.add('ready'); }
+  else{
+    splash.classList.add('show');
+    var stages=[[18,'Preparing your workspace…'],[46,'Loading shop details…'],[74,'Almost ready…'],[100,'Ready']];
+    var t0=Date.now(), MIN=2300, loaded=document.readyState==='complete', k=0;
+    window.addEventListener('load',function(){ loaded=true; });
+    var timer=setInterval(function(){
+      var el=Date.now()-t0, p=Math.min(el/MIN,1), target=loaded?p:Math.min(p,.8);
+      var pct=Math.round(target*100);
+      bar.style.width=pct+'%';
+      while(k<stages.length&&pct>=stages[k][0]){ msg.textContent=stages[k][1]; k++; }
+      if(pct>=100){ clearInterval(timer); setTimeout(reveal,350); }
+    },90);
+  }
+
+
+  // typing showcase with soft sounds
+  /* Sound is always on (no icon, no mute switch). Built to work on every browser:
+     - the audio engine is (re)started on EVERY kind of tap/click/key, and kept listening, so it recovers if the browser pauses it
+     - iOS/Safari needs a silent buffer played inside the gesture, handled here
+     - if a beep arrives while the engine is still waking up, it waits for it instead of being lost */
+  try{ localStorage.removeItem('rgc_snd'); }catch(e){}      /* old "muted" choice from the removed icon must never silence the app */
+  var AC=window.AudioContext||window.webkitAudioContext, ac=null, master=null;
+  function engine(){
+    if(ac||!AC) return ac;
+    try{ ac=new AC({latencyHint:'interactive'}); }catch(e){ try{ ac=new AC(); }catch(e2){ ac=null; return null; } }
+    try{
+      master=ac.createGain(); master.gain.value=1;
+      var out=master;
+      if(ac.createDynamicsCompressor){ var cp=ac.createDynamicsCompressor(); master.connect(cp); out=cp; }
+      out.connect(ac.destination);
+    }catch(e){ master=null; }
+    return ac;
+  }
+  function unlock(){
+    var c=engine(); if(!c) return;
+    try{
+      if(c.state!=='running'){ var pr=c.resume(); if(pr&&pr.catch) pr.catch(function(){}); }
+      var bf=c.createBuffer(1,1,22050), sr=c.createBufferSource(); sr.buffer=bf; sr.connect(c.destination); sr.start(0);   /* iOS unlock */
+    }catch(e){}
+  }
+  ['pointerdown','pointerup','mousedown','touchstart','touchend','click','keydown','focusin'].forEach(function(ev){ window.addEventListener(ev,unlock,{passive:true,capture:true}); });
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) unlock(); });
+  window.addEventListener('pageshow',unlock);
+  function play(f,d,v,type){
+    try{
+      var o=ac.createOscillator(), g=ac.createGain(), t=ac.currentTime;
+      o.type=type||'triangle'; o.frequency.setValueAtTime(f,t);
+      v=Math.min(v*2,0.22);                                  /* clearer and louder than before, still gentle */
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v,t+0.006); g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+      o.connect(g); g.connect(master||ac.destination); o.start(t); o.stop(t+d+0.03);
+      o.onended=function(){ try{ o.disconnect(); g.disconnect(); }catch(e){} };
+    }catch(e){}
+  }
+  function beep(f,d,v,type){
+    var c=ac; if(!c) return;                                  /* nothing can play before the browser allows audio (first tap/click/key) */
+    if(c.state==='running'){ play(f,d,v,type); return; }
+    try{ var pr=c.resume(); if(pr&&pr.then) pr.then(function(){ if(c.state==='running') play(f,d,v,type); }).catch(function(){}); }catch(e){}
+  }
+  var sleep=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); };
+  async function typeInto(el,html,base){
+    // html may contain <em>…</em>; type visible characters only
+    var parts=html.split(/(<em>|<\/em>)/), out='', open=false;
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i];
+      if(p==='<em>'){ open=true; out+='<em>'; continue; }
+      if(p==='</em>'){ open=false; out+='</em>'; continue; }
+      for(var c=0;c<p.length;c++){
+        out+=p[c]; el.innerHTML=out+(open?'</em>':'');
+        if(p[c]!==' ') beep(base+Math.random()*140,0.035,0.028,'triangle');
+        await sleep(34+Math.random()*46);
+      }
+    }
+  }
+  var ran=false, taken=false;
+  var dueIn=$('rhDueIn');
+  dueIn.addEventListener('focus',function(){ taken=true; dueIn.placeholder='01XXXXXXXXX'; });
+  dueIn.addEventListener('input',function(){ beep(700+Math.random()*140,0.035,0.03,'triangle'); });
+  async function showcase(){
+    if(ran) return; ran=true;
+    var typed=$('rhTyped'), dots=$('rhDots'), sub=$('rhSub2');
+    if(reduce){ dots.classList.add('hide'); typed.innerHTML='Check your due balance with your <em>contact number</em>.'; typed.classList.add('done'); sub.classList.add('on'); return; }
+    for(var k=0;k<3;k++){ beep(520+k*70,0.09,0.035,'sine'); await sleep(420); }
+    dots.classList.add('hide'); await sleep(250);
+    await typeInto(typed,'Check your due balance with your <em>contact number</em>.',520);
+    typed.classList.add('done'); sub.classList.add('on'); await sleep(500);
+    var n='01XXXXXXXXX';
+    for(var i=0;i<n.length&&!taken;i++){ dueIn.placeholder=n.slice(0,i+1); beep(780+Math.random()*120,0.03,0.02,'square'); await sleep(95); }
+  }
+
+  /* ---- real due lookup (reads the public due record the main system publishes) ---- */
+  var FB_PROJECT='rgce-sparkdesk', FB_KEY='AIzaSyAqsPu8YK5xFHEoWTmZLzJl6z9NmchdrEg', SHOP_PHONE='+8801715986646';
+  function normPhone(p){ var d=String(p||'').replace(/[\u09E6-\u09EF]/g,function(c){return String(c.charCodeAt(0)-0x09E6);}).replace(/\D/g,''); if(d.indexOf('00880')===0) d=d.slice(4); else if(d.indexOf('880')===0) d=d.slice(2); if(d.length===10&&d.charAt(0)==='1') d='0'+d; return /^01\d{9}$/.test(d)?d:''; }
+  async function sha(t){ var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)); return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2);}).join(''); }
+  function esc(t){ return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function money(n){ return '\u09F3'+Math.round(n).toLocaleString('en-US'); }
+  var tries=[], busy=false, slip=null, slips=[];
+  function say(cls,html){ var r=$('rhRes'); r.className='res on'; r.innerHTML='<div class="rbox '+cls+'">'+html+'</div>'; }
+  async function checkDue(){
+    if(busy) return;
+    var p=normPhone(dueIn.value);
+    if(!p){ say('warn','Enter a valid mobile number (01XXXXXXXXX).'); beep(260,0.12,0.04,'sine'); return; }
+    var now=Date.now(); tries=tries.filter(function(t){return now-t<60000;});
+    if(tries.length>=5){ say('warn','Too many tries. Please wait a minute.'); return; }
+    tries.push(now); busy=true;
+    $('rhRes').className='res on'; $('rhRes').innerHTML='<div class="rbox"><div class="sk" style="width:70%"></div><div class="sk" style="width:45%;margin-top:8px"></div></div>';
+    beep(640,0.06,0.03,'sine');
+    try{
+      if(!(window.crypto&&crypto.subtle)) throw new Error('n/a');
+      var id='p'+await sha('rgce-due-v1:'+p);
+      var r=await fetch('https://firestore.googleapis.com/v1/projects/'+FB_PROJECT+'/databases/(default)/documents/public_dues/'+id+'?key='+FB_KEY,{cache:'no-store'});
+      if(r.status===404){ say('','No due record found for this number. Please contact the shop.<div class="sm">Shop phone: '+esc(SHOP_PHONE)+'</div>'); beep(330,0.14,0.035,'sine'); return; }
+      if(!r.ok) throw new Error('http '+r.status);
+      var f=(await r.json()).fields||{};
+      var due=Number(f.due&&(f.due.integerValue!==undefined?f.due.integerValue:f.due.doubleValue))||0;
+      var nm=f.nm&&f.nm.stringValue||'-', ad=f.ad&&f.ad.stringValue||'', upd='';
+      try{ if(f.upd&&f.upd.timestampValue) upd=new Date(f.upd.timestampValue).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }catch(e){}
+      var arr=null; try{ if(f.cs&&f.cs.stringValue) arr=JSON.parse(f.cs.stringValue); }catch(e){}
+      if(!arr||!arr.length) arr=[{nm:nm,ad:ad,due:due}];       // older records: single combined entry
+      slips=arr.map(function(x){ return {nm:x.nm||'-',ad:x.ad||'',due:Number(x.due)||0,upd:upd,ph:p}; });
+      var eye='<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+      var cards=slips.map(function(x,i){
+        return '<div class="rbox '+(x.due>0?'bad':'good')+'"><div class="rcard-nm">Name: <b>'+esc(x.nm)+'</b></div>'+(x.ad?'<div>Address: '+esc(x.ad)+'</div>':'')
+          +(x.due>0?'<div style="margin-top:8px">Current due</div><div class="big">'+esc(money(x.due))+'</div>':'<div class="big" style="font-size:20px;margin-top:8px">No due. Thank you!</div>')
+          +'<button class="slipbtn" data-i="'+i+'" type="button">'+eye+'View slip</button></div>';
+      }).join('');
+      var r2=$('rhRes'); r2.className='res on';
+      r2.innerHTML=(slips.length>1?'<div class="rcount">'+slips.length+' customers use this number</div>':'')+'<div class="rcards">'+cards+'</div>'
+        +(upd?'<div class="sm" style="color:rgba(255,255,255,.6);font-size:12px">Updated: '+esc(upd)+'</div>':'')+'<div class="sm" style="color:rgba(255,255,255,.6);font-size:12px">Shop phone: '+esc(SHOP_PHONE)+'</div>';
+      closeViewer();
+      beep(988,0.12,0.04,'sine'); setTimeout(function(){ beep(1318,0.16,0.04,'sine'); },110);
+    }catch(e){ console.warn('due lookup',e); say('warn','Could not check right now. Please try again later.'); }
+    finally{ busy=false; }
+  }
+  /* ---- due slip (simple A4 PDF, no libraries) ---- */
+  function wrap(g,t,max){ var w=String(t).split(/\s+/), lines=[], cur=''; w.forEach(function(x){ var n=cur?cur+' '+x:x; if(g.measureText(n).width>max&&cur){ lines.push(cur); cur=x; } else cur=n; }); if(cur) lines.push(cur); return lines; }
+  function pdfFromJpeg(jpg,w,h){
+    var enc=new TextEncoder(), parts=[], offs=[], len=0;
+    function push(x){ var b=typeof x==='string'?enc.encode(x):x; parts.push(b); len+=b.length; }
+    function obj(n,body){ offs[n]=len; push(n+' 0 obj\n'+body+'\nendobj\n'); }
+    push('%PDF-1.4\n');
+    obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+    obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+    obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+    offs[4]=len; push('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+w+' /Height '+h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>\nstream\n'); push(jpg); push('\nendstream\nendobj\n');
+    var cs='q 595.28 0 0 841.89 0 0 cm /Im0 Do Q';
+    obj(5,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
+    var xr=len; push('xref\n0 6\n0000000000 65535 f \n');
+    for(var k=1;k<=5;k++) push(('0000000000'+offs[k]).slice(-10)+' 00000 n \n');
+    push('trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF');
+    return new Blob(parts,{type:'application/pdf'});
+  }
+  function makeSlip(cb){
+    if(!slip) return;
+    var go=function(){ drawSlip(cb); };
+    var bn=!/^[\x20-\x7E]*$/.test(String(slip.nm)+String(slip.ad));
+    if(bn&&document.fonts&&document.fonts.load){ document.fonts.load('600 30px "Noto Sans Bengali"','\u0985').then(go,go); } else go();
+  }
+  function drawSlip(cb){
+    if(!slip) return;
+    var W=1240,H=1754,c=document.createElement('canvas'); c.width=W; c.height=H; var g=c.getContext('2d');
+    var INK='#111827',MUTED='#6b7280',LINE='#d1d5db',NAVY='#1f4e79',F='"Segoe UI","Noto Sans Bengali",Arial,sans-serif';
+    function T(t,x,y,size,col,wt,al){ g.font=(wt||400)+' '+size+'px '+F; g.fillStyle=col; g.textAlign=al||'left'; g.fillText(t,x,y); }
+    function R(x,y,w,h,col){ g.fillStyle=col; g.fillRect(x,y,w,h); }
+    g.fillStyle='#fff'; g.fillRect(0,0,W,H);
+    var M=110, now=new Date(), pad=function(n){return ('0'+n).slice(-2);};
+    T('Roza Gift Corner & Electric',W/2,170,58,NAVY,800,'center');
+    T('Moshjid Market, Naohata Mor, Mohadevpur, Naogaon',W/2,222,27,MUTED,400,'center');
+    T('Phone: '+SHOP_PHONE,W/2,262,27,MUTED,400,'center');
+    R(M,300,W-2*M,3,NAVY);
+    T('Due Slip',M,392,46,INK,700);
+    T(now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}),W-M,392,28,MUTED,400,'right');
+    var ph=slip.ph, mph=ph.slice(0,3)+'****'+ph.slice(-3);
+    var rows=[['Name',slip.nm],['Address',slip.ad||'-'],['Mobile',mph],['Last updated',slip.upd||'-']];
+    var y=470;
+    rows.forEach(function(r){
+      g.font='600 31px '+F; var ls=wrap(g,r[1],W-2*M-290).slice(0,3);
+      T(r[0],M,y,27,MUTED,400);
+      ls.forEach(function(l,i){ T(l,M+290,y+i*42,31,INK,600); });
+      y+=Math.max(1,ls.length)*42+26; R(M,y-18,W-2*M,2,LINE); y+=26;
+    });
+    var due=slip.due>0; y+=40;
+    T('Current due',W/2,y,30,MUTED,400,'center');
+    T(due?'Tk '+Math.round(slip.due).toLocaleString('en-US'):'No due',W/2,y+112,112,due?'#b42318':'#1a7f4b',800,'center');
+    y+=170; R(W/2-120,y,240,3,LINE);
+    g.font='400 25px '+F; wrap(g,due?'Please clear the due at your earliest convenience. For any query, contact the shop.':'Your account is clear. Thank you!',W-2*M-160).forEach(function(l,i){ T(l,W/2,y+56+i*36,25,MUTED,400,'center'); });
+    R(M,H-170,W-2*M,2,LINE);
+    T('Powered by Farhan Tanzid Shiyam',W/2,H-110,27,NAVY,700,'center');
+    T('Slip generated '+now.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),W/2,H-70,21,MUTED,400,'center');
+    var url=c.toDataURL('image/jpeg',0.92), bin=atob(url.split(',')[1]), u=new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+    cb({url:url,jpg:u,W:W,H:H,name:'Due-Slip-'+ph.slice(-4)+'-'+now.getFullYear()+pad(now.getMonth()+1)+pad(now.getDate())+'.pdf'});
+  }
+  function downloadPdf(o){
+    var a=document.createElement('a'); a.href=URL.createObjectURL(pdfFromJpeg(o.jpg,o.W,o.H)); a.download=o.name;
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1500);
+    beep(880,0.1,0.035,'sine');
+  }
+  function printSlip(o){
+    var f=document.createElement('iframe'); f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+    f.srcdoc='<!doctype html><html><head><meta charset="utf-8"><title>Due Slip</title><style>@page{size:A4;margin:0}html,body{margin:0;padding:0;width:210mm;height:297mm;overflow:hidden;background:#fff}img{display:block;width:210mm;height:297mm;break-inside:avoid;page-break-after:avoid}</style></head><body><img src="'+o.url+'"></body></html>';
+    f.onload=function(){ var im=f.contentDocument.querySelector('img'), go=function(){ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){} setTimeout(function(){ f.remove(); },60000); }; if(im.complete) go(); else im.onload=go; };
+    document.body.appendChild(f);
+  }
+
+  /* ---- in-page slip viewer (zoom, download, print) ---- */
+  var sv=$('rgceSv'), svView=$('rhSvView'), svImg=$('rhSvImg'), svZ=$('rhSvZ'), cur=null, zoom=1;
+  function baseW(){ return Math.min(svView.clientWidth-36, 980); }
+  function applyZ(nz,cx,cy){
+    nz=Math.max(.5,Math.min(4,nz)); var ow=svImg.clientWidth||baseW();
+    var fx=(svView.scrollLeft+cx)/ow, fy=(svView.scrollTop+cy)/(svImg.clientHeight||1);
+    zoom=nz; svImg.style.width=(baseW()*zoom)+'px'; svZ.textContent=Math.round(zoom*100)+'%';
+    var nw=svImg.clientWidth, nh=svImg.clientHeight; svView.scrollLeft=fx*nw-cx; svView.scrollTop=fy*nh-cy;
+  }
+  function mid(){ return {x:svView.clientWidth/2,y:svView.clientHeight/2}; }
+  function openViewer(i){
+    slip=slips[i]; if(!slip) return;
+    makeSlip(function(o){
+      cur=o; svImg.src=o.url; sv.classList.add('on');
+      $('rhSvT').textContent='Due Slip \u2014 '+slip.nm;
+      zoom=1; svImg.style.width=baseW()+'px'; svZ.textContent='100%'; svView.scrollTop=0; svView.scrollLeft=0;
+      try{ sv.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){ sv.scrollIntoView(); }
+    });
+  }
+  function closeViewer(){ var was=sv.classList.contains('on'); sv.classList.remove('on'); svImg.removeAttribute('src'); cur=null; if(was){ try{ $('rhRes').scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} } }
+  $('rhSvIn').addEventListener('click',function(){ var m=mid(); applyZ(zoom+.25,m.x,m.y); });
+  $('rhSvOut').addEventListener('click',function(){ var m=mid(); applyZ(zoom-.25,m.x,m.y); });
+  $('rhSvFit').addEventListener('click',function(){ applyZ(1,0,0); svView.scrollLeft=0; svView.scrollTop=0; });
+  $('rhSvDl').addEventListener('click',function(){ if(cur) downloadPdf(cur); });
+  $('rhSvPr').addEventListener('click',function(){ if(cur) printSlip(cur); });
+  $('rhSvClose').addEventListener('click',closeViewer);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&sv.classList.contains('on')) closeViewer(); });
+  svView.addEventListener('wheel',function(e){ if(!e.ctrlKey) return; e.preventDefault(); var r=svView.getBoundingClientRect(); applyZ(zoom*(e.deltaY<0?1.12:1/1.12),e.clientX-r.left,e.clientY-r.top); },{passive:false});
+  svImg.addEventListener('dblclick',function(e){ var r=svView.getBoundingClientRect(); applyZ(zoom>1.2?1:2.5,e.clientX-r.left,e.clientY-r.top); });
+  var pd=0,pz=1;
+  function dist(t){ var dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.sqrt(dx*dx+dy*dy); }
+  svView.addEventListener('touchstart',function(e){ if(e.touches.length===2){ pd=dist(e.touches); pz=zoom; } },{passive:true});
+  svView.addEventListener('touchmove',function(e){ if(e.touches.length===2&&pd){ e.preventDefault(); var r=svView.getBoundingClientRect(); applyZ(pz*dist(e.touches)/pd,(e.touches[0].clientX+e.touches[1].clientX)/2-r.left,(e.touches[0].clientY+e.touches[1].clientY)/2-r.top); } },{passive:false});
+  svView.addEventListener('touchend',function(e){ if(e.touches.length<2) pd=0; });
+  window.addEventListener('resize',function(){ if(sv.classList.contains('on')){ svImg.style.width=(baseW()*zoom)+'px'; } });
+  $('rhRes').addEventListener('click',function(e){ var b=e.target.closest('.slipbtn'); if(b) openViewer(+b.getAttribute('data-i')||0); });
+
+  dueIn.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); checkDue(); } });
+  $('rhDueGo').addEventListener('click',checkDue);
+  function arm(){
+    var el=$('rhDx');
+    if(!('IntersectionObserver' in window)){ showcase(); return; }
+    var io=new IntersectionObserver(function(en){ if(en[0].isIntersecting){ io.disconnect(); showcase(); } },{threshold:.35});
+    io.observe(el);
+  }
+  (function wait(){ if(HUB.classList.contains('ready')) setTimeout(arm,500); else setTimeout(wait,150); })();
+
+  // protect page text from select-all / copy (phone number stays copyable)
+  function inHub(t){ return t&&t.closest&&t.closest('#rgceHub,#rgceSplash,#rgceSv'); }
+  function okEl(t){ return !inHub(t)||(t&&t.closest&&t.closest('.ok')); }
+  ['selectstart','copy','cut','contextmenu','dragstart'].forEach(function(ev){
+    document.addEventListener(ev,function(e){ if(!okEl(e.target)) e.preventDefault(); });
+  });
+  document.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&/^[acx]$/i.test(e.key)&&inHub(document.activeElement)&&!okEl(document.activeElement)) e.preventDefault();
+  });
+
+})();
+</script>
+<script id="rgce-outside-close">
+/* Tap/click on the empty space OUTSIDE a modal closes it (Pay, Edit, Delete, Preview, Reports, Tools, Firebase Monitor, device backups ...).
+   It decides at press-time, so selecting text inside a modal and releasing outside, or a button that redraws the modal, never closes it by mistake. */
+(function(){
+  var downOutside=false;
+  function openOverlay(){
+    var m=document.getElementById('modalOverlay'); if(m&&m.classList.contains('open')) return {el:m,close:function(){ if(window.closeModal) window.closeModal(); }};
+    var f=document.getElementById('fbmOverlay'); if(f&&f.classList.contains('open')) return {el:f,close:function(){ if(window.__fbmClosePanel) window.__fbmClosePanel(); }};
+    var d=document.getElementById('rgceSafePanel'); if(d) return {el:d,close:function(){ if(window.__rgceSafeClose) window.__rgceSafeClose(); try{ if(window.__rgceClearModal) window.__rgceClearModal(); }catch(e){} }};
+    return null;
+  }
+  function isOutside(t,o){
+    if(!t||!o||!document.contains(t)) return false;
+    if(t===o.el) return true;                                   /* the empty area of the modal page itself */
+    var body=document.querySelector('.app-body');
+    if(t===body||t===document.body||t===document.documentElement) return true;   /* empty page area around it */
+    return false;
+  }
+  function down(e){ var o=openOverlay(); downOutside=!!(o&&isOutside(e.target,o)); }
+  function up(e){
+    var o=openOverlay(); var was=downOutside; downOutside=false;
+    if(!o||!was||!isOutside(e.target,o)) return;
+    o.close();
+  }
+  document.addEventListener('mousedown',down,true);
+  document.addEventListener('touchstart',down,{capture:true,passive:true});
+  document.addEventListener('click',up,false);
+})();
+</script>
+<style id="rgce-smooth-ui">
+/* ===== Smooth open/close for header menus, mobile menu, quick-add and panels ===== */
+@media screen {
+  :root { --sm-ease: cubic-bezier(.2,.8,.2,1); }
+  .hdr2 button, .dcu-fab button, .dcu-menu button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+  /* chevron + button feel */
+  .dcu-nav-btn { transition: background .15s ease, color .15s ease; }
+  .dcu-nav-btn::after { transition: transform .22s var(--sm-ease); }
+  .dcu-nav-item.open > .dcu-nav-btn::after { transform: rotate(225deg) translateY(-2px); }
+  .dcu-menu button { transition: background .12s ease; }
+  .dcu-menu button:active, .dcu-nav-btn:active { transform: scale(.98); }
+}
+
+/* ---- Desktop dropdowns (Dashboard / Tools / Settings ...) ---- */
+@media screen and (min-width: 1201px) {
+  .dcu-menu {
+    display: block !important;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transform: translateY(-6px) scale(.98); transform-origin: top left;
+    transition: opacity .16s ease .06s, transform .2s var(--sm-ease) .06s, visibility 0s linear .22s;
+    will-change: opacity, transform;
+  }
+  .dcu-nav-item:last-child > .dcu-menu { transform-origin: top right; }
+  /* invisible bridge so the pointer never "falls through" the gap and closes the menu */
+  .dcu-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
+  .dcu-nav-item.open > .dcu-menu,
+  .dcu-nav-item:has(:focus-visible) > .dcu-menu {
+    opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+    transition: opacity .16s ease, transform .2s var(--sm-ease), visibility 0s;
+  }
+  .dcu-nav-item.shut > .dcu-menu { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; transform: translateY(-6px) scale(.98) !important; }
+}
+@media screen and (min-width: 1201px) and (hover: hover) {
+  .dcu-nav-item:hover > .dcu-menu {
+    opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+    transition: opacity .16s ease, transform .2s var(--sm-ease), visibility 0s;
+  }
+  .dcu-nav-item:hover > .dcu-nav-btn::after { transform: rotate(225deg) translateY(-2px); }
+}
+
+/* ---- Mobile / tablet menu (hamburger) ---- */
+@media screen and (max-width: 1200px) {
+  .dcu-nav {
+    display: flex !important;
+    overflow: hidden; max-height: 0; opacity: 0; visibility: hidden; pointer-events: none;
+    padding-top: 0; padding-bottom: 0; border-top-width: 0; margin-top: -10px;
+    transition: max-height .34s var(--sm-ease), opacity .2s ease, padding .34s var(--sm-ease),
+                border-width .34s var(--sm-ease), margin .34s var(--sm-ease), visibility 0s linear .34s;
+  }
+  .dcu-nav.open {
+    max-height: var(--nav-h, 68vh); opacity: 1; visibility: visible; pointer-events: auto;
+    padding-top: 8px; padding-bottom: 10px; border-top-width: 1px; margin-top: 0;
+    transition-delay: 0s;
+  }
+  .dcu-nav.open.nav-scroll { overflow-y: auto; }
+  .dcu-menu-btn i { transition: transform .25s var(--sm-ease); }
+  .dcu-menu-btn[aria-expanded="true"] i { transform: rotate(90deg); }
+}
+
+/* ---- Top bar (language / sync row) ---- */
+@media screen {
+  .hdr-topbar { overflow: hidden; max-height: var(--tb-h, 400px); opacity: 1;
+    transition: max-height .3s var(--sm-ease), padding .3s var(--sm-ease), opacity .2s ease, border-width .3s ease, visibility 0s; }
+  .hdr-topbar[hidden] { display: flex !important; max-height: 0; opacity: 0; visibility: hidden; pointer-events: none;
+    padding-top: 0; padding-bottom: 0; border-bottom-width: 0;
+    transition: max-height .26s var(--sm-ease), padding .26s var(--sm-ease), opacity .16s ease, border-width .26s ease, visibility 0s linear .26s; }
+}
+
+/* ---- Quick-add (+) menu ---- */
+@media screen {
+  .dcu-fab-menu { position: absolute; right: 0; bottom: calc(100% + 10px);
+    opacity: 1; transform: none; visibility: visible;
+    transition: opacity .18s ease, transform .22s var(--sm-ease), visibility 0s; }
+  .dcu-fab-menu[hidden] { display: flex !important; opacity: 0; visibility: hidden; pointer-events: none;
+    transform: translateY(10px) scale(.96); transform-origin: bottom right;
+    transition: opacity .15s ease, transform .18s ease, visibility 0s linear .18s; }
+  .dcu-fab-menu:not([hidden]) button { animation: smFabIn .24s var(--sm-ease) both; }
+  .dcu-fab-menu:not([hidden]) button:nth-last-child(2) { animation-delay: .03s; }
+  .dcu-fab-menu:not([hidden]) button:nth-last-child(3) { animation-delay: .06s; }
+  @keyframes smFabIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .dcu-fab > button { transition: transform .22s var(--sm-ease), box-shadow .2s ease; }
+}
+
+/* ---- Pay / Edit / Tools modals: light floating card, page behind never moves ---- */
+@media screen {
+  #modalOverlay.modal-overlay {
+    position: fixed; inset: 0; z-index: 1000; width: auto; padding: 16px;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(15,23,42,.18); overscroll-behavior: contain;
+    opacity: 0; pointer-events: none;
+    transition: opacity .16s ease, display .16s allow-discrete;
+  }
+  #modalOverlay.modal-overlay.open { display: flex; opacity: 1; pointer-events: auto; }
+  @starting-style { #modalOverlay.modal-overlay.open { opacity: 0; } }
+  #modalOverlay .modal-box {
+    width: 100%; max-width: 560px; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px);
+    overflow-y: auto; margin: 0; border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.16);
+    overscroll-behavior: contain; animation: none;
+    transform: translateY(6px); opacity: .0; transition: transform .18s var(--sm-ease), opacity .16s ease;
+  }
+  #modalOverlay.open .modal-box { transform: none; opacity: 1; }
+  @starting-style { #modalOverlay.open .modal-box { transform: translateY(6px); opacity: 0; } }
+  #modalOverlay .modal-box.narrow, #modalOverlay .modal-box.pay-modal { max-width: 460px; }
+  #modalOverlay .modal-box.wide { max-width: 1000px; }
+  #modalOverlay .modal-header { border-radius: 12px 12px 0 0; }
+  #modalOverlay .modal-footer { border-radius: 0 0 12px 12px; }
+  @media (max-width: 600px) { #modalOverlay.modal-overlay { padding: 8px; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dcu-menu, .dcu-nav, .hdr-topbar, .dcu-fab-menu, #modalOverlay, #modalOverlay .modal-box, .dcu-nav-btn::after, .dcu-menu-btn i { transition-duration: .01s !important; transition-delay: 0s !important; animation: none !important; }
+}
+</style>
+<script id="rgce-smooth-ui-js">
+(function () {
+  var D = document;
+  function $(s) { return D.querySelector(s); }
+
+  /* measure real content height so the open/close animation has no dead time */
+  function measureNav() {
+    var n = $('#dcuNav'); if (!n) return;
+    var h = n.scrollHeight + 20, lim = Math.round(window.innerHeight * 0.68);
+    n.style.setProperty('--nav-h', Math.min(h, lim) + 'px');
+    var sc = h > lim; if (n.classList.contains('nav-scroll') !== sc) n.classList.toggle('nav-scroll', sc);
+  }
+  function measureBar() {
+    var b = $('#langRow'); if (!b) return;
+    b.style.setProperty('--tb-h', (b.scrollHeight + 18) + 'px');
+  }
+
+  function init() {
+    var nav = $('#dcuNav'), btn = $('#dcuMenuBtn'), bar = $('#langRow');
+
+    if (nav) {
+      new MutationObserver(measureNav).observe(nav, { childList: true, subtree: true });
+      measureNav();
+    }
+    if (btn) btn.addEventListener('click', measureNav, true);          // measure BEFORE the menu opens
+    if (bar) {
+      new MutationObserver(measureBar).observe(bar, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+      measureBar();
+    }
+    window.addEventListener('resize', function () { measureNav(); measureBar(); });
+
+    /* picking an item closes its dropdown at once (even while the mouse is still over it) */
+    D.addEventListener('click', function (e) {
+      var t = e.target; if (!t || !t.closest) return;
+      var mb = t.closest('.dcu-menu button');
+      if (mb) {
+        var it = mb.closest('.dcu-nav-item');
+        if (it) it.classList.add('shut');
+        try { mb.blur(); } catch (x) {}
+        return;
+      }
+      var nb = t.closest('.dcu-nav-btn');
+      if (nb) { var it2 = nb.closest('.dcu-nav-item'); if (it2) it2.classList.remove('shut'); }
+    }, true);
+
+    /* once the pointer leaves the item, it can open on hover again */
+    D.addEventListener('mouseout', function (e) {
+      var it = e.target && e.target.closest ? e.target.closest('.dcu-nav-item.shut') : null;
+      if (it && !(e.relatedTarget && it.contains(e.relatedTarget))) it.classList.remove('shut');
+    });
+
+    /* Esc closes menus */
+    D.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      D.querySelectorAll('.dcu-nav-item.open').forEach(function (i) { i.classList.remove('open'); });
+      if (nav && nav.classList.contains('open') && btn) btn.click();
+    });
+  }
+  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
 </body>
 </html>
